@@ -2,7 +2,7 @@ package edu.depauw.scales.music
 
 import edu.depauw.scales._
 
-object PresentationDemo extends Application {
+object PresentationDemo extends App {
   /*Bach Chorale BWV 256
     Harmony by Margaret Greentree, www.jsbchorales.net*/
   

@@ -13,7 +13,7 @@ case class Test(msg : String, beats : Double) extends Step {
   }
 }
 
-object Demo extends Application {
+object Demo extends App {
   private val test = (Test("Hello", 1) + Test("Goodbye", 1)) |
     Test("Boo", 1.5) |
     Pedal(Test("A", 0.6) + Test("B", 0.6) + Test("C", 0.6))

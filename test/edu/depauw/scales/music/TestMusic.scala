@@ -4,7 +4,7 @@ import edu.depauw.scales._
 
 import javax.sound.midi.MidiSystem
 
-object DemoMusic extends Application {
+object DemoMusic extends App {
   //import Duration._
 
     val synth = MidiSystem.getSynthesizer()

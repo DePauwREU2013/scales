@@ -3,7 +3,7 @@ package edu.depauw.scales.graphics
 import java.awt.{Graphics, Graphics2D, BasicStroke, RenderingHints}
 import javax.swing.{JFrame, JPanel, WindowConstants}
 
-object TestGraphics extends Application {
+object TestGraphics extends App {
   val frame = new JFrame("Graphics Test")
   frame.setSize(600, 400)
   

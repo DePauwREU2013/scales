@@ -3,7 +3,7 @@ package edu.depauw.scales.graphics
 import java.awt.{Color, Graphics, Graphics2D, BasicStroke, RenderingHints}
 import javax.swing.{JFrame, JPanel, WindowConstants}
 
-object ImageTest extends Application {
+object ImageTest extends App {
   val frame = new JFrame("Image Test")
   frame.setSize(800, 600)
   

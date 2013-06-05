@@ -4,7 +4,7 @@ import edu.depauw.scales.graphics._
 import edu.depauw.scales.music._
 import Util._
 
-object AnimDemo extends Application {
+object AnimDemo extends App {
   val test : Step =
     (2 * Anim(bounce, 5)) |
     ((C~.5 + G.<.en) * 10) + (5~Anim(bounce, 1) | (.5~C.> + G.en) * 5)~2.5 + C.< |

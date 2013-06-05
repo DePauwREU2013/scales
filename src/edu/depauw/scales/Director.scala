@@ -55,7 +55,7 @@ class Director(step : Step) extends StepActor {
       receive {
         case r @ Request(node, time, message) => {
           pq += r
-          timer.schedule(pq.max)
+          timer.schedule(pq.head)
         }
         
         case AddPanel(panel) => {
@@ -72,13 +72,13 @@ class Director(step : Step) extends StepActor {
         }
         
         case Notify => {
-          while (!pq.isEmpty && pq.max.time <= System.currentTimeMillis) {
+          while (!pq.isEmpty && pq.head.time <= System.currentTimeMillis) {
             val r = pq.dequeue
             r.node ! r.message
           }
           
           if (frame.isVisible) pane.repaint()
-          if (!pq.isEmpty) timer.schedule(pq.max)
+          if (!pq.isEmpty) timer.schedule(pq.head)
         }
       
         case Done => {

@@ -4,7 +4,7 @@ import edu.depauw.scales.graphics._
 import edu.depauw.scales.music._
 import Util._
 
-object Juggling extends Application {
+object Juggling extends App {
   val air = Anim(ballAirA, .5) + Anim(ballAirB, .5)
   val right = Anim(ballHandRightA, .25) + Anim(ballHandRightB, .25)
   val backA = Anim(ballAirBackA, .5)

@@ -1,21 +1,23 @@
 package edu.depauw.scales
 
+import language.implicitConversions
+
 object Util {
-  implicit def intMultiply(n : Int) = new AnyRef {
+  implicit class IntMultiply(n: Int) {
     def *(step : Step) : Step = step * n
   }
   
-  implicit def intStretch(n : Int) = new AnyRef {
+  implicit class IntStretch(n : Int) {
     def ~(step : Step) : Step = step ~ n.toDouble
   }
   
-  implicit def doubleStretch(x : Double) = new AnyRef {
+  implicit class DoubleStretch(x : Double) {
     def ~(step : Step) : Step = step ~ x
   }
   
-  implicit def intInterpolator(x : Int) = doubleInterpolator(x.toDouble)
+  implicit def intInterpolator(x : Int) = new DoubleInterpolator(x.toDouble)
   
-  implicit def doubleInterpolator(x : Double) = new AnyRef {
+  implicit class DoubleInterpolator(x : Double) {
     def -->(y : Double) = {v : Double => (1 - v) * x + v * y}
     
     def quadIn_-->(y : Double) = {v : Double => (1 - v) * (1 - v) * (x - y) + y}
