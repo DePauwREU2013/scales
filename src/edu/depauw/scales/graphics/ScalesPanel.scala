@@ -11,20 +11,20 @@ class ScalesPanel() extends JPanel {
     
     val panels = new ArrayBuffer[GraphicPanel]
 
-    def add(panel : GraphicPanel) {
+    def add(panel : GraphicPanel) = synchronized {
       var i = 0
       while (i < panels.size && panel > panels(i)) i += 1
       panels.insert(i, panel)
     }
   
-    def remove(panel : GraphicPanel) {
+    def remove(panel : GraphicPanel) = synchronized {
       panels -= panel
     }
     
     setBackground(Colors.CLEAR)
     setOpaque(false)
 
-    override def paintComponent(graphics : Graphics) {
+    override def paintComponent(graphics : Graphics) = synchronized {
       super.paintComponent(graphics)
       
       val g2d = graphics.asInstanceOf[Graphics2D]
