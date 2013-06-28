@@ -16,4 +16,10 @@ trait Graphic {
     case beside : Beside => Beside(List(this) ++ beside.children : _*)
     case _ => Beside(this, g)
   }
+  
+  def ^(g: Graphic): Graphic = g match {
+    case Blank => this
+    case above: Above => Above(List(this) ++ above.children: _*)
+    case _ => Above(this,g)
+  }
 }
