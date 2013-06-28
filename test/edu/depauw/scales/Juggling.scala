@@ -26,7 +26,7 @@ object Juggling extends App {
   
   director.start()
   
-  def ball(x : Double, y : Double) : Graphic = Fill(Colors.RED, Circle(x, y, 2))
+  def ball(x : Double, y : Double) : Graphic = Fill(Colors.RED, Circle(2, x, y))
   
   def ballAirA(v : Double) = ball((48 --> 58)(v), (48 quadIn_--> 20)(v))
   def ballAirB(v : Double) = ball((58 --> 68)(v), (20 quadOut_--> 48)(v))

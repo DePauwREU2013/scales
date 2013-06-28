@@ -11,4 +11,7 @@ case class Over(children : Graphic*) extends Graphic {
     case over : Over => Over(children ++ over.children : _*)
     case _ => Over(children ++ List(g) : _*)
   }
+  
+  override def -&(g :Graphic) : Graphic = this | g
+  
 }

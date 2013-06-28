@@ -26,7 +26,7 @@ object AnimDemo extends App {
       Shear(0.5, 0, 50, 50,
         Translate(10, 0,
             Fill(HSV(2 * v, 1.0, 1.0),
-              Circle((10 --> 70)(v), 50 + 30 * sin2pi(5 * v), (5 --> 30)(v))))))
+              Circle((5 --> 30)(v), (10 --> 70)(v), 50 + 30 * sin2pi(5 * v))))))
   
   def grow(v : Double) : Graphic =
     Scale(v, v / 2, 50, 50,

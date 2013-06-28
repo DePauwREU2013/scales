@@ -8,4 +8,12 @@ trait Graphic {
     case over : Over => Over(List(this) ++ over.children : _*)
     case _ => Over(this, g)
   }
+  
+  def -&(g : Graphic) : Graphic = this | g
+  
+  def |||(g : Graphic) : Graphic = g match {
+    case Blank => this
+    case beside : Beside => Beside(List(this) ++ beside.children : _*)
+    case _ => Beside(this, g)
+  }
 }

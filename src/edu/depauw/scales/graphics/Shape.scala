@@ -6,12 +6,22 @@ case class Shape(shape : java.awt.Shape) extends Graphic {
   def render(gc : GraphicsContext) {
     gc.drawShape(shape)
   }
+  
+  def center = {
+    val bounds = shape.getBounds()
+    val loc = bounds.getLocation()
+    Translate(50, 50, Shape(shape))
+  }
 }
 
 object Circle {
   // (x, y) is at the center
-  def apply(x : Double, y : Double, radius : Double) =
+  def apply(radius : Double, x : Double, y : Double) =
     Shape(new Ellipse2D.Double(x - radius, y - radius, 2 * radius, 2 * radius))
+  
+  // circle with upper-left at (0,0)
+  def apply(radius:Double) = 
+    Shape(new Ellipse2D.Double(0, 0, 2 * radius, 2 * radius))
 }
 
 object Ellipse {
@@ -53,3 +63,4 @@ object Line {
 }
 
 //TODO: rounded rectangles, arcs, other curves, areas?
+
