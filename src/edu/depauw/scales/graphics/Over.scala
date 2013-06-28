@@ -14,4 +14,8 @@ case class Over(children : Graphic*) extends Graphic {
   
   override def -&(g :Graphic) : Graphic = this | g
   
+  def bounds = {
+    children.foldLeft(new java.awt.Rectangle())(
+      (totalRect, g) => totalRect.union(g.bounds))
+  }
 }

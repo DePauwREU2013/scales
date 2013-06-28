@@ -9,10 +9,10 @@ object TestAlign extends App{
   
   val g1 = Circle(20)
   val g2 = Fill(Colors.RED, Circle(10))
-  val g3 = Font("Serif", BOLD_ITALIC, 10, Text(10, 10, "Hello World!"))
+  val g3 = Fill(Colors.BLUE, Square(10))
   
   val panel = new GraphicPanel(0, new java.awt.geom.AffineTransform())
-  panel.graphic = g1 ||| g2 | g1.center
+  panel.graphic = g3 ^ g1
   
   val pane = new ScalesPanel
   pane.add(panel)

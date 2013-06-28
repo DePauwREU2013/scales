@@ -22,4 +22,6 @@ trait Graphic {
     case above: Above => Above(List(this) ++ above.children: _*)
     case _ => Above(this,g)
   }
+  
+  def bounds: java.awt.Rectangle
 }

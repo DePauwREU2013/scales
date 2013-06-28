@@ -20,4 +20,6 @@ case class Bitmap(fn : (Double, Double) => Color,
   def render(gc : GraphicsContext) {
     gc.drawImage(img, x, y, w, h)
   }
+  
+  def bounds = new java.awt.Rectangle(x.toInt, y.toInt, w.toInt, h.toInt)
 }

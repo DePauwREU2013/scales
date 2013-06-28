@@ -9,4 +9,6 @@ case class Fill(paint : Paint, g : Graphic) extends Graphic {
     g.render(gc)
     gc.fillPaint = oldPaint
   }
+  
+  def bounds = g.bounds
 }

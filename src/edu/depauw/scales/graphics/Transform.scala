@@ -11,6 +11,8 @@ case class Transform(transform : AffineTransform, g : Graphic) extends Graphic {
     g.render(gc)
     gc.g2d.setTransform(oldTransform)
   }
+  
+  def bounds = g.bounds
 }
 
 object Rotate {

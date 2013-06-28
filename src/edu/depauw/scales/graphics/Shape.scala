@@ -7,6 +7,8 @@ case class Shape(shape : java.awt.Shape) extends Graphic {
     gc.drawShape(shape)
   }
   
+  def bounds: java.awt.Rectangle = shape.getBounds()
+  
   def center = {
     val bounds = shape.getBounds()
     val loc = bounds.getLocation()
@@ -40,6 +42,8 @@ object Square {
   // (x, y) is at the center
   def apply(x : Double, y : Double, width : Double) =
     Shape(new Rectangle2D.Double(x - width / 2, y - width / 2, width, width))
+  
+  def apply(width: Double) = Shape(new Rectangle2D.Double(0, 0, width, width))
 }
 
 object Polygon {
