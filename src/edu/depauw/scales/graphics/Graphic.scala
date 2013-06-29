@@ -1,5 +1,7 @@
 package edu.depauw.scales.graphics
 
+import java.awt.{Rectangle => jRect}
+
 trait Graphic {
   def render(gc : GraphicsContext)
   
@@ -23,5 +25,5 @@ trait Graphic {
     case _ => Above(this,g)
   }
   
-  def bounds: java.awt.Rectangle
+  def bounds: jRect
 }

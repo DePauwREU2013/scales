@@ -9,4 +9,10 @@ case class Stroke(width : Double, g : Graphic) extends Graphic {
     g.render(gc)
     gc.g2d.setStroke(oldStroke)
   }
+  
+  /*
+   * TODO: Check whether the stroke should be included
+   * 	   into the bounds calculation or not.
+   */
+  def bounds = g.bounds
 }

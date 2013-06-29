@@ -1,18 +1,21 @@
 package edu.depauw.scales.graphics
 
+import java.awt.{Rectangle => jRect}
+
 case class Beside(children : Graphic*) extends Graphic {
   def render(gc : GraphicsContext) {
     children.foldLeft(0: Double)((lastX, g) => {
       Translate(lastX, 0, g).render(gc)
-      g match {
-        case Shape(s) => s.getBounds().width.toDouble + lastX
-        case _ => lastX
-      }
+      g.bounds.width + lastX
     })
   }
   
+  /*
+   * bounds is the union of all the childrens'
+   * bounds after they are translated
+   */
   def bounds = {
-    children.foldLeft(new java.awt.Rectangle())(
+    children.foldLeft(new jRect())(
       (totalRect, g) => {
         var translatedBounds = g.bounds.getBounds()
         translatedBounds.translate(totalRect.getWidth().toInt, 0)

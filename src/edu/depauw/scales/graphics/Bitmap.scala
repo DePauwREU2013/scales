@@ -4,6 +4,7 @@ import java.awt.Color
 import java.awt.GraphicsEnvironment
 import java.awt.Transparency
 import java.awt.image.BufferedImage
+import java.awt.{Rectangle => jRect}
 
 // (x,y) is the upper left corner, (w,h) is the size
 case class Bitmap(fn : (Double, Double) => Color,
@@ -21,5 +22,5 @@ case class Bitmap(fn : (Double, Double) => Color,
     gc.drawImage(img, x, y, w, h)
   }
   
-  def bounds = new java.awt.Rectangle(x.toInt, y.toInt, w.toInt, h.toInt)
+  def bounds = new jRect(x.toInt, y.toInt, w.toInt, h.toInt)
 }

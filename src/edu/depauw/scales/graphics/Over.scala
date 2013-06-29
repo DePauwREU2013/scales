@@ -1,5 +1,7 @@
 package edu.depauw.scales.graphics
 
+import java.awt.{Rectangle => jRect}
+
 case class Over(children : Graphic*) extends Graphic {
   def render(gc : GraphicsContext) {
     for (g <- children.reverse) {
@@ -15,7 +17,7 @@ case class Over(children : Graphic*) extends Graphic {
   override def -&(g :Graphic) : Graphic = this | g
   
   def bounds = {
-    children.foldLeft(new java.awt.Rectangle())(
+    children.foldLeft(new jRect())(
       (totalRect, g) => totalRect.union(g.bounds))
   }
 }

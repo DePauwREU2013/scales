@@ -27,6 +27,8 @@ case class Font(name : String, style : FontStyleType, size : Double, g : Graphic
     g.render(gc)
     gc.g2d.setFont(oldFont)
   }
+  
+  def bounds = g.bounds
 }
 
 case class FontName(name : String, g : Graphic) extends Graphic {
@@ -36,6 +38,8 @@ case class FontName(name : String, g : Graphic) extends Graphic {
     g.render(gc)
     gc.g2d.setFont(oldFont)
   }
+  
+  def bounds = g.bounds
 }
 
 case class FontStyle(style : FontStyleType, g : Graphic) extends Graphic {
@@ -45,6 +49,8 @@ case class FontStyle(style : FontStyleType, g : Graphic) extends Graphic {
     g.render(gc)
     gc.g2d.setFont(oldFont)
   }
+  
+  def bounds = g.bounds
 }
 
 case class FontSize(size : Double, g : Graphic) extends Graphic {
@@ -54,4 +60,6 @@ case class FontSize(size : Double, g : Graphic) extends Graphic {
     g.render(gc)
     gc.g2d.setFont(oldFont)
   }
+  
+  def bounds = g.bounds
 }

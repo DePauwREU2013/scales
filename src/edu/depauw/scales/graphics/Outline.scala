@@ -9,4 +9,6 @@ case class Outline(paint : Paint, g : Graphic) extends Graphic {
     g.render(gc)
     gc.outlinePaint = oldPaint
   }
+  
+  def bounds = g.bounds
 }
