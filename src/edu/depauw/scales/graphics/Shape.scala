@@ -8,12 +8,6 @@ case class Shape(shape : java.awt.Shape) extends Graphic {
   }
   
   def bounds: java.awt.Rectangle = shape.getBounds()
-  
-  def center = {
-    val bounds = shape.getBounds()
-    val loc = bounds.getLocation()
-    Translate(50, 50, Shape(shape))
-  }
 }
 
 object Circle {
