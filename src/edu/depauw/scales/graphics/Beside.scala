@@ -4,9 +4,10 @@ import java.awt.{Rectangle => jRect}
 
 case class Beside(children : Graphic*) extends Graphic {
   def render(gc : GraphicsContext) {
-    children.foldLeft(0: Double)((lastX, g) => {
-      Translate(lastX, 0, g).render(gc)
-      g.bounds.width + lastX
+    children.foldLeft(new jRect(): jRect)((lastBounds, g) => {
+      val h = Translate(lastBounds.x + lastBounds.width, lastBounds.y, g)
+      h.render(gc)
+      h.bounds
     })
   }
   
