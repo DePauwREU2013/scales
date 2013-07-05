@@ -6,27 +6,38 @@ import java.awt.geom.AffineTransform
 trait Graphic {
   def render(gc : GraphicsContext)
   
-  def |(g : Graphic) : Graphic = g match {
+  def bounds: jRect
+  
+  def -&(g : Graphic) : Graphic = g match {
     case Blank => this
-    case over : Over => Over(List(this) ++ over.children : _*)
-    case _ => Over(this, g)
+    case composite : Composite => Composite(List(this) ++ composite.children : _*)
+    case _ => Composite(this, g)
   }
   
-  def -&(g : Graphic) : Graphic = this | g
+  // this is an alias for backward compatibility
+  def |(g : Graphic) : Graphic = this -& g
   
   def |||(g : Graphic) : Graphic = g match {
     case Blank => this
-    case beside : Beside => Beside(List(this) ++ beside.children : _*)
-    case _ => Beside(this, g)
+    case composite : Composite => {
+      Composite(List(this) ++ composite.children.map(
+          Translate(this.bounds.x + this.bounds.width, this.bounds.y, _)) : _*)
+    }
+    case _ => {
+      Composite(this, Translate(this.bounds.x + this.bounds.width, this.bounds.y, g))
+    }
   }
   
-  def ^(g: Graphic): Graphic = g match {
+  def -^(g: Graphic): Graphic = g match {
     case Blank => this
-    case above: Above => Above(List(this) ++ above.children: _*)
-    case _ => Above(this,g)
+    case composite : Composite => {
+      Composite(List(this) ++ composite.children.map(
+          Translate(this.bounds.x, this.bounds.y + this.bounds.height, _)) : _*)
+    }
+    case _ => {
+      Composite(this, Translate(this.bounds.x, this.bounds.y + this.bounds.height, g))
+    }
   }
-  
-  def bounds: jRect
   
   def center = this match {
     case Transform(t,g) => {
@@ -34,24 +45,28 @@ trait Graphic {
     }
     case _ => Translate(-this.bounds.width/2, -this.bounds.height/2, this)
   }
+  
   def lowerLeft = this match {
     case Transform(t,g) => {
       Transform(replaceTranslate(t, 0, -g.bounds.height), g)
     }
     case _ => Translate(0, -this.bounds.height, this)
   }
+  
   def topLeft = this match {
     case Transform(t,g) => {
       Transform(replaceTranslate(t, 0, 0), g)
     }
     case _ => Translate(0, 0, this)
   }
+  
   def lowerRight = this match {
     case Transform(t,g) => {
       Transform(replaceTranslate(t, -g.bounds.width, -g.bounds.height), g)
     }
     case _ => Translate(-this.bounds.width, -this.bounds.height, this)
   }
+  
   def topRight = this match {
     case Transform(t,g) => {
       Transform(replaceTranslate(t, -g.bounds.width, 0), g)
