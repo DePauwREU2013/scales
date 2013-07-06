@@ -12,7 +12,7 @@ object Smasher {
 }
 object VSmasher {
   def apply(g: Graphic) = Smashed(g,0,g.bounds.height)
-}a
+}
 
 object HSmasher {
   def apply(g: Graphic) = Smashed(g,g.bounds.width,0)
