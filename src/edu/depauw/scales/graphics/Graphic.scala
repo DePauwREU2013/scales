@@ -82,5 +82,15 @@ trait Graphic {
     )
     newTransform
   }
+    /*
+   * Takes a shape and returns the same shape with a modified bounding box
+   * smash: zero size bounding box
+   * vSmash: Bounding box with width = 0
+   * hSmash: Bounding box with height = 0
+   */
+  def smash: Graphic = Smasher(this)
+  def vSmash: Graphic = VSmasher(this)
+  def hSmash: Graphic = HSmasher(this)
+  
   
 }
