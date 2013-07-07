@@ -7,5 +7,5 @@ class GraphicPanel(val layer : Int, val transform : AffineTransform) extends Ord
   def compare(that : GraphicPanel) : Int = that.layer - this.layer
   // this is greater (higher priority) than that if it has a smaller layer number
   
-  var graphic : Graphic = Blank
+  var graphic : Graphic = Phantom
 }

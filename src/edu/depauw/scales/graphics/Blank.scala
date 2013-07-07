@@ -11,6 +11,7 @@ case class Blank(box: jRect = new jRect()) extends Graphic {
   def bounds = box
 }
 
-object Phantom{
-  def apply(g: Graphic): Blank = Blank(new jRect(g.bounds.width,g.bounds.height))
+object Phantom extends Blank {
+  def apply(g: Graphic): Blank = 
+    Blank(new jRect(g.bounds.width, g.bounds.height))
 }

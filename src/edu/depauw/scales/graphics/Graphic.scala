@@ -9,7 +9,7 @@ trait Graphic {
   def bounds: jRect
   
   def -&(g : Graphic) : Graphic = g match {
-    case Blank => this
+    case blank: Blank => this
     case composite : Composite => Composite(List(this) ++ composite.children : _*)
     case _ => Composite(this, g)
   }
@@ -18,7 +18,7 @@ trait Graphic {
   def |(g : Graphic) : Graphic = this -& g
   
   def |||(g : Graphic) : Graphic = g match {
-    case Blank => this
+    case blank: Blank => this
     case composite : Composite => {
       Composite(List(this) ++ composite.children.map(
           Translate(this.bounds.x + this.bounds.width, this.bounds.y, _)) : _*)
@@ -29,7 +29,7 @@ trait Graphic {
   }
   
   def -^(g: Graphic): Graphic = g match {
-    case Blank => this
+    case blank: Blank => this
     case composite : Composite => {
       Composite(List(this) ++ composite.children.map(
           Translate(this.bounds.x, this.bounds.y + this.bounds.height, _)) : _*)
