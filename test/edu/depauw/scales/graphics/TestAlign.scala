@@ -12,7 +12,8 @@ object TestAlign extends App{
   val g3 = Fill(Colors.BLUE, Square(10))
   
   val panel = new GraphicPanel(0, new java.awt.geom.AffineTransform())
-  panel.graphic = g1.changeBounds(0, 0, 50, 50) ||| (g2 ||| g3)
+  panel.graphic = g1.changeBounds(0, 0, 50, 50) -|| Translate(0, 20, g2 -|| g3) -&
+  				  (g3 -^ g3 -^ g3)
   
   val pane = new ScalesPanel
   pane.add(panel)

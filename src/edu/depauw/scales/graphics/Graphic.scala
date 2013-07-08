@@ -9,39 +9,24 @@ trait Graphic {
   
   def bounds: jRect
   
-  def over(g : Graphic) : Graphic = g match {
-    case blank: Blank => this
-    case composite : Composite => Composite(List(this) ++ composite.children : _*)
-    case _ => Composite(this, g)
-  }
+  def over(g : Graphic) : Graphic = Composite(this, g)
   
   def -&(g : Graphic) : Graphic = this over g
   
   // this is an alias for backward compatibility
   def |(g : Graphic) : Graphic = this over g
   
-  def beside(g : Graphic) : Graphic = g match {
-    case blank: Blank => this
-    case composite : Composite => {
-      Composite(List(this) ++ composite.children.map(
-          moveTo(this.bounds.getX + this.bounds.getWidth, this.bounds.getY, _)) : _*)
-    }
-    case _ => {
-      Composite(this, moveTo(this.bounds.getX + this.bounds.getWidth, this.bounds.getY, g))
-    }
+  def beside(g : Graphic) : Graphic = {
+    Composite(this,
+      Translate(this.bounds.getX + this.bounds.getWidth - g.bounds.getX, 0, g))
   }
   
   def |||(g: Graphic): Graphic = this beside g
+  def -||(g: Graphic): Graphic = this beside g
   
-  def above(g: Graphic): Graphic = g match {
-    case blank: Blank => this
-    case composite : Composite => {
-      Composite(List(this) ++ composite.children.map(
-          moveTo(this.bounds.getX, this.bounds.getY + this.bounds.getHeight, _)) : _*)
-    }
-    case _ => {
-    Composite(this, moveTo(this.bounds.getX, this.bounds.getY + this.bounds.getHeight, g))
-    }
+  def above(g: Graphic): Graphic = {
+    Composite(this,
+      Translate(0, this.bounds.getY + this.bounds.getHeight - g.bounds.getY, g))
   }
   
   def -^(g: Graphic): Graphic = this above g
