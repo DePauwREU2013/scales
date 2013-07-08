@@ -6,19 +6,46 @@ import java.awt.geom.AffineTransform
 import java.awt.font.TextLayout
 import java.awt.{Font => jFont}
 
+import FontStyleType._
+
 case class Text(str: String,
-				font: jFont = new jFont("Helvetica", jFont.PLAIN, 8),
+				font: Font = new Font(),
 				frc: FontRenderContext = new FontRenderContext(new AffineTransform(), true, true)
 		   ) extends Graphic {
   
-  val text: TextLayout = new TextLayout(str, font, frc)
+  val text: TextLayout = new TextLayout(str, font.toJavaFont, frc)
   
   def render(gc : GraphicsContext) {
     text.draw(gc.g2d, 0, 0)
     
     // Use this for debugging alignment with text
-    //gc.drawShape(text.getBounds())
+    // gc.drawShape(text.getBounds())
   }
   
   def bounds: jRect = text.getBounds().getBounds()
+  
+  def setFont(name: String, style: FontStyleType, size: Int): Text = {
+    new Text(str, new Font(name, style, size), frc)
+  }
+  
+  def setSize(size: Int): Text = {
+    font match {
+      case Font(oldName, oldStyle, oldSize) =>
+        new Text(str, new Font(oldName, oldStyle, size), frc)
+    }
+  }
+  
+  def setFontFamily(name: String): Text = {
+    font match {
+      case Font(oldName, oldStyle, oldSize) =>
+        new Text(str, new Font(name, oldStyle, oldSize), frc)
+    }
+  }
+  
+  def setStyle(style: FontStyleType): Text = {
+    font match {
+      case Font(oldName, oldStyle, oldSize) =>
+        new Text(str, new Font(oldName, style, oldSize), frc)
+    }
+  }
 }

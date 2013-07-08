@@ -10,8 +10,16 @@ object TestTextAlignment extends App {
   val t1 = Text("Hello")
   val t2 = Text("World")
   
+  /*
+   * TODO: This looks like it needs fixing.
+   */
+  val t3 = Text("H").lowerRight -& Text("2", FontSize(4)) ||| Text("O")
+  
+  
   val panel = new GraphicPanel(0, new java.awt.geom.AffineTransform())
-  panel.graphic = Translate(10, 10, t1 ||| t2) -& Translate(30, 80, t1 -^ t2)
+  panel.graphic = Translate(10, 10, t1 ||| t2) -&
+  				  Translate(30, 80, t1 -^ t2) -&
+  				  Translate(40, 40, t3)
   
   val pane = new ScalesPanel
   pane.add(panel)

@@ -10,7 +10,7 @@ object TestGraphics extends App {
   val g = Line(25, 25, 75, 75)
   val g2 = Fill(Colors.RED, Polygon((10, 10), (22, 80), (25, 25), (22, 10)))
   
-  val serifFont = new jFont("Serif", jFont.BOLD|jFont.ITALIC, 8)
+  val serifFont = new Font("Serif", FontStyleType.BOLD | FontStyleType.ITALIC)
   val g3 = Translate(10, 10, Text("Hello World!", serifFont))
   
   val panel = new GraphicPanel(0, new java.awt.geom.AffineTransform())
