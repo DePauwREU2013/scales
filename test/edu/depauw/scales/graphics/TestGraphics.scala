@@ -1,6 +1,6 @@
 package edu.depauw.scales.graphics
 
-import java.awt.{Graphics, Graphics2D, BasicStroke, RenderingHints}
+import java.awt.{Graphics, Graphics2D, BasicStroke, RenderingHints, Font => jFont}
 import javax.swing.{JFrame, JPanel, WindowConstants}
 
 object TestGraphics extends App {
@@ -9,8 +9,9 @@ object TestGraphics extends App {
   
   val g = Line(25, 25, 75, 75)
   val g2 = Fill(Colors.RED, Polygon((10, 10), (22, 80), (25, 25), (22, 10)))
-  val front = new java.awt.Font("Serif", java.awt.Font.BOLD|java.awt.Font.ITALIC, 8)
-  val g3 = Translate(10, 10, Text("Hello World!", front))
+  
+  val serifFont = new jFont("Serif", jFont.BOLD|jFont.ITALIC, 8)
+  val g3 = Translate(10, 10, Text("Hello World!", serifFont))
   
   val panel = new GraphicPanel(0, new java.awt.geom.AffineTransform())
   panel.graphic = g | g2 | g3
