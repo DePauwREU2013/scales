@@ -9,6 +9,8 @@ trait Graphic {
   
   def bounds: jRect
   
+  /* ========= Compositing methods ========= */
+  
   def over(g : Graphic) : Graphic = Composite(this, g)
   
   def -&(g : Graphic) : Graphic = this over g
@@ -31,49 +33,38 @@ trait Graphic {
   
   def -^(g: Graphic): Graphic = this above g
   
-  def center = this match {
-    case Transform(t,g) => {
-      Transform(replaceTranslate(t, -g.bounds.getWidth/2, -g.bounds.getHeight/2), g)
-    }
-    case _ => Translate(-this.bounds.getWidth/2, -this.bounds.getHeight/2, this)
+  /* ========= Alignment methods ========= */
+  
+  def moveTo(x: Double, y: Double, g: Graphic): Graphic = {
+    Translate(x - g.bounds.getX, y - g.bounds.getY, g)
   }
   
-  def lowerLeft = this match {
-    case Transform(t,g) => {
-      Transform(replaceTranslate(t, 0, -g.bounds.getHeight), g)
-    }
-    case _ => Translate(0, -this.bounds.getHeight, this)
-  }
+  def topLeft: Graphic = moveTo(0, 0, this)
   
-  def topLeft = this match {
-    case Transform(t,g) => {
-      Transform(replaceTranslate(t, 0, 0), g)
-    }
-    case _ => Translate(0, 0, this)
-  }
+  def middleLeft: Graphic = moveTo(0, -this.bounds.getHeight/2, this)
   
-  def lowerRight = this match {
-    case Transform(t,g) => {
-      Transform(replaceTranslate(t, -g.bounds.getWidth, -g.bounds.getHeight), g)
-    }
-    case _ => Translate(-this.bounds.getWidth, -this.bounds.getHeight, this)
-  }
+  def bottomLeft: Graphic = moveTo(0, -this.bounds.getHeight, this)
   
-  def topRight = this match {
-    case Transform(t,g) => {
-      Transform(replaceTranslate(t, -g.bounds.getWidth, 0), g)
-    }
-    case _ => Translate(-this.bounds.getWidth, 0, this)
-  }
+  def topCenter: Graphic = moveTo(-this.bounds.getWidth/2, 0, this)
   
-  def replaceTranslate(transform: AffineTransform, newX:Double, newY:Double): AffineTransform = {
-    var newTransform: AffineTransform = transform.clone().asInstanceOf[AffineTransform]
-    newTransform.translate(
-      newX - transform.getTranslateX(),
-      newY - transform.getTranslateY()
-    )
-    newTransform
-  }
+  def middleCenter: Graphic =
+    moveTo(-this.bounds.getWidth/2, -this.bounds.getHeight/2, this)
+  
+  def center: Graphic = middleCenter
+  
+  def bottomCenter: Graphic =
+    moveTo(-this.bounds.getWidth/2, -this.bounds.getHeight, this)
+  
+  def topRight: Graphic = moveTo(-this.bounds.getWidth, 0, this)
+    
+  def middleRight: Graphic =
+    moveTo(-this.bounds.getWidth, -this.bounds.getHeight/2, this)
+  
+  def bottomRight: Graphic = 
+    moveTo(-this.bounds.getWidth, -this.bounds.getHeight, this)
+    
+  /* ========= Bounds methods ========= */
+  
     /*
    * Takes a shape and returns the same shape with a modified bounding box
    * smash: zero size bounding box
@@ -90,9 +81,5 @@ trait Graphic {
   */
   def changeBounds(newWidth: Int, newHeight: Int, moveX: Int = 0, moveY: Int = 0): Graphic = {
     BoundsChanger(this, newWidth, newHeight, moveX, moveY)
-  }
-  
-  def moveTo(x: Double, y: Double, g: Graphic): Graphic = {
-    Translate(x - g.bounds.getX, y - g.bounds.getY, g)
   }
 }
