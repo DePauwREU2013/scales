@@ -1,8 +1,8 @@
 package edu.depauw.scales.graphics
 
-import java.awt.{Rectangle => jRect}
+import java.awt.geom.{Rectangle2D => jRect}
 
-case class Blank(box: jRect = new jRect()) extends Graphic {
+case class Blank(box: jRect = new jRect.Double()) extends Graphic {
   def render(gc : GraphicsContext) {
   }
   
@@ -13,5 +13,5 @@ case class Blank(box: jRect = new jRect()) extends Graphic {
 
 object Phantom extends Blank {
   def apply(g: Graphic): Blank = 
-    Blank(new jRect(g.bounds.width, g.bounds.height))
+    Blank(new jRect.Double(0, 0, g.bounds.getWidth, g.bounds.getHeight))
 }

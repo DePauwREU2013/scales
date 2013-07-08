@@ -3,7 +3,7 @@ package edu.depauw.scales.graphics
 import javax.imageio.ImageIO
 import java.io.File
 import java.awt.image.BufferedImage
-import java.awt.{Rectangle => jRect}
+import java.awt.geom.{Rectangle2D => jRect}
 
 // (x,y) is the upper left corner, (w,h) is the size
 case class Image(path : String,
@@ -14,5 +14,5 @@ case class Image(path : String,
     gc.drawImage(img, x, y, w, h)
   }
   
-  def bounds = new jRect(x.toInt, y.toInt, w.toInt, h.toInt)
+  def bounds = new jRect.Double(x, y, w, h)
 }

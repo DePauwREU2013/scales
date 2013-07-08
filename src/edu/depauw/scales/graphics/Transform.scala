@@ -12,7 +12,7 @@ case class Transform(transform : AffineTransform, g : Graphic) extends Graphic {
     gc.g2d.setTransform(oldTransform)
   }
   
-  def bounds = transform.createTransformedShape(g.bounds).getBounds()
+  def bounds = transform.createTransformedShape(g.bounds).getBounds2D
 }
 
 object Rotate {

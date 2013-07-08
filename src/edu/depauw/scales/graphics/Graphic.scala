@@ -1,6 +1,6 @@
 package edu.depauw.scales.graphics
 
-import java.awt.{Rectangle => jRect}
+import java.awt.geom.{Rectangle2D => jRect}
 import java.awt.geom.AffineTransform
 
 
@@ -24,10 +24,10 @@ trait Graphic {
     case blank: Blank => this
     case composite : Composite => {
       Composite(List(this) ++ composite.children.map(
-          moveTo(this.bounds.x + this.bounds.width, this.bounds.y, _)) : _*)
+          moveTo(this.bounds.getX + this.bounds.getWidth, this.bounds.getY, _)) : _*)
     }
     case _ => {
-      Composite(this, moveTo(this.bounds.x + this.bounds.width, this.bounds.y, g))
+      Composite(this, moveTo(this.bounds.getX + this.bounds.getWidth, this.bounds.getY, g))
     }
   }
   
@@ -37,10 +37,10 @@ trait Graphic {
     case blank: Blank => this
     case composite : Composite => {
       Composite(List(this) ++ composite.children.map(
-          moveTo(this.bounds.x, this.bounds.y + this.bounds.height, _)) : _*)
+          moveTo(this.bounds.getX, this.bounds.getY + this.bounds.getHeight, _)) : _*)
     }
     case _ => {
-    Composite(this, moveTo(this.bounds.x, this.bounds.y + this.bounds.height, g))
+    Composite(this, moveTo(this.bounds.getX, this.bounds.getY + this.bounds.getHeight, g))
     }
   }
   
@@ -48,16 +48,16 @@ trait Graphic {
   
   def center = this match {
     case Transform(t,g) => {
-      Transform(replaceTranslate(t, -g.bounds.width/2, -g.bounds.height/2), g)
+      Transform(replaceTranslate(t, -g.bounds.getWidth/2, -g.bounds.getHeight/2), g)
     }
-    case _ => Translate(-this.bounds.width/2, -this.bounds.height/2, this)
+    case _ => Translate(-this.bounds.getWidth/2, -this.bounds.getHeight/2, this)
   }
   
   def lowerLeft = this match {
     case Transform(t,g) => {
-      Transform(replaceTranslate(t, 0, -g.bounds.height), g)
+      Transform(replaceTranslate(t, 0, -g.bounds.getHeight), g)
     }
-    case _ => Translate(0, -this.bounds.height, this)
+    case _ => Translate(0, -this.bounds.getHeight, this)
   }
   
   def topLeft = this match {
@@ -69,16 +69,16 @@ trait Graphic {
   
   def lowerRight = this match {
     case Transform(t,g) => {
-      Transform(replaceTranslate(t, -g.bounds.width, -g.bounds.height), g)
+      Transform(replaceTranslate(t, -g.bounds.getWidth, -g.bounds.getHeight), g)
     }
-    case _ => Translate(-this.bounds.width, -this.bounds.height, this)
+    case _ => Translate(-this.bounds.getWidth, -this.bounds.getHeight, this)
   }
   
   def topRight = this match {
     case Transform(t,g) => {
-      Transform(replaceTranslate(t, -g.bounds.width, 0), g)
+      Transform(replaceTranslate(t, -g.bounds.getWidth, 0), g)
     }
-    case _ => Translate(-this.bounds.width, 0, this)
+    case _ => Translate(-this.bounds.getWidth, 0, this)
   }
   
   def replaceTranslate(transform: AffineTransform, newX:Double, newY:Double): AffineTransform = {
@@ -96,8 +96,8 @@ trait Graphic {
    * hSmash: Bounding box with height = 0
    */
   def smash: Graphic = BoundsChanger(this)
-  def vSmash: Graphic = BoundsChanger(this,0,this.bounds.height)
-  def hSmash: Graphic = BoundsChanger(this,this.bounds.width,0)
+  def vSmash: Graphic = BoundsChanger(this,0,this.bounds.getHeight)
+  def hSmash: Graphic = BoundsChanger(this,this.bounds.getWidth,0)
   /*
    * Returns a graphic with a modified bounding box. 
    * Requires a new width and height for the bounding box
@@ -108,6 +108,6 @@ trait Graphic {
   }
   
   def moveTo(x: Double, y: Double, g: Graphic): Graphic = {
-    Translate(x - g.bounds.x, y - g.bounds.y, g)
+    Translate(x - g.bounds.getX, y - g.bounds.getY, g)
   }
 }

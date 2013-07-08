@@ -7,7 +7,7 @@ case class Shape(shape : java.awt.Shape) extends Graphic {
     gc.drawShape(shape)
   }
   
-  def bounds: java.awt.Rectangle = shape.getBounds()
+  def bounds = shape.getBounds2D()
 }
 
 object Circle {

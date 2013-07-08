@@ -1,6 +1,5 @@
 package edu.depauw.scales.graphics
 
-import java.awt.{Rectangle => jRect}
 import java.awt.font.FontRenderContext
 import java.awt.geom.AffineTransform
 import java.awt.font.TextLayout
@@ -22,7 +21,7 @@ case class Text(str: String,
     // gc.drawShape(text.getBounds())
   }
   
-  def bounds: jRect = text.getBounds().getBounds()
+  def bounds = text.getBounds()
   
   def setFont(name: String, style: FontStyleType, size: Int): Text = {
     new Text(str, new Font(name, style, size), frc)
