@@ -21,10 +21,10 @@ trait Graphic {
     case blank: Blank => this
     case composite : Composite => {
       Composite(List(this) ++ composite.children.map(
-          Translate(this.bounds.x + this.bounds.width, this.bounds.y, _)) : _*)
+          moveTo(this.bounds.x + this.bounds.width, this.bounds.y, _)) : _*)
     }
     case _ => {
-      Composite(this, Translate(this.bounds.x + this.bounds.width, this.bounds.y, g))
+      Composite(this, moveTo(this.bounds.x + this.bounds.width, this.bounds.y, g))
     }
   }
   
@@ -32,10 +32,10 @@ trait Graphic {
     case blank: Blank => this
     case composite : Composite => {
       Composite(List(this) ++ composite.children.map(
-          Translate(this.bounds.x, this.bounds.y + this.bounds.height, _)) : _*)
+          moveTo(this.bounds.x, this.bounds.y + this.bounds.height, _)) : _*)
     }
     case _ => {
-      Composite(this, Translate(this.bounds.x, this.bounds.y + this.bounds.height, g))
+    Composite(this, moveTo(this.bounds.x, this.bounds.y + this.bounds.height, g))
     }
   }
   
@@ -92,5 +92,7 @@ trait Graphic {
   def vSmash: Graphic = VSmasher(this)
   def hSmash: Graphic = HSmasher(this)
   
-  
+  def moveTo(x: Double, y: Double, g: Graphic): Graphic = {
+    Translate(x - g.bounds.x, y - g.bounds.y, g)
+  }
 }
