@@ -1,14 +1,24 @@
 package edu.depauw.scales.graphics
 
 import java.awt.{Rectangle => jRect}
+import java.awt.font.FontRenderContext
+import java.awt.geom.AffineTransform
+import java.awt.font.TextLayout
+import java.awt.{Font => jFont}
 
-case class Text(x : Double, y : Double, str : String) extends Graphic {
+case class Text(str: String,
+				font: jFont = new jFont("Helvetica", jFont.PLAIN, 8),
+				frc: FontRenderContext = new FontRenderContext(new AffineTransform(), true, true)
+		   ) extends Graphic {
+  
+  val text: TextLayout = new TextLayout(str, font, frc)
+  
   def render(gc : GraphicsContext) {
-    gc.drawString(str, x, y)
+    text.draw(gc.g2d, 0, 0)
+    
+    // Use this for debugging alignment with text
+    //gc.drawShape(text.getBounds())
   }
   
-  /*
-   * TODO: Check if there is any way to determine the width of the string
-   */
-  def bounds = new jRect()
+  def bounds: jRect = text.getBounds().getBounds()
 }

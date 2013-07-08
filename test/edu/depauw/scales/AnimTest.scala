@@ -13,7 +13,7 @@ object AnimDemo extends App {
       (5~Anim(bounce, 1) | (.5~C.> + G.en) * 5)~2.5 +
       C.< |
     Anim(grow, 15) |
-    FPS(1, Anim({_ => Text(10, 95, new java.util.Date().toString)}, 17)) |
+    FPS(1, Anim({_ => Translate(10.0, 95.0, Text(new java.util.Date().toString))}, 17)) |
     Pict(Image(resourcePath("examplePicture.jpg"), 10, 10, 80, 80), 17) |
     Pict(Bitmap({(x, y) => RGBA(x, Math.min(x, y), y, 0.5)}, 0, 0, 100, 100), 17) |
     Pict(Outline(Colors.YELLOW, Fill(Colors.YELLOW, Rectangle(5, 5, 90, 90))), 17)
