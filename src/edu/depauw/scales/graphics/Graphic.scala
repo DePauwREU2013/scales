@@ -95,9 +95,17 @@ trait Graphic {
    * vSmash: Bounding box with width = 0
    * hSmash: Bounding box with height = 0
    */
-  def smash: Graphic = Smasher(this)
-  def vSmash: Graphic = VSmasher(this)
-  def hSmash: Graphic = HSmasher(this)
+  def smash: Graphic = BoundsChanger(this)
+  def vSmash: Graphic = BoundsChanger(this,0,this.bounds.height)
+  def hSmash: Graphic = BoundsChanger(this,this.bounds.width,0)
+  /*
+   * Returns a graphic with a modified bounding box. 
+   * Requires a new width and height for the bounding box
+   * Optional parameters move the position of the bounding box as well
+  */
+  def changeBounds(newWidth: Int, newHeight: Int, moveX: Int = 0, moveY: Int = 0): Graphic = {
+    BoundsChanger(this, newWidth, newHeight, moveX, moveY)
+  }
   
   def moveTo(x: Double, y: Double, g: Graphic): Graphic = {
     Translate(x - g.bounds.x, y - g.bounds.y, g)
