@@ -3,21 +3,24 @@ package edu.depauw.scales.graphics
 import java.awt.{Rectangle => jRect}
 import java.awt.geom.AffineTransform
 
+
 trait Graphic {
   def render(gc : GraphicsContext)
   
   def bounds: jRect
   
-  def -&(g : Graphic) : Graphic = g match {
+  def over(g : Graphic) : Graphic = g match {
     case blank: Blank => this
     case composite : Composite => Composite(List(this) ++ composite.children : _*)
     case _ => Composite(this, g)
   }
   
-  // this is an alias for backward compatibility
-  def |(g : Graphic) : Graphic = this -& g
+  def -&(g : Graphic) : Graphic = this over g
   
-  def |||(g : Graphic) : Graphic = g match {
+  // this is an alias for backward compatibility
+  def |(g : Graphic) : Graphic = this over g
+  
+  def beside(g : Graphic) : Graphic = g match {
     case blank: Blank => this
     case composite : Composite => {
       Composite(List(this) ++ composite.children.map(
@@ -28,7 +31,9 @@ trait Graphic {
     }
   }
   
-  def -^(g: Graphic): Graphic = g match {
+  def |||(g: Graphic): Graphic = this beside g
+  
+  def above(g: Graphic): Graphic = g match {
     case blank: Blank => this
     case composite : Composite => {
       Composite(List(this) ++ composite.children.map(
@@ -38,6 +43,8 @@ trait Graphic {
     Composite(this, moveTo(this.bounds.x, this.bounds.y + this.bounds.height, g))
     }
   }
+  
+  def -^(g: Graphic): Graphic = this above g
   
   def center = this match {
     case Transform(t,g) => {
