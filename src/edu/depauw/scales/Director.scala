@@ -2,12 +2,11 @@ package edu.depauw.scales
 
 import scala.actors.Actor
 import scala.collection.mutable.PriorityQueue
-
-import javax.sound.midi.MidiSystem
+import javax.sound.midi.{MidiSystem, Patch, Soundbank, Instrument => MidiInstrument}
 import javax.swing.JFrame
 import javax.swing.WindowConstants
-
 import edu.depauw.scales.graphics.{GraphicPanel, ScalesPanel}
+import com.sun.media.sound.AudioFileSoundbankReader
 
 case class Request(node : Actor, time : Long, message : Any) extends Ordered[Request] {
   def compare(that : Request) : Int = (that.time - this.time).toInt
@@ -46,6 +45,20 @@ class Director(step : Step) extends StepActor {
   
   private val pane = new ScalesPanel
   frame.getContentPane.add(pane)
+  
+  def loadInstrument(file: java.io.File, destPatch: Patch = new Patch(0,0)): Boolean = {
+    
+    val sb: Soundbank = (new AudioFileSoundbankReader()).getSoundbank(file)
+    val p = new Patch(0,0)
+    
+    synth.loadInstruments(sb, Array(p))
+    synth.remapInstrument(synth.getDefaultSoundbank().getInstrument(destPatch),
+    					  sb.getInstrument(p))
+    					  
+    synth.loadInstruments(synth.getDefaultSoundbank(), Array(p))
+    
+    true
+  }
   
   def act() {
     startTime = System.currentTimeMillis

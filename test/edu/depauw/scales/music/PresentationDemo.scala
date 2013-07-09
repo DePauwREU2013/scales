@@ -1,6 +1,7 @@
 package edu.depauw.scales.music
 
 import edu.depauw.scales._
+import javax.sound.midi.Patch
 
 object PresentationDemo extends App {
   /*Bach Chorale BWV 256
@@ -60,10 +61,15 @@ object PresentationDemo extends App {
   private val part6 = soprano6 | alto6 | tenor6 | bass6
   private val part7 = soprano7 | alto7 | tenor7 | bass7
   
-  private val director = new Director(Instrument(piano,  Tempo(60, Volume(30, part1))) + Rest(.5) +
+  val bassoon = new java.io.File(System.getProperty("user.dir") + "/resources/bassoon-g4.wav")
+  val bassoonRef = 127
+  
+  private val director = new Director(Instrument((0,bassoonRef),  Tempo(60, Volume(80, part1))) + Rest(.5) +
                                       Instrument(clarinet, Tempo(75, Volume(55, part2))) + Rest(.5) +
                                       Instrument(violin, Tempo(90, Volume(80, part3))) + Rest(.5) +
-                                      Instrument(horn, Tempo(105, Volume(105,part4))))
+                                      Instrument(horn, Tempo(105, Volume(80,part4))))
+  
+  director.loadInstrument(bassoon, new Patch(0,bassoonRef))
   
   /*
   private val director = new Director(Instrument(piano,  Tempo(60, Volume(30, part1))) + Rest(.5) +
