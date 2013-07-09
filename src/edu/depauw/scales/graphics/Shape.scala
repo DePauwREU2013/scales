@@ -1,6 +1,6 @@
 package edu.depauw.scales.graphics
 
-import java.awt.geom.{Ellipse2D,Rectangle2D,GeneralPath,Line2D}
+import java.awt.geom.{Ellipse2D,Rectangle2D,GeneralPath,Line2D,RoundRectangle2D}
 
 case class Shape(shape : java.awt.Shape) extends Graphic {
   def render(gc : GraphicsContext) {
@@ -60,5 +60,9 @@ object Line {
     Shape(new Line2D.Double(x1, y1, x2, y2))
 }
 
-//TODO: rounded rectangles, arcs, other curves, areas?
+object RoundRectangle {
+  def apply(x: Double, y: Double, w: Double, h: Double, arcw: Double, arch: Double) =
+    Shape(new RoundRectangle2D.Double(x,y,w,h,arcw,arch))
+}
+//TODO: , arcs, other curves, areas?
 
