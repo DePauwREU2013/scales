@@ -48,5 +48,11 @@ case class Clip(count : Int, f : String) extends Step {
       }
     }
   }
+  
+  /*
+   * NOTE: Should we reverse a sample clip?
+   */
+  def reverse = this
+  
 }
 

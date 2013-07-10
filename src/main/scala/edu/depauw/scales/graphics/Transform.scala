@@ -14,6 +14,8 @@ case class Transform(transform : AffineTransform, g : Graphic) extends Graphic {
   
   def bounds = transform.createTransformedShape(g.bounds).getBounds2D
   
+  override lazy val shape = transform.createTransformedShape(g.shape)
+  
   def withName(n: String) = g.withName(n).map(Transform(transform, _))
 }
 

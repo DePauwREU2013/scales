@@ -14,7 +14,10 @@ object ClippedImageTest extends App {
   def fn(x : Double, y : Double) : Color = RGBA(x, Math.min(x, y), y, 0.3)
   
   val panel = new GraphicPanel(0, new java.awt.geom.AffineTransform())
-  panel.graphic = g2 -& Translate(50,50,Clip(Circle(20).center, g.center))
+  panel.graphic = Translate(50,20,Clip(Circle(20).center, g.center)) -&
+  				  Translate(50,50,Clip(Text("Hello World", FontSize(18)).center, g2.center)) -& 
+  				  Translate(50,80,Clip((Circle(10) ||| Square(20)).center, g.center)) 
+  				  
   
   val pane = new ScalesPanel
   pane.add(panel)

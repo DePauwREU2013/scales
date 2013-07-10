@@ -2,12 +2,14 @@ package edu.depauw.scales.graphics
 
 import java.awt.geom.{Ellipse2D,Rectangle2D,GeneralPath,Line2D,RoundRectangle2D}
 
-case class Shape(shape : java.awt.Shape) extends Graphic {
+case class Shape(jShape : java.awt.Shape) extends Graphic {
   def render(gc : GraphicsContext) {
-    gc.drawShape(shape)
+    gc.drawShape(jShape)
   }
   
-  def bounds = shape.getBounds2D()
+  def bounds = jShape.getBounds2D()
+  
+  override lazy val shape = jShape
   
   def withName(name: String) = Nil
 }

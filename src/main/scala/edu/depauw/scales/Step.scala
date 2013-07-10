@@ -5,19 +5,12 @@ trait Step {
   
   def act(actor : StepActor) : Unit
   
+  def reverse : Step
+  
   def +(step : Step) : Step = step match {
     case s : Sequ => Sequ(List(this) ++ s.children : _*)
     case _ => Sequ(this, step)
   }
-  
-  def reverse: Step = this match {
-    case Sequ(children @_*) => Sequ(children.reverse:_*)
-    case Para(children @_*) => Para(children.map(_.reverse):_*)
-    case Style(sheet, step) => Style(sheet, step.reverse)
-    case Stretch(beats, step) => Stretch(beats, step.reverse)
-    case _ => this
-  }
-  
   
   def |(step : Step) : Step = step match {
     case p : Para => Para(List(this) ++ p.children : _*)
@@ -47,6 +40,8 @@ case class Sequ(children : Step*) extends Step {
   def act(actor : StepActor) {
     startNext(actor, 0, actor.startTime)
   }
+  
+  def reverse = Sequ(children.map(_.reverse).reverse:_*)
   
   private def startNext(actor : StepActor, i : Int, nextTime : Long) {
     if (i < children.length) {
@@ -88,6 +83,8 @@ case class Para(children : Step*) extends Step {
     
     waitFor(actor, children.length)
   }
+ 
+  def reverse = Para(children.map(_.reverse):_*)
   
   private def waitFor(actor : StepActor, n : Int) {
     if (n == 0) {
@@ -114,6 +111,8 @@ case class Style(sheet : Sheet, step : Step) extends Step {
       case Done => actor.parent ! Done
     }
   }
+  
+  def reverse = Style(sheet, step.reverse)
 }
 
 case class Stretch(beats : Double, step : Step) extends Step {
@@ -125,4 +124,7 @@ case class Stretch(beats : Double, step : Step) extends Step {
       case Done => actor.parent ! Done
     }
   }
+  
+  def reverse = Stretch(beats, step.reverse)
+  
 }

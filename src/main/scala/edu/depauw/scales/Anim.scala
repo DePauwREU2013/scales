@@ -21,6 +21,8 @@ case class Anim(fn : Double => Graphic, beats : Double) extends Step {
     more(actor, panel, period, numFrames)
   }
   
+  def reverse = Anim((x : Double) => fn(1.0-x), beats)
+  
   def scheduleFrame(n : Int, actor : StepActor, period : Int) {
     actor.director ! Request(actor, actor.startTime + period * n, DrawFrame(n))
   }

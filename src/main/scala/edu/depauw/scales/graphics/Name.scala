@@ -5,6 +5,8 @@ case class Name(name: String, g: Graphic) extends Graphic {
   
   def bounds = g.bounds
   
+  override lazy val shape = g.shape
+  
   def withName(n: String) = {
     if (n == name) List(g)
     else Nil
