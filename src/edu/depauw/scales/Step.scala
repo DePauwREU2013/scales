@@ -41,7 +41,7 @@ case class Sequ(children : Step*) extends Step {
     startNext(actor, 0, actor.startTime)
   }
   
-  def reverse = Sequ(children.reverse:_*)
+  def reverse = Sequ(children.map(_.reverse).reverse:_*)
   
   private def startNext(actor : StepActor, i : Int, nextTime : Long) {
     if (i < children.length) {
