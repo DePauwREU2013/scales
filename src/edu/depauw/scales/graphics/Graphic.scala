@@ -9,6 +9,8 @@ trait Graphic {
   
   def bounds: jRect
   
+  def withName(name: String): List[Graphic]
+  
   /* ========= Compositing methods ========= */
   
   def over(g : Graphic) : Graphic = Composite(this, g)
@@ -35,33 +37,35 @@ trait Graphic {
   
   /* ========= Alignment methods ========= */
   
-  def moveTo(x: Double, y: Double, g: Graphic): Graphic = {
-    Translate(x - g.bounds.getX, y - g.bounds.getY, g)
+  def moveTo(x: Double, y: Double): Graphic = {
+    Translate(x - this.bounds.getX, y - this.bounds.getY, this)
   }
   
-  def topLeft: Graphic = moveTo(0, 0, this)
+  def -@(x: Double, y: Double): Graphic = moveTo(x,y)
   
-  def middleLeft: Graphic = moveTo(0, -this.bounds.getHeight/2, this)
+  def topLeft: Graphic = moveTo(0, 0)
   
-  def bottomLeft: Graphic = moveTo(0, -this.bounds.getHeight, this)
+  def middleLeft: Graphic = moveTo(0, -this.bounds.getHeight/2)
   
-  def topCenter: Graphic = moveTo(-this.bounds.getWidth/2, 0, this)
+  def bottomLeft: Graphic = moveTo(0, -this.bounds.getHeight)
+  
+  def topCenter: Graphic = moveTo(-this.bounds.getWidth/2, 0)
   
   def middleCenter: Graphic =
-    moveTo(-this.bounds.getWidth/2, -this.bounds.getHeight/2, this)
+    moveTo(-this.bounds.getWidth/2, -this.bounds.getHeight/2)
   
   def center: Graphic = middleCenter
   
   def bottomCenter: Graphic =
-    moveTo(-this.bounds.getWidth/2, -this.bounds.getHeight, this)
+    moveTo(-this.bounds.getWidth/2, -this.bounds.getHeight)
   
-  def topRight: Graphic = moveTo(-this.bounds.getWidth, 0, this)
+  def topRight: Graphic = moveTo(-this.bounds.getWidth, 0)
     
   def middleRight: Graphic =
-    moveTo(-this.bounds.getWidth, -this.bounds.getHeight/2, this)
+    moveTo(-this.bounds.getWidth, -this.bounds.getHeight/2)
   
   def bottomRight: Graphic = 
-    moveTo(-this.bounds.getWidth, -this.bounds.getHeight, this)
+    moveTo(-this.bounds.getWidth, -this.bounds.getHeight)
     
   /* ========= Bounds methods ========= */
   

@@ -11,4 +11,6 @@ case class Fill(paint : Paint, g : Graphic) extends Graphic {
   }
   
   def bounds = g.bounds
+  
+  def withName(name: String) = g.withName(name)
 }

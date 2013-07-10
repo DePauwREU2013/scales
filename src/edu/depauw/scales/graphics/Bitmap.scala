@@ -23,4 +23,6 @@ case class Bitmap(fn : (Double, Double) => Color,
   }
   
   def bounds = new jRect.Double(x, y, w, h)
+  
+  def withName(name: String) = Nil
 }

@@ -15,4 +15,6 @@ case class Image(path : String,
   }
   
   def bounds = new jRect.Double(x, y, w, h)
+  
+  def withName(name: String) = Nil
 }
