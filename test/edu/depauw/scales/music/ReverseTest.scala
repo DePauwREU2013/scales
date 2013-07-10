@@ -1,17 +1,15 @@
 package edu.depauw.scales.music
 
-import edu.depauw.scales.Director
-import edu.depauw.scales.Para
-import edu.depauw.scales.Instrument
+import edu.depauw.scales._
 
 object ReverseTest extends App {
-  val scale = (C + D + E + F + G + A + B)
-  val scale2 = (E + F + G + A + B + C.> + D.>)
+  val scale = (C + D + E + F + G + A + B + C.>)
+  val scale2 = (E + F + G + A + B + C.> + D.> + E.>)
   val scale3 = Para(scale2,scale)
   
-  private val violin = (0,40)
+  val violin = (0,40)
    
-  val scale4 = Instrument(violin, scale)
+  val scale4 = Instrument(violin, scale3)
   
   val director = new Director(scale4.reverse)
   
