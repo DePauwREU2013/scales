@@ -15,4 +15,6 @@ case class Stroke(width : Double, g : Graphic) extends Graphic {
    * 	   into the bounds calculation or not.
    */
   def bounds = g.bounds
+  
+  def withName(name: String) = g.withName(name)
 }

@@ -8,6 +8,8 @@ case class Shape(shape : java.awt.Shape) extends Graphic {
   }
   
   def bounds = shape.getBounds2D()
+  
+  def withName(name: String) = Nil
 }
 
 object Circle {

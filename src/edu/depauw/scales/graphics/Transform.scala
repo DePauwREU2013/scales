@@ -13,6 +13,8 @@ case class Transform(transform : AffineTransform, g : Graphic) extends Graphic {
   }
   
   def bounds = transform.createTransformedShape(g.bounds).getBounds2D
+  
+  override def withName(n: String) = g.withName(n).map(Transform(transform, _))
 }
 
 object Rotate {

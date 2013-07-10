@@ -8,6 +8,8 @@ case class Smashed(g: Graphic, w: Double, h: Double, x: Double, y:Double) extend
   }
   
   def bounds = new jRect.Double(x, y, w, h)
+  
+  def withName(name: String) = g.withName(name)
 }
 
 /*

@@ -23,6 +23,8 @@ case class Text(str: String,
   
   def bounds = text.getBounds()
   
+  def withName(name: String) = Nil
+  
   def setFont(name: String, style: FontStyleType, size: Int): Text = {
     new Text(str, new Font(name, style, size), frc)
   }

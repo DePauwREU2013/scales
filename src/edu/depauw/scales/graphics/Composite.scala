@@ -9,4 +9,6 @@ case class Composite(g: Graphic, h: Graphic) extends Graphic {
   }
   
   def bounds = g.bounds.createUnion(h.bounds)
+  
+  override def withName(n: String) = g.withName(n) ++ h.withName(n)
 }

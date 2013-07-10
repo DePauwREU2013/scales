@@ -9,6 +9,8 @@ case class Blank(box: jRect = new jRect.Double()) extends Graphic {
   override def |(g : Graphic) : Graphic = g
   
   def bounds = box
+  
+  def withName(name: String) = Nil
 }
 
 object Phantom extends Blank {

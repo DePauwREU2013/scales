@@ -25,4 +25,5 @@ case class Clip(clip: Graphic, g: Graphic) extends Graphic {
   
   def bounds = g.bounds.createIntersection(clip.bounds)
   
+  def withName(name: String) = g.withName(name)
 }

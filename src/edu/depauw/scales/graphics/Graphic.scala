@@ -9,6 +9,8 @@ trait Graphic {
   
   def bounds: jRect
   
+  def withName(name: String): List[Graphic]
+  
   /* ========= Compositing methods ========= */
   
   def over(g : Graphic) : Graphic = Composite(this, g)
