@@ -11,6 +11,9 @@ case class Test(msg : String, beats : Double) extends Step {
       case Foo => println(msg + " end: " + System.currentTimeMillis)
     }
   }
+  
+  def reverse = this
+  
 }
 
 object Demo extends App {

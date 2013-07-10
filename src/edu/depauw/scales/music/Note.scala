@@ -21,6 +21,8 @@ case class Note(pitch : Int, beats : Double) extends Step {
     }
   }
   
+  def reverse = this
+  
   def sh = Note(this.pitch + 1, this.beats)  
   def ft = Note(this.pitch - 1, this.beats)
   
@@ -69,4 +71,6 @@ case class Rest(val beats : Double) extends Step {
   def act(actor : StepActor) {
     actor.director ! Request(actor.parent, actor.startTime + actor.duration, Done)
   }
+  
+  def reverse = this
 }

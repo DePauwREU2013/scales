@@ -43,4 +43,7 @@ case class Synth(freq : Double, fn : Double => Double) extends Step {
       }
     }
   }
+  
+  def reverse = this
+  
 }

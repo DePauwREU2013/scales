@@ -21,5 +21,7 @@ case class Pict(g : Graphic, beats : Double) extends Step {
 	}
   }
   
+  def reverse = this
+  
   override def ~(dur : Double) = Pict(this.g, dur * this.beats)
 }
