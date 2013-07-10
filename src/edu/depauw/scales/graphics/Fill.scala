@@ -12,5 +12,7 @@ case class Fill(paint : Paint, g : Graphic) extends Graphic {
   
   def bounds = g.bounds
   
+  override lazy val shape = g.shape
+  
   def withName(name: String) = g.withName(name)
 }

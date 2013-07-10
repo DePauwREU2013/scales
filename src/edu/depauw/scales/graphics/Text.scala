@@ -23,6 +23,8 @@ case class Text(str: String,
   
   def bounds = text.getBounds()
   
+  override lazy val shape = text.getOutline(new AffineTransform())
+  
   def withName(name: String) = Nil
   
   def setFont(name: String, style: FontStyleType, size: Int): Text = {

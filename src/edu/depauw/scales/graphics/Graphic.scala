@@ -1,13 +1,15 @@
 package edu.depauw.scales.graphics
 
-import java.awt.geom.{Rectangle2D => jRect}
-import java.awt.geom.AffineTransform
+import java.awt.geom.{AffineTransform, Rectangle2D => jRect}
+import java.awt.{Shape => jShape}
 
 
 trait Graphic {
   def render(gc : GraphicsContext)
   
   def bounds: jRect
+  
+  lazy val shape: jShape = bounds
   
   def withName(name: String): List[Graphic]
   
