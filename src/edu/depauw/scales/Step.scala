@@ -10,6 +10,14 @@ trait Step {
     case _ => Sequ(this, step)
   }
   
+  def reverse: Step = this match {
+    case Sequ(children @_*) => Sequ(children.reverse:_*)
+    case Para(children @_*) => Para(children.map(_.reverse):_*)
+    case Style(sheet, step) => Style(sheet, step.reverse)
+    case Stretch(beats, step) => Stretch(beats, step.reverse)
+    case _ => this
+  }
+  
   
   def |(step : Step) : Step = step match {
     case p : Para => Para(List(this) ++ p.children : _*)
