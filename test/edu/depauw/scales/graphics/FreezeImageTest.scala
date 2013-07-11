@@ -7,8 +7,7 @@ object FreezeImageTest extends App {
   val frame = new JFrame("Freeze Test")
   frame.setSize(800,600)
   
-  val filename = System.getProperty("user.dir") + "/resources/warningsign.jpg"
-   val g1 = Name("circle", Circle(20))
+  val g1 = Name("circle", Circle(20))
   val g3 = g1.freeze
   
   
