@@ -10,10 +10,10 @@ object TestAlign extends App{
   val g1 = Circle(20)
   val g2 = Fill(Colors.RED, Circle(10))
   val g3 = Fill(Colors.BLUE, Square(10))
+  val path = Path((0,0),(10,10),(20,10),(20,20))
   
   val panel = new GraphicPanel(0, new java.awt.geom.AffineTransform())
-  panel.graphic = g1.changeBounds(0, 0, 50, 50) -|| Translate(0, 20, g2 -|| g3) -&
-  				  (g3 -^ g3 -^ g3)
+  panel.graphic = path ||| g2
   
   val pane = new ScalesPanel
   pane.add(panel)
