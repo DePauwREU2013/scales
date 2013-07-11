@@ -22,7 +22,7 @@ case class Bitmap(fn : (Double, Double) => Color,
     gc.drawImage(img, x, y, w, h)
   }
   
-  def bounds = new jRect.Double(x, y, w, h)
+  override lazy val bounds = new jRect.Double(x, y, w, h)
   
   def withName(name: String) = Nil
 }

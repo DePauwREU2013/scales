@@ -7,7 +7,7 @@ case class Shape(jShape : java.awt.Shape) extends Graphic {
     gc.drawShape(jShape)
   }
   
-  def bounds = jShape.getBounds2D()
+  override lazy val bounds = jShape.getBounds2D
   
   override lazy val shape = jShape
   

@@ -12,7 +12,7 @@ case class Transform(transform : AffineTransform, g : Graphic) extends Graphic {
     gc.g2d.setTransform(oldTransform)
   }
   
-  def bounds = transform.createTransformedShape(g.bounds).getBounds2D
+  override lazy val bounds = transform.createTransformedShape(g.bounds).getBounds2D
   
   override lazy val shape = transform.createTransformedShape(g.shape)
   

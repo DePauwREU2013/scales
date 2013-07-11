@@ -14,7 +14,7 @@ case class Stroke(width : Double, g : Graphic) extends Graphic {
    * TODO: Check whether the stroke should be included
    * 	   into the bounds calculation or not.
    */
-  def bounds = g.bounds
+  override lazy val bounds = g.bounds
   
   override lazy val shape = g.shape
   

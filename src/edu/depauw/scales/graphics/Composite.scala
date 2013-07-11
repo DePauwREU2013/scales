@@ -8,7 +8,7 @@ case class Composite(g: Graphic, h: Graphic) extends Graphic {
     h.render(gc)
   }
   
-  def bounds = g.bounds.createUnion(h.bounds)
+  override lazy val bounds = g.bounds.createUnion(h.bounds)
   
   override lazy val shape = {
     var area = new Area(g.shape)

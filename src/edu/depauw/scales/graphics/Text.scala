@@ -21,7 +21,7 @@ case class Text(str: String,
     // gc.drawShape(text.getBounds())
   }
   
-  def bounds = text.getBounds()
+  override lazy val bounds = text.getBounds
   
   override lazy val shape = text.getOutline(new AffineTransform())
   

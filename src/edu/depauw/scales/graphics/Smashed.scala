@@ -7,7 +7,7 @@ case class Smashed(g: Graphic, w: Double, h: Double, x: Double, y:Double) extend
     g.render(gc)
   }
   
-  def bounds = new jRect.Double(x, y, w, h)
+  override lazy val bounds = new jRect.Double(x, y, w, h)
   
   def withName(name: String) = g.withName(name)
 }

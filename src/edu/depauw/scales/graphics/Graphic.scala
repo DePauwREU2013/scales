@@ -7,7 +7,7 @@ import java.awt.{Shape => jShape}
 trait Graphic {
   def render(gc : GraphicsContext)
   
-  def bounds: jRect
+  lazy val bounds: jRect = new jRect.Double()
   
   lazy val shape: jShape = bounds
   
