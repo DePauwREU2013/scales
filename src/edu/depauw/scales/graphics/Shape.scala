@@ -78,21 +78,38 @@ object Path {
  * A curved path that uses curves instead of straight lines
  * This is NOT finished, it needs quite a bit of thought/work
  */
-object BezierPath {
+object CurvedPath {
   def apply(points: (Double,Double)*) = {
     if(points.size < 3) Path()
     val path: GeneralPath = new GeneralPath()
     val first = points.head
     path.moveTo(first._1.toFloat,first._2.toFloat)
-    while(points.drop(1).size > 2){
-      /*
-       * There are two good ways to go about this. The first is to use a Bézier curve,
-       * and the second is to use a quadratic curve. I need to think of a way to generate
-       * some kind of control scheme to get the curve to work correctly, either by taking
-       * control points as inputs or finding a way to generate them. Will complete tomorrow.
-       */
-    }
     	
+  }
+}
+/*
+ * ControlledCurvePath allows you to create a series of curves with specific control
+ * points as opposed to the planned automatic curve generation in CurvedPath
+ * Points are given to the program in an alternating pattern of Drawn points
+ * and control points, starting and ending with drawn points.
+ * (draw, control, draw, control, draw)
+ */
+
+object ControlledCurvePath {
+  def apply(points: (Double,Double)*) = {
+    val path: GeneralPath = new GeneralPath()
+    val first = points.head
+    path.moveTo(first._1.toFloat,first._2.toFloat)
+    println(points)
+    aux(points.drop(1).toList)
+    def aux(points: List[(Double,Double)]): Unit = points match{
+      case control::end::rest => 
+        println(control + ", " + end)
+        path.quadTo(control._1.toFloat,control._2.toFloat,end._1.toFloat,end._2.toFloat)
+        aux(rest)
+      case _ => {}
+    }
+    Shape(path)
   }
 }
 
