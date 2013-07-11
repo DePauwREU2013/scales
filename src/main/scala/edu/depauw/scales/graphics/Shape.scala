@@ -86,7 +86,7 @@ object BezierPath {
     path.moveTo(first._1.toFloat,first._2.toFloat)
     while(points.drop(1).size > 2){
       /*
-       * There are two good ways to go about this. The first is to use a Bézier curve,
+       * There are two good ways to go about this. The first is to use a Bezier curve,
        * and the second is to use a quadratic curve. I need to think of a way to generate
        * some kind of control scheme to get the curve to work correctly, either by taking
        * control points as inputs or finding a way to generate them. Will complete tomorrow.
