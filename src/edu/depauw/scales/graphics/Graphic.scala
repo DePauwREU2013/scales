@@ -88,4 +88,5 @@ trait Graphic {
   def changeBounds(newWidth: Int, newHeight: Int, moveX: Int = 0, moveY: Int = 0): Graphic = {
     BoundsChanger(this, newWidth, newHeight, moveX, moveY)
   }
+   def freeze : Graphic = Freeze(this)
 }
