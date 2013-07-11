@@ -11,16 +11,17 @@ object CanonTest extends App {
    * entrances of new voices
    */
   def canon(part: Step, voices: Int, entranceOffset: Double = 4): Step = {
-    (1 to (voices-1)).foldLeft(part)((group, n) => {
-    	part + Rest(entranceOffset) | Rest(entranceOffset) + group
-    })
+    (0 until voices).map(
+        n => Rest(entranceOffset*n) + part + Rest(entranceOffset*(voices - 1 -n))
+      ).reduce(_ | _)
   }
   
   def canonRandomInstrument(part: Step, voices: Int, entranceOffset: Double = 4): Step = {
-    (1 to (voices-1)).foldLeft(part)((group, n) => {
-    	(Instrument((0, Random.nextInt(128)), part) + Rest(entranceOffset)) |
-    	    (Rest(entranceOffset) + group)
-    })
+    (0 until voices).map(
+        n => Rest(entranceOffset*n) +
+        	 Instrument((0, Random.nextInt(128)), part) +
+        	 Rest(entranceOffset*(voices - 1 -n))
+      ).reduce(_ | _)
   }
   
   // Row, Row, Row Your Boat...
@@ -59,6 +60,6 @@ object CanonTest extends App {
   
   val song = canon(hErstesGebot, 3, 8)
   
-  (new Director(song)).start
+  (new Director(song.reverse)).start
   
 }
