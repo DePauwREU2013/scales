@@ -33,6 +33,8 @@ object Rotate {
 object Scale {
   def apply(sx : Double, sy : Double, g : Graphic) =
     Transform(AffineTransform.getScaleInstance(sx, sy), g)
+  def apply(s: Double, g: Graphic) =
+    Transform(AffineTransform.getScaleInstance(s, s), g)
   def apply(sx : Double, sy : Double, x : Double, y : Double, g : Graphic) = {
     val transform = AffineTransform.getTranslateInstance(x, y)
     transform.scale(sx, sy)
