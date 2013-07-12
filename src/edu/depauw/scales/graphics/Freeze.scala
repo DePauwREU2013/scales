@@ -24,6 +24,6 @@ case class Freeze(g: Graphic) extends Graphic {
   
   override lazy val bounds = new jRect.Double(x,y,w,h)
   
-  def withName(n: String) = g.withName(n)
+  def withName(n: String) = Nil
 
 }
