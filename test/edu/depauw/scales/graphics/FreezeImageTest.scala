@@ -15,7 +15,7 @@ object FreezeImageTest extends App {
   panel.graphic = g3 ||| g1
   				  
   
-  val pane = new ScalesPanel
+  val pane = new ScalesPanel(RenderMode.SCALE_TO_FIT)
   pane.add(panel)
   frame.add(pane)
   

@@ -15,7 +15,7 @@ object TestAlign extends App{
   val panel = new GraphicPanel(0, new java.awt.geom.AffineTransform())
   panel.graphic = path ||| g2
   
-  val pane = new ScalesPanel
+  val pane = new ScalesPanel(RenderMode.SCALE_TO_FIT)
   pane.add(panel)
   frame.add(pane)
   

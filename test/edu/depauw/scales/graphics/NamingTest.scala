@@ -31,9 +31,8 @@ object NamingTest extends App {
                   labelWithName(unlabeled, "blue") -&
                   labelWithName(unlabeled, "fakeOut") -&
                   labelWithName(unlabeled, "circle")
-                  
   
-  val pane = new ScalesPanel
+  val pane = new ScalesPanel(RenderMode.SCALE_TO_FIT)
   pane.add(panel)
   frame.add(pane)
   

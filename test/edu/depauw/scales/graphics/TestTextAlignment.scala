@@ -22,7 +22,7 @@ object TestTextAlignment extends App {
   				  Translate(10, 60, t4) -&
   				  Translate(70, 60, t5)
   
-  val pane = new ScalesPanel
+  val pane = new ScalesPanel(RenderMode.SCALE_TO_FIT)
   pane.add(panel)
   frame.add(pane)
   

@@ -16,7 +16,7 @@ object TestGraphics extends App {
   val panel = new GraphicPanel(0, new java.awt.geom.AffineTransform())
   panel.graphic = g | g2 | g3
   
-  val pane = new ScalesPanel
+  val pane = new ScalesPanel(RenderMode.SCALE_TO_FIT)
   pane.add(panel)
   frame.add(pane)
   
