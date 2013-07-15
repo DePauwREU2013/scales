@@ -88,7 +88,7 @@ object Path {
  * points as opposed to the planned automatic curve generation in CurvedPath
  * Points are given to the program in an alternating pattern of Drawn points
  * and control points, starting and ending with drawn points.
- * (draw, control,control,draw, control,control,draw)
+ * (draw,control,control,draw,control,control,draw)
  */
 
 object ControlledBezierPath {

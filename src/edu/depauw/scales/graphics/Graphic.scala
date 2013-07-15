@@ -69,7 +69,7 @@ trait Graphic {
   def bottomRight: Graphic = 
     moveTo(-this.bounds.getWidth, -this.bounds.getHeight)
     
-    //=======Point returning methods========
+    //======= Point returning methods ========
     
   def ul: (Double,Double) = (this.bounds.getX(), this.bounds.getY())
   
