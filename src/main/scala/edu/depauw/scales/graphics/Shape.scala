@@ -7,7 +7,7 @@ case class Shape(jShape : java.awt.Shape) extends Graphic {
     gc.drawShape(jShape)
   }
   
-  def bounds = jShape.getBounds2D()
+  override lazy val bounds = jShape.getBounds2D
   
   override lazy val shape = jShape
   
@@ -49,9 +49,9 @@ object Polygon {
     val poly : GeneralPath = new GeneralPath()
     
     val first = points.head
-    poly.moveTo(first._1.toFloat, first._2.toFloat)
+    poly.moveTo(first._1, first._2)
     for ((x, y) <- points.drop(1)) {
-      poly.lineTo(x.toFloat, y.toFloat)
+      poly.lineTo(x, y)
     }
     poly.closePath()
     
@@ -61,14 +61,14 @@ object Polygon {
 /*
  * Same as a Polygon, but it is not a closed shape. 
  */
-object Path {
+object StraightPath {
   def apply(points: (Double,Double)*) = {
     val path : GeneralPath = new GeneralPath()
     
     val first = points.head
-    path.moveTo(first._1.toFloat, first._2.toFloat)
+    path.moveTo(first._1, first._2)
     for ((x, y) <- points.drop(1)) {
-      path.lineTo(x.toFloat, y.toFloat)
+      path.lineTo(x, y)
     }
     Shape(path)
   }
@@ -78,21 +78,32 @@ object Path {
  * A curved path that uses curves instead of straight lines
  * This is NOT finished, it needs quite a bit of thought/work
  */
-object BezierPath {
+object Path {
+	def apply {
+	  
+	}
+}
+/*
+ * ControlledBezierPath allows you to create a series of curves with specific control
+ * points as opposed to the planned automatic curve generation in CurvedPath
+ * Points are given to the program in an alternating pattern of Drawn points
+ * and control points, starting and ending with drawn points.
+ * (draw,control,control,draw,control,control,draw)
+ */
+
+object ControlledBezierPath {
   def apply(points: (Double,Double)*) = {
-    if(points.size < 3) Path()
     val path: GeneralPath = new GeneralPath()
     val first = points.head
-    path.moveTo(first._1.toFloat,first._2.toFloat)
-    while(points.drop(1).size > 2){
-      /*
-       * There are two good ways to go about this. The first is to use a Bezier curve,
-       * and the second is to use a quadratic curve. I need to think of a way to generate
-       * some kind of control scheme to get the curve to work correctly, either by taking
-       * control points as inputs or finding a way to generate them. Will complete tomorrow.
-       */
+    path.moveTo(first._1,first._2)
+    aux(points.drop(1).toList)
+    def aux(points: List[(Double,Double)]): Unit = points match{
+      case control1::control2::end::rest => 
+        path.curveTo(control1._1,control1._2,control2._1,control2._2,end._1,end._2)
+        aux(rest)
+      case _ => {}
     }
-    	
+    Shape(path)
   }
 }
 

@@ -10,7 +10,7 @@ case class Fill(paint : Paint, g : Graphic) extends Graphic {
     gc.fillPaint = oldPaint
   }
   
-  def bounds = g.bounds
+  override lazy val bounds = g.bounds
   
   override lazy val shape = g.shape
   

@@ -1,21 +1,29 @@
 package edu.depauw.scales.graphics
 
-import java.awt.Color
+import java.awt.{Graphics2D, GraphicsEnvironment, Transparency}
+import java.awt.image.BufferedImage
+import java.awt.geom.{Rectangle2D => jRect}
+
 
 case class Freeze(g: Graphic) extends Graphic {
- def render(gc : GraphicsContext) { 
-   def fn(x:Double, y:Double): Color = RGBA(g.bounds.getX, g.bounds.getY, y, 0.3)
-   val g2 : Graphic = Bitmap(fn, 0,0, g.bounds.getWidth, g.bounds.getHeight)
   
-   g2.render(gc) }
+  val x = g.bounds.getX()
+  val y = g.bounds.getY()
   
-  def bounds = g.bounds
+  // one artifact of raster is integral dimensions;
+  // plus one captures the stroke on the bottom and right;
+  val w = g.bounds.getWidth().toInt + 1
+  val h = g.bounds.getHeight().toInt + 1
   
-  override lazy val shape = g.shape
+  val gc = GraphicsEnvironment.getLocalGraphicsEnvironment.getDefaultScreenDevice.getDefaultConfiguration
   
-  def withName(n: String) = {
-    Nil
-  }
+  val img: BufferedImage = gc.createCompatibleImage( w ,h, Transparency.TRANSLUCENT)
+  g.render(new GraphicsContext(img.getGraphics.asInstanceOf[Graphics2D]))
   
+  def render(gc: GraphicsContext) = gc.drawImage(img,x, y, w, h)
+  
+  override lazy val bounds = new jRect.Double(x,y,w,h)
+  
+  def withName(n: String) = Nil
 
 }

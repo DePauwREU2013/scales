@@ -19,7 +19,7 @@ object ClippedImageTest extends App {
   				  Translate(50,80,Clip((Circle(10) ||| Square(20)).center, g.center)) 
   				  
   
-  val pane = new ScalesPanel
+  val pane = new ScalesPanel(RenderMode.SCALE_TO_FIT)
   pane.add(panel)
   frame.add(pane)
   

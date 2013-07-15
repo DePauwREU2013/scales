@@ -21,7 +21,7 @@ case class RemovePanel(panel : GraphicPanel)
 
 case object Done
 
-class Director(step : Step) extends StepActor {
+class Director(step : Step, pane: ScalesPanel = new ScalesPanel) extends StepActor {
   private val pq = new PriorityQueue[Request]
   
   private val timer = new RequestTimer(this)
@@ -43,7 +43,6 @@ class Director(step : Step) extends StepActor {
   val context = new BaseContext(this)
   val layers = (0, Integer.MAX_VALUE)
   
-  private val pane = new ScalesPanel
   frame.getContentPane.add(pane)
   
   def loadInstrument(file: java.io.File, destPatch: Patch = new Patch(0,0)): Boolean = {

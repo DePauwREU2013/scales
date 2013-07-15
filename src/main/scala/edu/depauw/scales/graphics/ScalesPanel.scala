@@ -5,7 +5,15 @@ import javax.swing.JPanel
 
 import scala.collection.mutable.ArrayBuffer
 
-class ScalesPanel() extends JPanel {
+object RenderMode extends Enumeration {
+  type RenderMode = Value
+  val DEFAULT = Value("default")
+  val SCALE_TO_FIT = Value("scaleToFit")
+}
+
+import RenderMode._
+
+class ScalesPanel(mode: RenderMode = RenderMode.DEFAULT) extends JPanel {
     val MAX_X = 100.0
     val MAX_Y = 100.0
     
@@ -28,7 +36,10 @@ class ScalesPanel() extends JPanel {
       super.paintComponent(graphics)
       
       val g2d = graphics.asInstanceOf[Graphics2D]
-      g2d.scale(getWidth / MAX_X, getHeight / MAX_Y)
+      mode match {
+          case RenderMode.SCALE_TO_FIT => g2d.scale(getWidth / MAX_X, getHeight / MAX_Y)
+          case _ => Nil
+      }
       g2d.setStroke(new BasicStroke(0.1f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER))
       g2d.setFont(new JFont("SansSerif", JFont.PLAIN, 5))
       g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION,

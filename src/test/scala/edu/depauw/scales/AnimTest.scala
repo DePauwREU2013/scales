@@ -18,7 +18,7 @@ object AnimDemo extends App {
     Pict(Bitmap({(x, y) => RGBA(x, Math.min(x, y), y, 0.5)}, 0, 0, 100, 100), 17) |
     Pict(Outline(Colors.YELLOW, Fill(Colors.YELLOW, Rectangle(5, 5, 90, 90))), 17)
 
-  val director = new Director(test)
+  val director = new Director(test, new ScalesPanel(RenderMode.SCALE_TO_FIT))
   director.start()
   
   def bounce(v : Double) : Graphic =

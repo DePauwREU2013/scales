@@ -12,7 +12,7 @@ case class Clip(clip: Graphic, g: Graphic) extends Graphic {
     gc.g2d.setClip(oldClip)
   }
   
-  def bounds = g.bounds.createIntersection(clip.bounds)
+  override lazy val bounds = g.bounds.createIntersection(clip.bounds)
   
   override lazy val shape = {
     var area = new Area(g.shape)

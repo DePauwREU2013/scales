@@ -10,7 +10,7 @@ case class Outline(paint : Paint, g : Graphic) extends Graphic {
     gc.outlinePaint = oldPaint
   }
   
-  def bounds = g.bounds
+  override lazy val bounds = g.bounds
   
   override lazy val shape = g.shape
   
