@@ -69,6 +69,29 @@ trait Graphic {
   def bottomRight: Graphic = 
     moveTo(-this.bounds.getWidth, -this.bounds.getHeight)
     
+    //=======Point returning methods========
+    
+  def ul: (Double,Double) = (this.bounds.getX(), this.bounds.getY())
+  
+  def ml: (Double,Double) = (this.bounds.getX(),this.bounds.getY()+(this.bounds.getBounds().height/2))
+  
+  def bl: (Double,Double) = (this.bounds.getX(), this.bounds.getY()+this.bounds.getBounds().height)
+  
+  def tc: (Double,Double) = (this.bounds.getX()+(this.bounds.getBounds().width/2),this.bounds.getY())
+  
+  def mc: (Double,Double) = (this.bounds.getX()+(this.bounds.getBounds().width/2),
+      this.bounds.getY()+(this.bounds.getBounds.height/2))
+  
+  def c: (Double,Double) = mc
+  
+  def bc: (Double,Double) = (this.bounds.getX()+(this.bounds.getBounds.width/2),this.bounds.getY+this.bounds.getBounds.height)
+  
+  def tr: (Double,Double) = (this.bounds.getX()+this.bounds.getBounds.width,this.bounds.getY())
+    
+  def mr: (Double,Double) = (this.bounds.getX()+this.bounds.getBounds.width,this.bounds.getY()+(this.bounds.getBounds.height/2))
+  
+  def br: (Double,Double) = (this.bounds.getX()+this.bounds.getBounds.width,this.bounds.getY()+this.bounds.getBounds.height)
+    
   /* ========= Bounds methods ========= */
   
     /*
