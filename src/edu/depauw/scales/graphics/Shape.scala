@@ -1,6 +1,6 @@
 package edu.depauw.scales.graphics
 
-import java.awt.geom.{Ellipse2D,Rectangle2D,GeneralPath,Line2D,RoundRectangle2D}
+import java.awt.geom.{Ellipse2D,Rectangle2D,GeneralPath,Line2D,RoundRectangle2D,Point2D => Point}
 
 case class Shape(jShape : java.awt.Shape) extends Graphic {
   def render(gc : GraphicsContext) {
@@ -75,12 +75,39 @@ object StraightPath {
 }
 /*
  * Work in progress:
- * A curved path that uses curves instead of straight lines
- * This is NOT finished, it needs quite a bit of thought/work
+ * IF YOU USE THIS VERY BAD THINGS WILL HAPPEN. DONT USE THIS UNTIL IT IS READY
  */
 object Path {
-	def apply {
-	  
+	def apply(segments: List[Segment]): Graphic = {
+	  val path:GeneralPath = new GeneralPath()
+	  segments match {
+	    case oneAhead::twoAhead::rest =>
+	      aux(oneAhead,twoAhead)
+	      apply(twoAhead::rest)
+	    case lastOne::Nil =>
+	      aux(lastOne,new PointSegment((0,0)))
+	  }
+	  def aux(oneAhead:Segment,twoAhead:Segment) = oneAhead match{
+	    case s:PointSegment =>
+	      path.moveTo(s.dest._1,s.dest._2)
+	    case s:LineSegment =>
+	      path.lineTo(s.dest._1,s.dest._2)
+	    case s:CurveSegment =>
+	      val here = path.getCurrentPoint()
+	      val there = new Point.Double(twoAhead.p._1,twoAhead.p._2)
+	      val dist: Double = here.distance(s.dest._1, s.dest._2)/3.0
+	      val c1: (Double,Double) = {
+	        val moveBy = (math.cos(s.heading)*dist,math.sin(s.heading)*dist)
+	        (here.getX()+moveBy._1,here.getY()+moveBy._2)
+	      }
+	      val c2: (Double,Double) = {
+	        val moveBy = (math.cos((twoAhead.getHeading+math.Pi)%(2*math.Pi))*dist,
+	          math.sin((twoAhead.getHeading+math.Pi)%(2*math.Pi))*dist)
+	          (there.getX()+moveBy._1,there.getY()+moveBy._2)
+	      }
+	      path.curveTo(c1._1,c1._2,c2._1,c2._2,s.dest._1,s.dest._2)
+	  }
+	  Shape(path)
 	}
 }
 /*
