@@ -4,6 +4,7 @@ import java.awt.{BasicStroke, RenderingHints, Font => JFont, Graphics, Graphics2
 import javax.swing.JPanel
 
 import scala.collection.mutable.ArrayBuffer
+import edu.depauw.scales.reactive._
 
 object RenderMode extends Enumeration {
   type RenderMode = Value
@@ -18,7 +19,21 @@ class ScalesPanel(mode: RenderMode = RenderMode.DEFAULT) extends JPanel {
     val MAX_Y = 100.0
     
     val panels = new ArrayBuffer[GraphicPanel]
-
+    
+    lazy val mouseEventStream = {
+      val mes = new MouseEventStream      
+      addMouseListener(mes)
+      mes
+    }
+    
+    lazy val mouseMotionEventStream = {
+      val mmes = new MouseMotionEventStream      
+      addMouseMotionListener(mmes)
+      mmes
+    }
+    
+    lazy val mouseInputEventStream = mouseMotionEventStream | mouseEventStream
+    
     def add(panel : GraphicPanel) = synchronized {
       var i = 0
       while (i < panels.size && panel > panels(i)) i += 1
