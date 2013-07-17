@@ -8,9 +8,9 @@ package object graphics {
 		  case s: PointSegment => s.heading
 		}
 		def heading(h: Double): Segment = this match{
-		  case s: LineSegment => new LineSegment((s.dest),h)
-		  case s: CurveSegment => new CurveSegment((s.dest),h)
-		  case s: PointSegment => new PointSegment((s.dest),h)
+		  case s: LineSegment => new LineSegment(s.x,s.y,h)
+		  case s: CurveSegment => new CurveSegment(s.x,s.y,h)
+		  case s: PointSegment => new PointSegment(s.x,s.y,h)
 		}
 	}
 }

@@ -85,17 +85,17 @@ object Path {
 	      aux(oneAhead,twoAhead)
 	      apply(twoAhead::rest)
 	    case lastOne::Nil =>
-	      aux(lastOne,new PointSegment((0,0)))
+	      aux(lastOne,new PointSegment(0,0))
 	  }
 	  def aux(oneAhead:Segment,twoAhead:Segment) = oneAhead match{
 	    case s:PointSegment =>
-	      path.moveTo(s.dest._1,s.dest._2)
+	      path.moveTo(s.x,s.y)
 	    case s:LineSegment =>
-	      path.lineTo(s.dest._1,s.dest._2)
+	      path.lineTo(s.x,s.y)
 	    case s:CurveSegment =>
 	      val here = path.getCurrentPoint()
 	      val there = new Point.Double(twoAhead.p._1,twoAhead.p._2)
-	      val dist: Double = here.distance(s.dest._1, s.dest._2)/3.0
+	      val dist: Double = here.distance(s.x, s.y)/3.0
 	      val c1: (Double,Double) = {
 	        val moveBy = (math.cos(s.heading)*dist,math.sin(s.heading)*dist)
 	        (here.getX()+moveBy._1,here.getY()+moveBy._2)
@@ -105,7 +105,7 @@ object Path {
 	          math.sin((twoAhead.getHeading+math.Pi)%(2*math.Pi))*dist)
 	          (there.getX()+moveBy._1,there.getY()+moveBy._2)
 	      }
-	      path.curveTo(c1._1,c1._2,c2._1,c2._2,s.dest._1,s.dest._2)
+	      path.curveTo(c1._1,c1._2,c2._1,c2._2,s.x,s.y)
 	  }
 	  Shape(path)
 	}

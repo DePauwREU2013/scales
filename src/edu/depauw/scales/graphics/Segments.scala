@@ -1,7 +1,7 @@
 package edu.depauw.scales.graphics
 
-class LineSegment(val dest:(Double,Double),val heading:Double = 0) extends Segment(dest._1,dest._2)
+class LineSegment(val x: Double, val y: Double,val heading:Double = 0) extends Segment(x,y)
 
-class CurveSegment(val dest:(Double,Double),val heading:Double = 0) extends Segment(dest._1,dest._2)
+class CurveSegment(val x: Double, val y: Double,val heading:Double = 0) extends Segment(x,y)
 
-class PointSegment(val dest:(Double,Double),val heading:Double = 0) extends Segment(dest._1,dest._2)
+class PointSegment(val x: Double, val y: Double,val heading:Double = 0) extends Segment(x,y)
