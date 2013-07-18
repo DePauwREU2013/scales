@@ -5,6 +5,13 @@ trait Step {
   
   def act(actor : StepActor) : Unit
   
+ /** reverse function
+  *  
+  *  @param nil
+  *  @return Step
+  * 
+  */
+  
   def reverse : Step
   
   def +(step : Step) : Step = step match {
@@ -40,6 +47,14 @@ case class Sequ(children : Step*) extends Step {
   def act(actor : StepActor) {
     startNext(actor, 0, actor.startTime)
   }
+  
+
+ /** reverse function for a sequence
+  *  
+  *  @param nil
+  *  @return Sequence with reversed children
+  * 
+  */
   
   def reverse = Sequ(children.map(_.reverse).reverse:_*)
   
@@ -83,6 +98,13 @@ case class Para(children : Step*) extends Step {
     
     waitFor(actor, children.length)
   }
+  
+   /** reverse function for Parallel
+  *  
+  *  @param nil
+  *  @return children running in Parallel reversed
+  * 
+  */
  
   def reverse = Para(children.map(_.reverse):_*)
   
@@ -112,6 +134,13 @@ case class Style(sheet : Sheet, step : Step) extends Step {
     }
   }
   
+   /** reverse function for Style
+  *  
+  *  @param nil
+  *  @return Style with steps reversed
+  * 
+  */
+  
   def reverse = Style(sheet, step.reverse)
 }
 
@@ -124,6 +153,14 @@ case class Stretch(beats : Double, step : Step) extends Step {
       case Done => actor.parent ! Done
     }
   }
+  
+    
+   /** reverse function for Stretch
+  *  
+  *  @param nil
+  *  @return Stretch with steps reversed
+  * 
+  */
   
   def reverse = Stretch(beats, step.reverse)
   
