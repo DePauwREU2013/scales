@@ -38,10 +38,12 @@ class ScalesPanel(mode: RenderMode = RenderMode.DEFAULT) extends JPanel {
       var i = 0
       while (i < panels.size && panel > panels(i)) i += 1
       panels.insert(i, panel)
+      panel.parentChangedStream.fire(Some(this))
     }
   
     def remove(panel : GraphicPanel) = synchronized {
       panels -= panel
+      panel.parentChangedStream.fire(None)
     }
     
     setBackground(Colors.CLEAR)
