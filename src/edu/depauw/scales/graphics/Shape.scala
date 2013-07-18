@@ -98,11 +98,11 @@ object Path {
 	      val here = path.getCurrentPoint()
 	      val there = new Point.Double(twoAhead.x,twoAhead.y)
 	      val dist: Double = here.distance(s.x, s.y)/3.0
-	      val c1: (Double,Double) = {
-	        val moveBy = (math.cos(s.heading)*dist,math.sin(s.heading)*dist)
-	        (here.getX()+moveBy._1,here.getY()+moveBy._2)
-	      }
 	      val c2: (Double,Double) = {
+	        val moveBy = (math.cos(s.heading)*dist,math.sin(s.heading)*dist)
+	        (here.getX()-moveBy._1,here.getY()-moveBy._2)
+	      }
+	      val c1: (Double,Double) = {
 	        val moveBy = (math.cos((twoAhead.heading+math.Pi)%(2*math.Pi))*dist,
 	          math.sin((twoAhead.heading+math.Pi)%(2*math.Pi))*dist)
 	          (there.getX()+moveBy._1,there.getY()+moveBy._2)
