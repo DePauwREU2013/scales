@@ -20,16 +20,19 @@ object ReactivePanel extends Observing {
     panel.graphic = onRender(state)
     panel
   }
+  
   def apply[T](layer: Int, transform: AffineTransform, state: T, onRender: T => Graphic,
-		       onMouseEvent: ((MouseEvent, T)) => T) = {
+		       onMouseEvent: (MouseEvent, T) => T) = {
+    var lastState: T = state
     val panel = new GraphicPanel(layer, transform)
     panel.graphic = onRender(state)
     for (parent <- panel.parentChangedStream) {
       parent match {
-        case None => panel.graphic = onRender(state)
+        case None => panel.graphic = onRender(lastState)
         case Some(sp: ScalesPanel) => {
           for (e <- sp.mouseEventStream) {
-            panel.graphic = onRender(onMouseEvent(e,state))
+            lastState = onMouseEvent(e,lastState)
+            panel.graphic = onRender(lastState)
             sp.repaint()
           }
         }
