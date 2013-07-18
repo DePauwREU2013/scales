@@ -78,15 +78,17 @@ object StraightPath {
  * IF YOU USE THIS VERY BAD THINGS WILL HAPPEN. DONT USE THIS UNTIL IT IS READY
  */
 object Path {
-	def apply(segments: List[Segment]): Graphic = {
+	def apply(segment: Segment): Graphic = {
 	  val path:GeneralPath = new GeneralPath()
-	  segments match {
-	    case oneAhead::twoAhead::rest =>
+	  walkPath(makeSegList(segment))
+	  def walkPath(segList: List[Segment]):Unit = segList match {
+	    case oneAhead::twoAhead::rest => 
 	      aux(oneAhead,twoAhead)
-	      apply(twoAhead::rest)
-	    case lastOne::Nil =>
-	      aux(lastOne,new PointSegment(0,0))
+	      walkPath(twoAhead::rest)
+	    case oneMore::Nil => aux(oneMore,new PointSegment(0,0))
+	    case _ => sys.error("An unexpected error has occured")
 	  }
+	  
 	  def aux(oneAhead:Segment,twoAhead:Segment) = oneAhead match{
 	    case s:PointSegment =>
 	      path.moveTo(s.x,s.y)
@@ -94,22 +96,28 @@ object Path {
 	      path.lineTo(s.x,s.y)
 	    case s:CurveSegment =>
 	      val here = path.getCurrentPoint()
-	      val there = new Point.Double(twoAhead.p._1,twoAhead.p._2)
+	      val there = new Point.Double(twoAhead.x,twoAhead.y)
 	      val dist: Double = here.distance(s.x, s.y)/3.0
 	      val c1: (Double,Double) = {
 	        val moveBy = (math.cos(s.heading)*dist,math.sin(s.heading)*dist)
 	        (here.getX()+moveBy._1,here.getY()+moveBy._2)
 	      }
 	      val c2: (Double,Double) = {
-	        val moveBy = (math.cos((twoAhead.getHeading+math.Pi)%(2*math.Pi))*dist,
-	          math.sin((twoAhead.getHeading+math.Pi)%(2*math.Pi))*dist)
+	        val moveBy = (math.cos((twoAhead.heading+math.Pi)%(2*math.Pi))*dist,
+	          math.sin((twoAhead.heading+math.Pi)%(2*math.Pi))*dist)
 	          (there.getX()+moveBy._1,there.getY()+moveBy._2)
 	      }
 	      path.curveTo(c1._1,c1._2,c2._1,c2._2,s.x,s.y)
 	  }
 	  Shape(path)
 	}
+	def makeSegList(seg: Segment): List[Segment] = seg match{
+	    case s: PointSegment => List(s)
+	    case s: LineSegment => makeSegList(s.s):::List(s)
+	    case s: CurveSegment => makeSegList(s.s):::List(s)
+	}
 }
+
 /*
  * ControlledBezierPath allows you to create a series of curves with specific control
  * points as opposed to the planned automatic curve generation in CurvedPath
