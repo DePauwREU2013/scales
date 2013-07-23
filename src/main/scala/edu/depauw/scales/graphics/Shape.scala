@@ -45,7 +45,7 @@ object Square {
 }
 
 object Polygon {
-  def apply(points : (Double, Double)*) = {
+  def apply(points : (Double, Double)*): Shape = {
     val poly : GeneralPath = new GeneralPath()
     
     val first = points.head
@@ -56,6 +56,12 @@ object Polygon {
     poly.closePath()
     
     Shape(poly)
+  }
+  
+  def apply(radius: Double, sides: Int): Shape = {
+    apply((1 to sides).map({
+      i => (radius*Math.cos(2*Math.PI*i/sides), radius*Math.sin(2*Math.PI*i/sides))
+    }): _*)
   }
 }
 /*
