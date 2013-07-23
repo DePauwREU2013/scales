@@ -84,6 +84,7 @@ object Path {
 	  def walkPath(segList: List[Segment]):Unit = segList match {
 	    case oneAhead::twoAhead::rest => 
 	      aux(oneAhead,twoAhead)
+	      println("Just finished (" + oneAhead.x + ","+")")
 	      walkPath(twoAhead::rest)
 	    case oneMore::Nil => aux(oneMore,new PointSegment(0,0))
 	    case _ => sys.error("An unexpected error has occured")
@@ -98,11 +99,11 @@ object Path {
 	      val here = path.getCurrentPoint()
 	      val there = new Point.Double(twoAhead.x,twoAhead.y)
 	      val dist: Double = here.distance(s.x, s.y)/3.0
-	      val c2: (Double,Double) = {
+	      val c1: (Double,Double) = {
 	        val moveBy = (math.cos(s.heading)*dist,math.sin(s.heading)*dist)
 	        (here.getX()-moveBy._1,here.getY()-moveBy._2)
 	      }
-	      val c1: (Double,Double) = {
+	      val c2: (Double,Double) = {
 	        val moveBy = (math.cos((twoAhead.heading+math.Pi)%(2*math.Pi))*dist,
 	          math.sin((twoAhead.heading+math.Pi)%(2*math.Pi))*dist)
 	          (there.getX()+moveBy._1,there.getY()+moveBy._2)
