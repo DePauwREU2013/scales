@@ -146,6 +146,7 @@ object ControlledBezierPath {
 object Line {
   def apply(x1 : Double, y1 : Double, x2 : Double, y2 : Double) = 
     Shape(new Line2D.Double(x1, y1, x2, y2))
+  def apply(p1: (Double,Double),p2:(Double,Double)): Graphic= apply(p1._1,p1._2,p2._1,p2._2)
 }
 
 object RoundRectangle {
