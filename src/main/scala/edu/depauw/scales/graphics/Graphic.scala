@@ -335,7 +335,7 @@ trait Graphic {
    *
    * 
   */
-  def changeBounds(newWidth: Int, newHeight: Int, moveX: Int = 0, moveY: Int = 0): Graphic = {
+  def changeBounds(newWidth: Double, newHeight: Double, moveX: Double = 0, moveY: Double = 0): Graphic = {
     BoundsChanger(this, newWidth, newHeight, moveX, moveY)
   }
   
