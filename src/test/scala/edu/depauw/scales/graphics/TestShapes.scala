@@ -6,25 +6,33 @@ import javax.swing.{JFrame, JPanel, WindowConstants}
 object TestShapes extends App {
   val frame = new JFrame("Graphics Test")
   frame.setSize(600, 400)
-  val serifFont = new Font("Serif", FontStyleType.ITALIC)
-  
+  val serifFont = new Font("Serif", FontStyleType.ITALIC, 28)
  
-  val g2 = (Circle(10) ||| Translate(0,5,Text("Circle", serifFont)))
-  val g3 = (Ellipse(0, 0, 10, 5) ||| Translate(0,5,Text("Ellipse", serifFont)))
-  val g4 = (Rectangle(0, 0, 5, 10) |||Translate(0,5, Text("Rectangle", serifFont)))
-  val g5 = (Square(10) ||| Translate(0,5,Text("Square", serifFont)))
-  val g6 = (Polygon((0,0), (10,10), (15,20), (10,20), (5,15), (0,0)) |||Translate(0,5, Text("Polygon", serifFont)))
   
+  val row1 = List(
+      Circle(50).center -^ Text("Circle", serifFont).padTop(10).center,
+      Ellipse(0, 0, 50, 100).center -^ Text("Ellipse", serifFont).padTop(10).center,
+      Rectangle(0, 0, 50, 100).center -^ Text("Rectangle", serifFont).padTop(10).center
+      ).foldLeft(Phantom -@ (40, 20))(hSpace(50))
   
-  
+  val row2 = List(
+      Polygon(50, 9).center -^ Text("Polygon", serifFont).padTop(10).center,
+      Polygon((0,0), (50,50), (75,100), (50,100), (25,75), (0,0)).center -^ Text("Polygon", serifFont).padTop(10).center,
+      Square(100).center -^ Text("Square", serifFont).padTop(10).center
+      ).foldLeft(Phantom -@ (40, 20))(hSpace(50))
   
   val panel = new GraphicPanel(0, new java.awt.geom.AffineTransform())
-  panel.graphic =  g2 -^ g3 -^ g4 -^ g5 -^ g6
+  panel.graphic = row1 -^ row2.padTop(40)
   
-  val pane = new ScalesPanel(RenderMode.SCALE_TO_FIT)
+  val pane = new ScalesPanel
   pane.add(panel)
   frame.add(pane)
   
   frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE)
   frame.setVisible(true)
+  
+  // composites two graphics, the second being top-aligned and horizontally separated by `dx`
+  def hSpace(dx: Double): (Graphic, Graphic) => Graphic = {
+    case (composite, g) => composite -& (g. -@ (composite.tr._1 + dx, composite.tr._2))
+  } 
 }
