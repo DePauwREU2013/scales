@@ -10,6 +10,11 @@ case class Fill(paint : Paint, g : Graphic) extends Graphic {
     gc.fillPaint = oldPaint
   }
   
+  /** Used to get the bounds of the filled graphic
+   * 
+   * @return the values of the bounds of the filled graphic.
+   * 
+   */  
   override lazy val bounds = g.bounds
   
   override lazy val shape = g.shape

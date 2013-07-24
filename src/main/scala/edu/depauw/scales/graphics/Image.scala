@@ -14,6 +14,11 @@ case class Image(path : String,
     gc.drawImage(img, x, y, w, h)
   }
   
+  /** Used to get the bounds of the image graphic
+   * 
+   * @return the values of the bounds of the image graphic.
+   * 
+   */  
   override lazy val bounds = new jRect.Double(x, y, w, h)
   
   def withName(name: String) = Nil

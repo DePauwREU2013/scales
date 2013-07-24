@@ -10,6 +10,11 @@ case class Outline(paint : Paint, g : Graphic) extends Graphic {
     gc.outlinePaint = oldPaint
   }
   
+  /** Used to get the bounds of the outline of the graphic
+   * 
+   * @return the values of the bounds of the outline of the graphic.
+   * 
+   */  
   override lazy val bounds = g.bounds
   
   override lazy val shape = g.shape

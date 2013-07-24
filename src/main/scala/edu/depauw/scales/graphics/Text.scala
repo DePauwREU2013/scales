@@ -21,6 +21,11 @@ case class Text(str: String,
     // gc.drawShape(text.getBounds())
   }
   
+  /** Used to get the bounds of the text graphic
+   * 
+   * @return the values of the bounds of the text graphic.
+   * 
+   */  
   override lazy val bounds = text.getBounds
   
   override lazy val shape = text.getOutline(new AffineTransform())

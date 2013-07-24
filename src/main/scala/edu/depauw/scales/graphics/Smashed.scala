@@ -6,7 +6,11 @@ case class Smashed(g: Graphic, w: Double, h: Double, x: Double, y:Double) extend
   def render(gc : GraphicsContext) {
     g.render(gc)
   }
-  
+  /** Used to get the bounds of the smashed graphic
+   * 
+   * @return the values of the bounds of the smashed graphic.
+   * 
+   */  
   override lazy val bounds = new jRect.Double(x, y, w, h)
   
   def withName(name: String) = g.withName(name)

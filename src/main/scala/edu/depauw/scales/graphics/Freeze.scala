@@ -21,7 +21,11 @@ case class Freeze(g: Graphic) extends Graphic {
   g.render(new GraphicsContext(img.getGraphics.asInstanceOf[Graphics2D]))
   
   def render(gc: GraphicsContext) = gc.drawImage(img,x, y, w, h)
-  
+  /** Used to get the bounds of the freeze graphic
+   * 
+   * @return the values of the bounds of the free graphic.
+   * 
+   */  
   override lazy val bounds = new jRect.Double(x,y,w,h)
   
   def withName(n: String) = Nil

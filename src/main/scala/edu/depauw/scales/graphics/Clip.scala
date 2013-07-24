@@ -12,11 +12,7 @@ import java.awt.geom.Area
  */
 case class Clip(clip: Graphic, g: Graphic) extends Graphic {
     
-	/**Renders the clipped graphic
-     * 
-     * @param gc GraphicContext
-     * @return the clipped graphic.
-     */
+	
   def render(gc : GraphicsContext) {
     val oldClip = gc.g2d.getClip()
     gc.g2d.setClip(clip.shape)
@@ -24,6 +20,11 @@ case class Clip(clip: Graphic, g: Graphic) extends Graphic {
     gc.g2d.setClip(oldClip)
   }
   
+  /** Used to get the bounds of the clip
+   * 
+   * @return the values of the bounds of the clip.
+   * 
+   */
 
   override lazy val bounds = g.bounds.createIntersection(clip.bounds)
   
@@ -32,10 +33,6 @@ case class Clip(clip: Graphic, g: Graphic) extends Graphic {
     area.intersect(new Area(clip.shape))
     area
   }
-    /**Function to name the clipped image
-     * 
-     * @param name String containing the name
-     * @return nil
-     */
+    
   def withName(name: String) = g.withName(name)
 }

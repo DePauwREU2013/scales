@@ -29,21 +29,16 @@ case class Bitmap(fn : (Double, Double) => Color,
   }
   
   
- /** function to draw a Bitmap image
-  *  
-  *  @param gc GraphicContext 
-  *  @return the Bitmap
-  * 
-  */
+
 def render(gc : GraphicsContext) {
     gc.drawImage(img, x, y, w, h)
   }
-  
+  /** Used to get the bounds of the bitmap
+   * 
+   * @return the values of the bounds of the bitmap.
+   * 
+   */
   override lazy val bounds = new jRect.Double(x, y, w, h)
- /** Function to name the bitmap
-  *  
-  *  @param name String containing the name
-  *  @return nil
-  */
+
   def withName(name: String) = Nil
 }

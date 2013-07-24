@@ -7,7 +7,11 @@ case class Composite(g: Graphic, h: Graphic) extends Graphic {
     g.render(gc)
     h.render(gc)
   }
-  
+  /** Used to get the bounds of the composite graphic
+   * 
+   * @return the values of the bounds of the composite graphic.
+   * 
+   */  
   override lazy val bounds = g.bounds.createUnion(h.bounds)
   
   override lazy val shape = {

@@ -8,16 +8,16 @@ object SierpinskiDemo extends App {
   frame.setSize(800,600)
   
   def sierpinskify(g: Graphic): Graphic = {
-    val f = Freeze(Scale(0.5, g))
+    val f = Freeze(Scale(0.6, g))
     Translate(f.bounds.getCenterX, 0, f) -^ (f ||| f)
   }
   
   def sierpinski(g: Graphic): Stream[Graphic] = Stream.iterate(g)(sierpinskify)
     
   val panel = new GraphicPanel(0, new java.awt.geom.AffineTransform())
-  panel.graphic = sierpinski(Fill(Colors.BLUE, Square(100)))(7)
+  panel.graphic = sierpinski(Fill(Colors.BLUE, Square(100)))(4)
   
-  val pane = new ScalesPanel(RenderMode.SCALE_TO_FIT)
+  val pane = new ScalesPanel(RenderMode.DEFAULT)
   pane.add(panel)
   frame.add(pane)
   
