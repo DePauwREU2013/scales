@@ -22,7 +22,10 @@ object ReactivePanel extends Observing {
   }
   
   def apply[T](layer: Int, transform: AffineTransform, state: T, onRender: T => Graphic,
-		       onMouseEvent: (MouseEvent, T) => T) = {
+		  	   onTickEvent: Option[T => T] = None, fps: Int = 30,
+		       onMouseEvent: Option[(MouseEvent, T) => T] = None,
+		       onMouseMotionEvent: Option[(MouseEvent, T) => T] = None,
+		       onMouseInputEvent: Option[(MouseEvent, T) => T] = None) = {
     var lastState: T = state
     val panel = new GraphicPanel(layer, transform)
     panel.graphic = onRender(state)
@@ -30,14 +33,63 @@ object ReactivePanel extends Observing {
       parent match {
         case None => panel.graphic = onRender(lastState)
         case Some(sp: ScalesPanel) => {
-          for (e <- sp.mouseEventStream) {
-            lastState = onMouseEvent(e,lastState)
-            panel.graphic = onRender(lastState)
-            sp.repaint()
+          
+          if (onTickEvent.isDefined) {
+            for (e <- (new Timer(interval = 1000/fps))) {
+              lastState = onTickEvent.get(lastState)
+              panel.graphic = onRender(lastState)
+              sp.repaint()
+            }
+          }
+          
+          if (onMouseEvent.isDefined) {
+	        for {
+	          listener <- onMouseEvent
+	          e <- sp.mouseEventStream
+	        } {
+	          lastState = listener(e,lastState)
+	          panel.graphic = onRender(lastState)
+	          sp.repaint()
+	        }
+          }
+          
+          if (onMouseMotionEvent.isDefined) {
+	        for {
+	          listener <- onMouseMotionEvent
+	          e <- sp.mouseMotionEventStream
+	        } {
+	          lastState = listener(e,lastState)
+	          panel.graphic = onRender(lastState)
+	          sp.repaint()
+	        }
+          }
+          
+          if (onMouseInputEvent.isDefined) {
+	        for {
+	          listener <- onMouseInputEvent
+	          e <- sp.mouseInputEventStream
+	        } {
+	          lastState = listener(e,lastState)
+	          panel.graphic = onRender(lastState)
+	          sp.repaint()
+	        }
           }
         }
       }
     }
     panel
   }
+  
+  def apply[T](layer: Int, transform: AffineTransform, state: T, onRender: T => Graphic,
+		       onMouseEvent: (MouseEvent, T) => T): GraphicPanel = 
+		         apply(layer, transform, state, onRender, onMouseEvent = Some(onMouseEvent))
+    
+  def apply[T](layer: Int, transform: AffineTransform, state: T, onRender: T => Graphic,
+		       onTickEvent: T => T): GraphicPanel = 
+		         apply(layer, transform, state, onRender, Some(onTickEvent))
+    
+  def apply[T](layer: Int, transform: AffineTransform, state: T, onRender: T => Graphic,
+		       onTickEvent: T => T, fps: Int): GraphicPanel = 
+		         apply(layer, transform, state, onRender, Some(onTickEvent), fps)
+    
 }
