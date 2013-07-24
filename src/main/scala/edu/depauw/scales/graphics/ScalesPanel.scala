@@ -34,6 +34,12 @@ class ScalesPanel(mode: RenderMode = RenderMode.DEFAULT) extends JPanel {
     
     lazy val mouseInputEventStream = mouseMotionEventStream | mouseEventStream
     
+    lazy val keyEventStream = {
+      val kes = new KeyEventStream
+      addKeyListener(kes)
+      kes
+    }
+    
     def add(panel : GraphicPanel) = synchronized {
       var i = 0
       while (i < panels.size && panel > panels(i)) i += 1

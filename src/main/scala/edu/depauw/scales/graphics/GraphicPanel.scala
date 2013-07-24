@@ -4,7 +4,7 @@ import java.awt.Container
 import java.awt.geom.AffineTransform
 import reactive._
 import edu.depauw.scales.reactive._
-import java.awt.event.MouseEvent
+import java.awt.event.{KeyEvent, MouseEvent}
 
 class GraphicPanel(val layer : Int, val transform : AffineTransform) extends Ordered[GraphicPanel] {
   def compare(that : GraphicPanel) : Int = that.layer - this.layer
@@ -15,17 +15,14 @@ class GraphicPanel(val layer : Int, val transform : AffineTransform) extends Ord
 }
 
 object ReactivePanel extends Observing {
-  def apply[T](layer: Int, transform: AffineTransform, state: T, onRender: T => Graphic) = {
-    val panel = new GraphicPanel(layer, transform)
-    panel.graphic = onRender(state)
-    panel
-  }
   
   def apply[T](layer: Int, transform: AffineTransform, state: T, onRender: T => Graphic,
 		  	   onTickEvent: Option[T => T] = None, fps: Int = 30,
 		       onMouseEvent: Option[(MouseEvent, T) => T] = None,
 		       onMouseMotionEvent: Option[(MouseEvent, T) => T] = None,
-		       onMouseInputEvent: Option[(MouseEvent, T) => T] = None) = {
+		       onMouseInputEvent: Option[(MouseEvent, T) => T] = None,
+		       onKeyEvent: Option[(KeyEvent, T) => T] = None): GraphicPanel = {
+    
     var lastState: T = state
     val panel = new GraphicPanel(layer, transform)
     panel.graphic = onRender(state)
@@ -74,6 +71,17 @@ object ReactivePanel extends Observing {
 	          sp.repaint()
 	        }
           }
+          
+          if (onKeyEvent.isDefined) {
+	        for {
+	          listener <- onKeyEvent
+	          e <- sp.keyEventStream
+	        } {
+	          lastState = listener(e,lastState)
+	          panel.graphic = onRender(lastState)
+	          sp.repaint()
+	        }
+          }
         }
       }
     }
@@ -91,5 +99,4 @@ object ReactivePanel extends Observing {
   def apply[T](layer: Int, transform: AffineTransform, state: T, onRender: T => Graphic,
 		       onTickEvent: T => T, fps: Int): GraphicPanel = 
 		         apply(layer, transform, state, onRender, Some(onTickEvent), fps)
-    
 }

@@ -29,7 +29,7 @@ object TickTockDemo extends App {
         Fill(Colors.CYAN, Polygon(50, 12)).center -&
         Line((0,0), (25*Math.sin(time._1*Math.PI/6), -25* Math.cos(time._1*Math.PI/6))) -&
         Line((0,0), (35*Math.sin(time._2*Math.PI/30), -35* Math.cos(time._2*Math.PI/30))) -&
-        Line((0,0), (45*Math.sin(time._3*Math.PI/30), -45* Math.cos(time._3*Math.PI/30)))
+        Outline(Colors.RED, Line((0,0), (45*Math.sin(time._3*Math.PI/30), -45* Math.cos(time._3*Math.PI/30))))
       ).topLeft
   }
   
