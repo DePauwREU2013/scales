@@ -41,10 +41,10 @@ object TestAlign extends App{
       (ShapeState.BLUE_SQUARE, "Blue Square")
     )
   
-  val hCurve = ControlledBezierPath(c1.tr,(c1.tr._1+20,c1.tr._2-20),(c2.ul._1-20,c2.ul._2-20),c2.ul)-&
+  val hCurve = ControlledBezierPath(c1.tr,(c1.tr._1+20,c1.tr._2-20),(c2.tl._1-20,c2.tl._2-20),c2.tl)-&
   				ControlledBezierPath(c1.br,(c1.br._1+20,c1.br._2+20),(c2.bl._1-20,c2.bl._2+20),c2.bl)
   val hCurves = hCurve-&Translate(0,200,hCurve)
-  val vCurve = ControlledBezierPath(c1.bl,(c1.bl._1-20,c1.bl._2+20),(c3.ul._1-20,c3.ul._2-20),c3.ul)-&
+  val vCurve = ControlledBezierPath(c1.bl,(c1.bl._1-20,c1.bl._2+20),(c3.tl._1-20,c3.tl._2-20),c3.tl)-&
   				ControlledBezierPath(c1.br,(c1.br._1+20,c1.br._2+20),(c3.tr._1+20,c3.tr._2-20),c3.tr)
   val vCurves = vCurve-&Translate(200,0,vCurve)
   val machine = (c1-&c2-&c3-&c4-&hCurves-&vCurves).topLeft
