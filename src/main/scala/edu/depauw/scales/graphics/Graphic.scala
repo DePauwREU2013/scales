@@ -224,7 +224,7 @@ trait Graphic {
    * @return (Double, Double) the coordinates of the upper left part of the graphic
    * 
    */  
-  def ul: (Double,Double) = (this.bounds.getX(), this.bounds.getY())
+  def tl: (Double,Double) = (this.bounds.getX(), this.bounds.getY())
   
   /** Function to return the middle left coordinates of the graphic
    * 
