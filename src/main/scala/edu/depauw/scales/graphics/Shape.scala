@@ -80,8 +80,7 @@ object StraightPath {
   }
 }
 /*
- * Work in progress:
- * IF YOU USE THIS VERY BAD THINGS WILL HAPPEN. DONT USE THIS UNTIL IT IS READY
+ * Sort of works. curveTo still causes some issues
  */
 object Path {
 	def apply(segment: Segment): Graphic = {
@@ -90,10 +89,9 @@ object Path {
 	  def walkPath(segList: List[Segment]):Unit = segList match {
 	    case oneAhead::twoAhead::rest => 
 	      aux(oneAhead,twoAhead)
-	      println("Just finished (" + oneAhead.x + ","+")")
 	      walkPath(twoAhead::rest)
-	    case oneMore::Nil => aux(oneMore,new PointSegment(0,0))
-	    case _ => sys.error("An unexpected error has occured")
+	    case oneMore::Nil => aux(oneMore,new PointSegment(oneMore.x,oneMore.y).heading(oneMore.heading))
+	    case _ => Blank()
 	  }
 	  
 	  def aux(oneAhead:Segment,twoAhead:Segment) = oneAhead match{
@@ -103,16 +101,16 @@ object Path {
 	      path.lineTo(s.x,s.y)
 	    case s:CurveSegment =>
 	      val here = path.getCurrentPoint()
-	      val there = new Point.Double(twoAhead.x,twoAhead.y)
-	      val dist: Double = here.distance(s.x, s.y)/3.0
+	      val there = new Point.Double(oneAhead.x,oneAhead.y)
+	      val dist: Double = here.distance(there.x, there.y)/3.0
 	      val c1: (Double,Double) = {
-	        val moveBy = (math.cos(s.heading)*dist,math.sin(s.heading)*dist)
-	        (here.getX()-moveBy._1,here.getY()-moveBy._2)
+	        val moveBy = (math.cos(s.heading)*dist,-math.sin(s.heading)*dist)
+	        (here.getX()+moveBy._1,here.getY()+moveBy._2)
 	      }
 	      val c2: (Double,Double) = {
-	        val moveBy = (math.cos((twoAhead.heading+math.Pi)%(2*math.Pi))*dist,
-	          math.sin((twoAhead.heading+math.Pi)%(2*math.Pi))*dist)
-	          (there.getX()+moveBy._1,there.getY()+moveBy._2)
+	        val moveBy = (-math.cos((twoAhead.heading+math.Pi))*dist,
+	          math.sin((twoAhead.heading+math.Pi))*dist)
+	          (there.getX()-moveBy._1,there.getY()-moveBy._2)
 	      }
 	      path.curveTo(c1._1,c1._2,c2._1,c2._2,s.x,s.y)
 	  }
