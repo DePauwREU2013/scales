@@ -1,23 +1,22 @@
 package edu.depauw.scales.graphics
 
-import java.awt.{Graphics, Graphics2D, BasicStroke, RenderingHints}
-import javax.swing.{JFrame, JPanel, WindowConstants}
+import edu.depauw.scales.ScalesApp
 
-object TestScaling extends App {
-  val frame = new JFrame("Alignment Test")
-  frame.setSize(600, 600)
+/**
+ * This test compares scaling up versus scaling down.
+ */
+object TestScaling extends ScalesApp {
   
-  val g1 = Circle(50)
-  val g2 = Fill(Colors.RED, Circle(5))
-  val g3 = Fill(Colors.BLUE, Square(10))
+  // create a pair of distinct circles
+  val bigBlue = Fill(Colors.BLUE, Circle(300))
+  val tinyRed = Fill(Colors.RED , Circle(  4))
   
-  val panel = new GraphicPanel(0, new java.awt.geom.AffineTransform())
-  panel.graphic = Scale(0.1, 0.1, g1) -& Scale(10, 10, g2)
+  // create a panel to draw on
+  val panel = GraphicPanel()
   
-  val pane = new ScalesPanel(RenderMode.SCALE_TO_FIT)
-  pane.add(panel)
-  frame.add(pane)
+  // scale the large down and the small one up
+  panel.graphic = Scale(0.1, 0.1, bigBlue) -& Scale(50, 50, tinyRed)
   
-  frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE)
-  frame.setVisible(true)
+  // add panel to ScalesApp window
+  addPanel(panel)
 }
