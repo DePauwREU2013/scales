@@ -14,6 +14,10 @@ class GraphicPanel(val layer : Int, val transform : AffineTransform) extends Ord
   lazy val parentChangedStream: EventSource[Option[ScalesPanel]] = new EventSource[Option[ScalesPanel]]
 }
 
+object GraphicPanel {
+  def apply(): GraphicPanel = new GraphicPanel(0, new AffineTransform)
+}
+
 object ReactivePanel extends Observing {
   
   def apply[T](layer: Int, transform: AffineTransform, state: T, onRender: T => Graphic,
