@@ -36,6 +36,7 @@ class ScalesPanel(mode: RenderMode = RenderMode.DEFAULT) extends JPanel {
     
     lazy val keyEventStream = {
       val kes = new KeyEventStream
+      setFocusable(true)
       addKeyListener(kes)
       kes
     }

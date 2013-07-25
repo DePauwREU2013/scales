@@ -2,7 +2,6 @@ package edu.depauw.scales.reactive
 
 import javax.swing.{JFrame, WindowConstants}
 import java.awt.event.MouseEvent
-import reactive.Observing
 import edu.depauw.scales.graphics._
 import java.awt.geom.AffineTransform
 import scala.collection.immutable.Map
