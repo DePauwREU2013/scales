@@ -22,7 +22,7 @@ object Juggling extends App {
   
   val director = new Director(juggler + FPS(4, juggler) + juggler~6 +
                                 (Tempo(30, juggler) |
-                                   Pict(Image(moon, 0, 0, 100, 100), 24)),
+                                   Pict(Image(moon, 100, 100), 24)),
                               new ScalesPanel(RenderMode.SCALE_TO_FIT))
   
   director.start()

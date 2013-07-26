@@ -1,25 +1,30 @@
 package edu.depauw.scales.graphics
 
-import java.awt.{Color, Graphics, Graphics2D, BasicStroke, RenderingHints}
-import javax.swing.{JFrame, JPanel, WindowConstants}
+import edu.depauw.scales.ScalesApp
 
-object ImageTest extends App {
-  val frame = new JFrame("Image Test")
-  frame.setSize(800, 600)
+import java.awt.Color
+
+object ImageTest extends ScalesApp(800, 600, RenderMode.SCALE_TO_FIT, "Image Test") {
   
+  // path to file
   val filename = System.getProperty("user.dir") + "/resources/warningsign.jpg"
-  val g : Graphic = Rotate(0.3, 50, 50,
-                           Scale(1.5, 0.75, 50, 50, Image(filename, 25, 25, 50, 50)))
-  val g2 : Graphic = Bitmap(fn, 0, 0, 100, 100)
-  def fn(x : Double, y : Double) : Color = RGBA(x, Math.min(x, y), y, 0.3)
   
-  val panel = new GraphicPanel(0, new java.awt.geom.AffineTransform())
-  panel.graphic = g2 | g
+  // image, rotated and scaled
+  val image: Graphic =
+    Rotate(0.3, 50, 50, Scale(1.5, 0.75, 50, 50, Image(filename, 50, 50, 25, 25)))
   
-  val pane = new ScalesPanel(RenderMode.SCALE_TO_FIT)
-  pane.add(panel)
-  frame.add(pane)
+  // create a bitmap
+  val bitmap: Graphic = Bitmap(fn, 0, 0, 100, 100)
   
-  frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE)
-  frame.setVisible(true)
+  // method to assign color to each pixel
+  def fn(x: Double, y: Double): Color = RGBA(x, Math.min(x, y), y, 0.3)
+  
+  // panel to render on
+  val panel = GraphicPanel()
+  
+  // add graphics to panel
+  panel.graphic = bitmap -& image
+  
+  // add panel to ScalesApp window
+  addPanel(panel)
 }
