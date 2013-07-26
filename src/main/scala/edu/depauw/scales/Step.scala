@@ -1,5 +1,6 @@
 package edu.depauw.scales
 
+
 trait Step {
   val beats : Double
   
@@ -14,16 +15,13 @@ trait Step {
   
   def reverse : Step
   
-  def +(step : Step) : Step = step match {
-    case s : Sequ => Sequ(List(this) ++ s.children : _*)
-    case _ => Sequ(this, step)
-  }
   
-  def |(step : Step) : Step = step match {
-    case p : Para => Para(List(this) ++ p.children : _*)
-    case _ => Para(this, step)
-  }
-  
+   /** 
+  *  
+  *  @param Integer
+  *  @return Step
+  * 
+  */
   def *(count : Int) : Step = {
     var result : Step = Sequ()
     for (i <- 0 until count) {
@@ -32,8 +30,41 @@ trait Step {
     result
   }
   
+ 
+   /** Shortcut function that joins keys to play in sequence
+  *  
+  *  @param step of sequence
+  *  @return Sequence
+  * 
+  */
+  def +(step : Step) : Step = step match {
+    case s : Sequ => Sequ(List(this) ++ s.children : _*)
+    case _ => Sequ(this, step)
+  }
+  
+  
+    /** Shortcut function that joins sequences to play in parallel
+  *  
+  *  @param sequence
+  *  @return Parallel sequence
+  * 
+  */
+  def |(step : Step) : Step = step match {
+    case p : Para => Para(List(this) ++ p.children : _*)
+    case _ => Para(this, step)
+  }
+  
+  
+    /** Shortcut function to indicate duration of notes
+  *  
+  *  @param Double
+  *  @return Note duration
+  * 
+  */
   def ~(beats : Double) : Step = Stretch(beats, this)
 }
+
+
 
 case class Sequ(children : Step*) extends Step {
   lazy val beats : Double = {

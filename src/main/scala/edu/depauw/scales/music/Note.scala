@@ -23,38 +23,204 @@ case class Note(pitch : Int, beats : Double) extends Step {
   
   def reverse = this
   
+  
+  /** Function indicate sharp note of key
+  *  
+  *  @param nil
+  *  @return Note
+  * 
+  */
   def sh = Note(this.pitch + 1, this.beats)  
+  
+  /** Function indicate flat note of key
+  *  
+  *  @param nil
+  *  @return Note
+  * 
+  */
   def ft = Note(this.pitch - 1, this.beats)
   
   /* How should we deal with possible errors if these methods are called
   	on a Note with a pitch that will put it out of Midi range?
   */
+  
+  /** Function for moving a key up by one octave
+  *  
+  *  @param nil
+  *  @return Note
+  * 
+  */
   def >    = Note(this.pitch + 12, this.beats)
+  
+  /** Function for moving a key up by two octaves
+  *  
+  *  @param nil
+  *  @return Note
+  * 
+  */
   def >>   = Note(this.pitch + 24, this.beats)
+  
+  /** Function for moving a key up by three octaves
+  *  
+  *  @param nil
+  *  @return Note
+  * 
+  */
   def >>>  = Note(this.pitch + 36, this.beats)
+  
+  /** Function for moving a key up by four octaves
+  *  
+  *  @param nil
+  *  @return Note
+  * 
+  */
   def >>>> = Note(this.pitch + 48, this.beats)
+  
+  /** Function for moving a key down by one octave
+  *  
+  *  @param nil
+  *  @return Note
+  * 
+  */
   def <    = Note(this.pitch - 12, this.beats)
+  
+   /** Function for moving a key down by two octaves
+  *  
+  *  @param nil
+  *  @return Note
+  * 
+  */
   def <<   = Note(this.pitch - 24, this.beats)
+  
+    /** Function for moving a key down by three octaves
+  *  
+  *  @param nil
+  *  @return Note
+  * 
+  */
   def <<<  = Note(this.pitch - 36, this.beats)
+  
+    /** Function for moving a key down by four octaves
+  *  
+  *  @param nil
+  *  @return Note
+  * 
+  */
   def <<<< = Note(this.pitch - 48, this.beats)
   
   override def ~(dur : Double) = Note(this.pitch, dur)
       
+   /** Function to indicate note duration as a whole note
+  *  
+  *  @param nil
+  *  @return Note
+  * 
+  */
   def wn = Note(this.pitch, 4)
+  
+   /** Function to indicate note duration as a half note
+  *  
+  *  @param nil
+  *  @return Note
+  * 
+  */
   def hn = Note(this.pitch, 2)
+  
+   /** Function to indicate note duration as an eighth note
+  *  
+  *  @param nil
+  *  @return Note
+  * 
+  */
   def en = Note(this.pitch, 0.5)
+  
+    /** Function to indicate note duration as a sixteenth note
+  *  
+  *  @param nil
+  *  @return Note
+  * 
+  */
   def sn = Note(this.pitch, 0.25)
+  
+      /** Function to indicate dotted note
+  *  
+  *  @param nil
+  *  @return Note
+  * 
+  */
   def dot = Note(this.pitch, this.beats * 3 / 2)
+  
+      /** Function to indicate note triplet
+  *  
+  *  @param nil
+  *  @return Note
+  * 
+  */
   def triplet = Note(this.pitch, this.beats * 2 / 3)
   
   
+  /** Function to indicate pianississimo volume
+  *  
+  *  @param nil
+  *  @return Volume
+  * 
+  */
   def ppp = Volume(10, this)
+  
+  /** Function to indicate pianissimo volume
+  *  
+  *  @param nil
+  *  @return Volume
+  * 
+  */
   def pp  = Volume(20, this)
+  
+  /** Function to indicate piano volume
+  *  
+  *  @param nil
+  *  @return Volume
+  * 
+  */
   def p   = Volume(30, this)
+  
+  /** Function to indicate mezzo piano volume
+  *  
+  *  @param nil
+  *  @return Volume
+  * 
+  */
   def mp  = Volume(50, this)
+  
+  /** Function to indicate mezzo forte volume
+  *  
+  *  @param nil
+  *  @return Volume
+  * 
+  */
   def mf  = Volume(70, this)
+  
+  /** Function to indicate forte volume
+  *  
+  *  @param nil
+  *  @return Volume
+  * 
+  */
   def f   = Volume(90, this)
+  
+  /** Function to indicate fortissimo volume
+  *  
+  *  @param nil
+  *  @return Volume
+  * 
+  */
   def ff  = Volume(105, this)
+  
+  /** Function to indicate fortississimo volume
+  *  
+  *  @param nil
+  *  @return Volume
+  * 
+  */
   def fff = Volume(120, this)
   
 }
