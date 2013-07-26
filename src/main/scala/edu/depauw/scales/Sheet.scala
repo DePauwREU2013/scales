@@ -4,13 +4,32 @@ import java.awt.geom.AffineTransform
 import javax.sound.midi.MidiChannel;
 
 class Sheet {
+  /** Set milliseconds per beat option
+   */
   val msecPerBeatOpt : Option[Double] = None
   val endTimeFunOpt : Option[StepActor => Long] = None
+  
+  /** Set velocity option
+  */
   val velocityOpt : Option[Int] = None
+  
+  /** Set channel option
+   */
   val channelOpt : Option[MidiChannel] = None
+  
+  /** Set instrument option
+   */
   val instrumentOpt : Option[(Int,Int)] = None
+  
+  /** Set middle C music key option
+   */
   val middleCOpt : Option[Int] = None
+  
+  /** Set frames per second option
+   */
   val fpsOpt : Option[Double] = None
+  
+  
   def transformOptFun(parent : Context) : Option[AffineTransform] = None
 }
 

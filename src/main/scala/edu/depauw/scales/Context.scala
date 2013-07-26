@@ -4,12 +4,36 @@ import java.awt.geom.AffineTransform
 import javax.sound.midi.MidiChannel;
 
 trait Context {
+   /** Milliseconds per beat
+   *  @return milliseconds per beat
+   */
   val msecPerBeat : Double
+  
   val endTimeFun : StepActor => Long
+  
+  /** Velocity
+   *  @return velocity
+   */
   val velocity : Int
+  
+  /** Channel
+   *  @return channel
+   */
   val channel : MidiChannel
+  
+  /** Instrument
+   *  @return instrument
+   */
   val instrument : (Int,Int)
+  
+  /** Middle C music key
+   *  @return Middle C music key
+   */
   val middleC : Int
+  
+  /** Frames per second
+   *  @return frames per second
+   */
   val fps : Double
   val transform : AffineTransform
   
