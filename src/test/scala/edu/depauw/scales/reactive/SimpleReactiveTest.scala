@@ -1,20 +1,19 @@
 package edu.depauw.scales.reactive
 
-import javax.swing.{JFrame, WindowConstants}
+import edu.depauw.scales.ScalesApp
 import reactive.Observing
-import edu.depauw.scales.graphics.ScalesPanel
 
-
-object SimpleReactiveTest extends App with Observing {
-  val frame = new JFrame("Simple Reactive Test")
-  frame.setSize(600, 400)
-  
-  val pane = new ScalesPanel
+/*
+ * Note we are manually adding reactive.Obsevering to the App here.
+ * Alternatively, one can use the ReactivePanel, which handles all
+ * this under the hood. However, this manual way of doing this 
+ * allows one to exploit the reactivity directly, which could be 
+ * very useful in integrating other components from the Swing 
+ * library.
+ */
+object SimpleReactiveTest extends ScalesApp with Observing {
   
   // print the mouse events to the console
-  for (e <- pane.mouseEventStream) println(e)
+  for (e <- scalesPanel.mouseEventStream) println(e)
   
-  frame.add(pane)
-  frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE)
-  frame.setVisible(true)
 }
