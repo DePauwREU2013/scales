@@ -1,24 +1,21 @@
 package edu.depauw.scales.graphics
 
-import java.awt.{Color, Graphics, Graphics2D, BasicStroke, RenderingHints}
-import javax.swing.{JFrame, JPanel, WindowConstants}
+import edu.depauw.scales.ScalesApp
 
-object FreezeImageTest extends App {
-  val frame = new JFrame("Freeze Test")
-  frame.setSize(800,600)
+object FreezeImageTest extends ScalesApp(600, 600, RenderMode.SCALE_TO_FIT, "Freeze Test") {
   
-  val g1 = Name("circle", Circle(20))
-  val g3 = g1.freeze
+  // create a vector circle
+  val vector = Circle(20)
   
+  // rasterize it
+  val raster = vector.freeze
   
-  val panel = new GraphicPanel(0, new java.awt.geom.AffineTransform())
-  panel.graphic = g3 ||| g1
-  				  
+  // create panel to render to
+  val panel = GraphicPanel()
   
-  val pane = new ScalesPanel(RenderMode.SCALE_TO_FIT)
-  pane.add(panel)
-  frame.add(pane)
+  // compare graphics side-by-side on panel
+  panel.graphic = vector -|| raster
   
-  frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE)
-  frame.setVisible(true)
+  // add panel to ScalesApp window
+  addPanel(panel)
 }

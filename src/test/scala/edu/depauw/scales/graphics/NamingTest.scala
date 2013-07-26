@@ -1,41 +1,53 @@
 package edu.depauw.scales.graphics
 
-import javax.swing.JFrame
-import javax.swing.WindowConstants
+import edu.depauw.scales.ScalesApp
 
-object NamingTest extends App {
-  val frame = new JFrame("Alignment Test")
-  frame.setSize(600, 600)
+object NamingTest extends ScalesApp(600, 600, RenderMode.SCALE_TO_FIT, "Naming Test") {
   
-  val g1 = Name("circle", Circle(20))
-  val g2 = Name("red", Fill(Colors.RED, Circle(10)))
-  val g3 = Name("blue", Fill(Colors.BLUE, Square(10)))
+  // create some named primitives
+  val circle = Name("circle", Circle(20))
+  val redCircle = Name("red", Fill(Colors.RED, Circle(10)))
+  val blueSquare = Name("blue", Fill(Colors.BLUE, Square(10)))
   
-  val unlabeled = g1.changeBounds(0, 0, 50, 50) -|| Translate(0, 20, g2 -|| g3) -&
-  				  (g3 -^ g3 -^ g3)
-  				  
-  def label(g: Graphic, text: String): Graphic = {
-    val l = Text(text)
-    val scaleRatio = 0.8* g.bounds.getWidth / l.bounds.getWidth
-    Translate(g.bounds.getCenterX(), g.bounds.getCenterY(), 
-              Scale(scaleRatio, scaleRatio, l).center)
-  }
+  // composite them into a single graphic
+  val unlabeled = circle.changeBounds(0, 0, 50, 50) -|| Translate(0, 20, redCircle -|| blueSquare) -&
+  				  (blueSquare -^ blueSquare -^ blueSquare)
   
-  def labelWithName(g: Graphic, name: String): Graphic = {
-    g.withName(name).map(label(_,name)).foldLeft(Blank():Graphic)(_ -& _)
-  }
+  // create panel to render to
+  val panel = GraphicPanel()
   
-  val panel = new GraphicPanel(0, new java.awt.geom.AffineTransform())
+  // add unlabeled graphic, plus labels
   panel.graphic = unlabeled -&
                   labelWithName(unlabeled, "red") -&
                   labelWithName(unlabeled, "blue") -&
                   labelWithName(unlabeled, "fakeOut") -&
                   labelWithName(unlabeled, "circle")
   
-  val pane = new ScalesPanel(RenderMode.SCALE_TO_FIT)
-  pane.add(panel)
-  frame.add(pane)
+  // add panel to ScalesApp window
+  addPanel(panel)
   
-  frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE)
-  frame.setVisible(true)
+  /* =============================== METHODS ===================================== */
+  
+  /**
+   * Creates a label consisting of text scaled and centered to fit with a given graphic
+   * @param g Graphic the graphic to be labeled
+   * @param text String the text to be used for the label
+   * @return Graphic the label as a Text graphic, scaled and centered about g
+   */
+  def label(g: Graphic, text: String): Graphic = {
+    val l = Text(text)
+    val scaleRatio = 0.8* g.bounds.getWidth / l.bounds.getWidth
+    Translate(g.bounds.getCenterX, g.bounds.getCenterY, 
+              Scale(scaleRatio, scaleRatio, l).center)
+  }
+  
+  /**
+   * Finds all sub-graphics with a given name and then generates labels
+   * for them, compositing the resulting labels into a single graphic.
+   * @param g Graphic the graphic to search for names
+   * @param name String the name to search for in the graphic; also the label text
+   * @return Graphic a single graphic of labels for graphics which matched `name`
+   */
+  def labelWithName(g: Graphic, name: String): Graphic = 
+    g.withName(name).map(label(_, name)).foldLeft(Phantom: Graphic)(_ -& _)
 }

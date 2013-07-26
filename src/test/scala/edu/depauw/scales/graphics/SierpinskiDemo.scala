@@ -1,26 +1,34 @@
 package edu.depauw.scales.graphics
 
-import javax.swing.JFrame
-import javax.swing.WindowConstants
+import edu.depauw.scales.ScalesApp
 
-object SierpinskiDemo extends App {
-  val frame = new JFrame("Freeze Test")
-  frame.setSize(800,600)
+object SierpinskiDemo extends ScalesApp {
   
+  // create panel to draw on
+  val panel = GraphicPanel()
+  
+  // add a sierpinski triangle to the panel
+  panel.graphic = sierpinski(Fill(Colors.BLUE, Square(120)))(8)
+  
+  // add panel to ScalesApp window
+  addPanel(panel)
+  
+  /* ================================= METHODS ================================== */ 
+  
+  /**
+   * Freezes a given graphic, creates 3 copies of it, each transformed differently,
+   * then composites the result. This is a single iteration of a Sierpinski transform.
+   */
   def sierpinskify(g: Graphic): Graphic = {
-    val f = Freeze(Scale(0.6, g))
+    val f = Freeze(Scale(0.58, g))
     Translate(f.bounds.getCenterX, 0, f) -^ (f ||| f)
   }
   
+  /**
+   * Creates a stream where each subsequent item is a sierpinski-transformed version
+   * of the previous item.
+   * @param g Graphic provides the seed graphic to iterate over
+   * @return Stream[Graphic] each item in the stream is an iteration of the sierpinski transform
+   */
   def sierpinski(g: Graphic): Stream[Graphic] = Stream.iterate(g)(sierpinskify)
-    
-  val panel = new GraphicPanel(0, new java.awt.geom.AffineTransform())
-  panel.graphic = sierpinski(Fill(Colors.BLUE, Square(100)))(4)
-  
-  val pane = new ScalesPanel(RenderMode.DEFAULT)
-  pane.add(panel)
-  frame.add(pane)
-  
-  frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE)
-  frame.setVisible(true)
 }

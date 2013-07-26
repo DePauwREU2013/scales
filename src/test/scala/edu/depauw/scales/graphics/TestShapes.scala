@@ -2,7 +2,7 @@ package edu.depauw.scales.graphics
 
 import edu.depauw.scales.ScalesApp
 
-object TestShapes extends ScalesApp() {
+object TestShapes extends ScalesApp {
   
   // pick a pretty font
   val serifFont = new Font("Serif", FontStyleType.ITALIC, 28)

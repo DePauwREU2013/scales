@@ -2,7 +2,7 @@ package edu.depauw.scales.graphics
 
 import edu.depauw.scales.ScalesApp
 
-object TestSmash extends ScalesApp() {
+object TestSmash extends ScalesApp {
   
   // two simple primitives
   val redCircle = Fill(Colors.RED, Circle(80))
