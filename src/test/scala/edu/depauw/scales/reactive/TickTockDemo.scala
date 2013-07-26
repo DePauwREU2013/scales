@@ -12,10 +12,10 @@ object TickTockDemo extends ScalesApp(600,600,RenderMode.SCALE_TO_FIT, "Clock De
   // the type of the state to be used in the ReactivePanel
   type TimeState = (Double, Double, Int)
   
-  // create a reactive panel which ticks at 12 fps
+  // create a reactive panel which ticks
   val panel = ReactivePanel[TimeState](0, new AffineTransform, 
 		  	    getTime, onRenderHandler,
-		  	    onTickHandler, 12)
+		  	    onTickHandler)
   
   // add panel to ScalesApp window
   addPanel(panel)
