@@ -15,20 +15,20 @@ object PathDemo extends ScalesApp {
     Scale(5, 4.5,
       (Square(40) -^
         (
-          Rectangle(0.0,0.0,20.0,40.0) -||
+          Rectangle(20,40) -||
           (
             (
               (
                 Square(10) -^
                 Square(10)
               ) -||
-              Rectangle(0,0,10,20)
+              Rectangle(10,20)
             ) -^
             Square(20)
           )
         )
       ) -||
-      Rectangle(0,0,60,80)
+      Rectangle(60,80)
     )
   
   // composite them on a panel

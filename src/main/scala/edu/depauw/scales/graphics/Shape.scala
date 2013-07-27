@@ -1,6 +1,6 @@
 package edu.depauw.scales.graphics
 
-import java.awt.geom.{Ellipse2D,Rectangle2D,GeneralPath,Line2D,RoundRectangle2D,Point2D => Point}
+import java.awt.geom.{Ellipse2D,Rectangle2D,Path2D,Line2D,RoundRectangle2D,Point2D => Point}
 
 case class Shape(jShape : java.awt.Shape) extends Graphic {
   def render(gc : GraphicsContext) {
@@ -15,76 +15,75 @@ case class Shape(jShape : java.awt.Shape) extends Graphic {
 }
 
 object Circle {
-  // (x, y) is at the center
-  def apply(radius : Double, x : Double, y : Double) =
-    Shape(new Ellipse2D.Double(x - radius, y - radius, 2 * radius, 2 * radius))
-  
-  // circle with upper-left at (0,0)
-  def apply(radius:Double) = 
-    Shape(new Ellipse2D.Double(0, 0, 2 * radius, 2 * radius))
+  // (x, y) is the top left of the bounding box
+  def apply(radius: Double, x: Double = 0, y: Double = 0) =
+    Shape(new Ellipse2D.Double(x, y, 2 * radius, 2 * radius))
 }
 
 object Ellipse {
-  // (x, y) is at the upper-left of the bounding box
-  def apply(x : Double, y : Double, xDiam : Double, yDiam : Double) =
+  // (x, y) is at the top left of the bounding box
+  def apply(xDiam: Double, yDiam: Double, x: Double = 0, y: Double= 0) =
     Shape(new Ellipse2D.Double(x, y, xDiam, yDiam))
 }
 
 object Rectangle {
-  // (x, y) is at the upper-left
-  def apply(x : Double, y : Double, width : Double, height : Double) =
+  // (x, y) is at the top left of the bounding box
+  def apply(width: Double, height: Double, x: Double = 0, y: Double = 0) =
     Shape(new Rectangle2D.Double(x, y, width, height))
 }
 
 object Square {
-  // (x, y) is at the center
-  def apply(x : Double, y : Double, width : Double) =
-    Shape(new Rectangle2D.Double(x - width / 2, y - width / 2, width, width))
-  
-  def apply(width: Double) = Shape(new Rectangle2D.Double(0, 0, width, width))
+  // (x, y) is at the top left of the bounding box
+  def apply(width: Double, x: Double = 0, y: Double = 0) =
+    Shape(new Rectangle2D.Double(x, y, width, width))
 }
 
-object Polygon {
-  def apply(points : (Double, Double)*): Shape = {
-    val poly : GeneralPath = new GeneralPath()
+/*
+ * A sequence of points connected by straight lines
+ */
+object StraightPath {
+  def apply(points: (Double,Double)*) = {
+    Shape(toPath2D(points: _*))
+  }
+  
+  def toPath2D(points: (Double, Double)*): Path2D = {
+    var path: Path2D = new Path2D.Double()
     
-    val first = points.head
-    poly.moveTo(first._1, first._2)
-    for ((x, y) <- points.drop(1)) {
-      poly.lineTo(x, y)
+    points match {
+      // handle the empty case
+      case Seq() => path.moveTo(0,0)
+      case _ => {
+        path.moveTo(points.head._1, points.head._2)
+        for ((x,y) <- points.tail) path.lineTo(x, y)
+      }
     }
+    path
+  }
+}
+
+/*
+ * A closed sequence of points connected by straight lines.
+ */
+object Polygon {
+  def apply(points: (Double, Double)*): Graphic = {
+    var poly = StraightPath.toPath2D(points: _*)
     poly.closePath()
-    
     Shape(poly)
   }
   
-  def apply(radius: Double, sides: Int): Shape = {
+  def apply(radius: Double, sides: Int): Graphic = {
     apply((1 to sides).map({
       i => (radius*Math.cos(2*Math.PI*i/sides), radius*Math.sin(2*Math.PI*i/sides))
     }): _*)
   }
 }
-/*
- * Same as a Polygon, but it is not a closed shape. 
- */
-object StraightPath {
-  def apply(points: (Double,Double)*) = {
-    val path : GeneralPath = new GeneralPath()
-    
-    val first = points.head
-    path.moveTo(first._1, first._2)
-    for ((x, y) <- points.drop(1)) {
-      path.lineTo(x, y)
-    }
-    Shape(path)
-  }
-}
+
 /*
  * Sort of works. curveTo still causes some issues
  */
 object Path {
 	def apply(segment: Segment): Graphic = {
-	  val path:GeneralPath = new GeneralPath()
+	  val path:Path2D = new Path2D.Double()
 	  walkPath(makeSegList(segment))
 	  def walkPath(segList: List[Segment]):Unit = segList match {
 	    case oneAhead::twoAhead::rest => 
@@ -133,13 +132,13 @@ object Path {
 
 object ControlledBezierPath {
   def apply(points: (Double,Double)*) = {
-    val path: GeneralPath = new GeneralPath()
+    val path: Path2D = new Path2D.Double()
     val first = points.head
     path.moveTo(first._1,first._2)
     aux(points.drop(1).toList)
     def aux(points: List[(Double,Double)]): Unit = points match{
       case control1::control2::end::rest => 
-        path.curveTo(control1._1,control1._2,control2._1,control2._2,end._1,end._2)
+        path.curveTo(control1._1, control1._2, control2._1, control2._2, end._1, end._2)
         aux(rest)
       case _ => {}
     }
@@ -148,14 +147,16 @@ object ControlledBezierPath {
 }
 
 object Line {
-  def apply(x1 : Double, y1 : Double, x2 : Double, y2 : Double) = 
+  def apply(x1 : Double, y1 : Double, x2 : Double, y2 : Double): Graphic = 
     Shape(new Line2D.Double(x1, y1, x2, y2))
-  def apply(p1: (Double,Double),p2:(Double,Double)): Graphic= apply(p1._1,p1._2,p2._1,p2._2)
+  
+  def apply(p1: (Double,Double),p2:(Double,Double)): Graphic =
+    apply(p1._1, p1._2, p2._1, p2._2)
 }
 
 object RoundRectangle {
-  def apply(x: Double, y: Double, w: Double, h: Double, arcw: Double, arch: Double) =
-    Shape(new RoundRectangle2D.Double(x,y,w,h,arcw,arch))
+  def apply(w: Double, h: Double, arcw: Double, arch: Double, x: Double = 0, y: Double = 0) =
+    Shape(new RoundRectangle2D.Double(x, y, w, h, arcw, arch))
 }
 //TODO: , arcs, other curves, areas?
 

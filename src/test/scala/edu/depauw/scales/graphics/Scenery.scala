@@ -14,7 +14,7 @@ object Scenery extends ScalesApp(600, 600, RenderMode.SCALE_TO_FIT, "Scenery") {
   val range = mountain ||| mountain ||| mountain ||| mountain
   
   // some water
-  val water = Fill(Colors.BLUE, Rectangle(0,0,100,20))
+  val water = Fill(Colors.BLUE, Rectangle(100,20))
   
   // panel to draw to
   val panel = GraphicPanel()

@@ -6,7 +6,7 @@ object TestSmash extends ScalesApp {
   
   // two simple primitives
   val redCircle = Fill(Colors.RED, Circle(80))
-  val blueRect = Fill(Colors.BLUE,Rectangle(0,0, 100,50))
+  val blueRect = Fill(Colors.BLUE,Rectangle(100,50))
   
   // create a panel to display graphics on
   val panel = GraphicPanel()

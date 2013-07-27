@@ -12,10 +12,10 @@ object StickFollow extends ScalesApp(800,600,RenderMode.SCALE_TO_FIT, "Reactive 
   val imageURL =  System.getProperty("user.dir") + "/resources/rudra.jpg"
   
   // add image as a graphic
-  val me: Graphic = Image(imageURL, 50, 50)
+  val me: Graphic = Image(imageURL, 40, 60)
   
   // clip image with an ellipse to use only the face
-  val face = Clip(Ellipse(9, 0, 28, 35), me)
+  val face = Clip(Ellipse(24, 35) -+ (6.5,6), me)
   
   // draw a stick figure body
   val body = StraightPath((0,0),(10,10),(10,0),(10,10),(20,0),(10,10),(10,30),(0,40),(10,30),(20,40))

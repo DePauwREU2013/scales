@@ -13,10 +13,10 @@ object TestShapes extends ScalesApp {
       Circle(50).center -^ Text("Circle", serifFont).padTop(10).center,
       
       // ellipse
-      Ellipse(0, 0, 50, 100).center -^ Text("Ellipse", serifFont).padTop(10).center,
+      Ellipse(50, 100).center -^ Text("Ellipse", serifFont).padTop(10).center,
       
       // rectangle
-      Rectangle(0, 0, 50, 100).center -^ Text("Rectangle", serifFont).padTop(10).center
+      Rectangle(50, 100).center -^ Text("Rectangle", serifFont).padTop(10).center
       
       // composite them with a horizontal space of 50 (see `hSpace` method below)
       ).foldLeft(Phantom -@ (40, 40))(hSpace(60))
