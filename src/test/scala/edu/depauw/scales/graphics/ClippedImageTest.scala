@@ -10,8 +10,7 @@ object ClippedImageTest extends ScalesApp(800, 600, RenderMode.SCALE_TO_FIT, "Cl
   val filename = System.getProperty("user.dir") + "/resources/warningsign.jpg"
   
   // image, rotated and scaled
-  val image: Graphic =
-    Rotate(0.3, 50, 50, Scale(1.5, 0.75, 50, 50, Image(filename, 50, 50, 25, 25)))
+  val image: Graphic = Image(filename, 50, 50) -* (1.5,0.75) -% 0.3
   
   // create a bitmap
   val bitmap: Graphic = Bitmap(fn, 100, 100)
@@ -26,13 +25,13 @@ object ClippedImageTest extends ScalesApp(800, 600, RenderMode.SCALE_TO_FIT, "Cl
   panel.graphic = (
       
       // clip image with Text
-      Translate(50,20,Clip(Circle(20).center, image.center)) -&
+      (Clip(Circle(20).center, image.center) -+ (50,20)) -&
       
       // clip bitmap with Text
-  	  Translate(50,50,Clip(Text("Hello World", FontSize(18)).center, bitmap.center)) -&
+  	  (Clip(Text("Hello World", FontSize(18)).center, bitmap.center) -+ (50,50)) -&
   	  
   	  // clip image with composite graphic
-  	  Translate(50,80,Clip((Circle(10) ||| Square(20)).center, image.center)) 
+  	  (Clip((Circle(10) ||| Square(20)).center, image.center) -+ (50,80)) 
     )
   
   // add panel to ScalesApp window

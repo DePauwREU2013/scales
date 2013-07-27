@@ -42,7 +42,7 @@ object StickFollow extends ScalesApp(800,600,RenderMode.SCALE_TO_FIT, "Reactive 
    * Method to convert position info to a graphic with the figure centered at that position
    */
   def onRenderHandler: PositionInfo => Graphic = {
-    case (x, y) => figure -@ (x - figure.bounds.getWidth/2,y - figure.bounds.getHeight/2)
+    case (x, y) => figure centerAt (x, y)
   }
   
   /**

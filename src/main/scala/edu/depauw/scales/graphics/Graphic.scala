@@ -38,9 +38,94 @@ trait Graphic {
    */
   def withName(name: String): List[Graphic]
   
+  /* ========== Transform Methods ========== */
+  
+  /**
+   * Method to translate a graphic on the panel
+   */
+  def translate(dx: Double, dy: Double): Graphic = Translate(dx, dy, this)
+  
+  /**
+   * `translate` alias
+   */
+  def -+ (dx: Double, dy: Double): Graphic = translate(dx: Double, dy: Double)
+  
+  /**
+  * @param s amount to scale graphic
+  * @return the graphic scaled
+  */
+  def scale(s: Double): Graphic = Scale(s, this)
+  
+  /**
+   * @param sx horizontal scale factor
+   * @param sy vertical scale factor
+   * @return the graphic scaled
+   */
+  def scale(sx: Double, sy: Double): Graphic = Scale(sx, sy, this)
+  
+  /**
+   * `scale` alias
+   */
+  def -* (s: Double): Graphic = scale(s)
+  
+  /**
+   * `scale` alias
+   */
+  def -* (sx: Double, sy: Double): Graphic = scale(sx, sy)
+  
+  /**
+   * Applies a general transformation.
+   */
+  def -* (transform: AffineTransform): Graphic = Transform(transform, this)
+  
+  def rotate(theta: Double): Graphic = Rotate(theta, this)
+  
+  /**
+   * `rotate` alias
+   */
+  def -% (theta: Double): Graphic = rotate(theta)
+  
+   /** Method to move a graphic on the panel
+   * 
+   * @param x the x coordinate of the position to be moved to
+   * @param y the y coordinate of the position to be moved to
+   * @return Graphic at the new position
+   * 
+   */
+  def moveTo(x: Double, y: Double): Graphic = {
+    Translate(x - this.bounds.getX, y - this.bounds.getY, this)
+  }
+  
+   /** `moveTo` alias
+   * 
+   * @param x the x coordinate of the position to be moved to
+   * @param y the y coordinate of the position to be moved to
+   * @return Graphic at the new position
+   * 
+   */
+  def -@ (x: Double, y: Double): Graphic = moveTo(x,y)
+  
+  /** Method to center a graphic on a given point
+   * 
+   * @param x the x coordinate of the position to be centered at
+   * @param y the y coordinate of the position to be centered at
+   * @return centered graphic
+   * 
+   */
+  def centerAt(x: Double, y: Double): Graphic = moveTo(x - bounds.getWidth/2, y - bounds.getHeight/2)
+  
+  /** Method to center a graphic on a given point
+   * 
+   * @param x the x coordinate of the position to be centered at
+   * @param y the y coordinate of the position to be centered at
+   * @return centered graphic
+   * 
+   */
+  def centerAt(point: (Double,Double)): Graphic = point match { case (x,y) => centerAt(x,y) }
+  
   /* ========= Compositing methods ========= */
   
-  /** Function to put a Graphic over another Graphic
+  /** Method to put a Graphic over another Graphic
    * 
    * @param g Graphic to be placed Over
    * @return Graphic with the new composite
@@ -48,7 +133,7 @@ trait Graphic {
    */
   def over(g : Graphic) : Graphic = Composite(this, g)
   
-  /** Shortcut function for over
+  /** `over` alias
    * 
    * @param g Graphic to be placed Over
    * @return Graphic with the new composite
@@ -111,26 +196,6 @@ trait Graphic {
     def -^(g: Graphic): Graphic = this above g
   
   /* ========= Alignment methods ========= */
- 
-   /** Function to move a graphic on the panel
-   * 
-   * @param x the x coordinate of the position to be moved to
-   * @param y the y coordinate of the position to be moved to
-   * @return Graphic at the new position
-   * 
-   */
-  def moveTo(x: Double, y: Double): Graphic = {
-    Translate(x - this.bounds.getX, y - this.bounds.getY, this)
-  }
-  
-   /** Shortcut function for moveTo
-   * 
-   * @param x the x coordinate of the position to be moved to
-   * @param y the y coordinate of the position to be moved to
-   * @return Graphic at the new position
-   * 
-   */
-  def -@(x: Double, y: Double): Graphic = moveTo(x,y)
   
    /** Function to move a graphic to the topleft position
    * 

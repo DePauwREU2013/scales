@@ -20,7 +20,7 @@ object SierpinskiDemo extends ScalesApp {
    * then composites the result. This is a single iteration of a Sierpinski transform.
    */
   def sierpinskify(g: Graphic): Graphic = {
-    val f = Freeze(Scale(0.58, g))
+    val f = Freeze(g -* 0.58)
     Translate(f.bounds.getCenterX, 0, f) -^ (f ||| f)
   }
   

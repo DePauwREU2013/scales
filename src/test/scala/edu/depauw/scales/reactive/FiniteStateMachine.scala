@@ -32,11 +32,11 @@ object FiniteStateMachine extends ScalesApp(600,600) {
   
   /* ------------------------ State Circles ----------------------- */
 		  				
-  val circle = scaleBounds(Circle(50), Math.sqrt(0.5)).center
-  val c1 = Name("Red Circle", circle) -& Text("Red Circle").center
-  val c2 = Translate(200,0,Name("Blue Circle", circle) -& Text("Blue Circle").center)
-  val c3 = Translate(0,200,Name("Red Square", circle) -& Text("Red Square").center)
-  val c4 = Translate(200,200,Name("Blue Square", circle) -& Text("Blue Square").center)
+  val circle = scaleBounds(Circle(50), Math.sqrt(0.5))
+  val c1 = Name("Red Circle" , circle) -& Text("Red Circle" ).centerAt(circle.c)
+  val c2 = Name("Blue Circle", circle) -& Text("Blue Circle").centerAt(circle.c) -+ (200,0)
+  val c3 = Name("Red Square" , circle) -& Text("Red Square" ).centerAt(circle.c) -+ (0,200)
+  val c4 = Name("Blue Square", circle) -& Text("Blue Square").centerAt(circle.c) -+ (200,200)
   
   /* -------------------- Curves Between States ------------------- */
   

@@ -15,7 +15,7 @@ object TestScaling extends ScalesApp {
   val panel = GraphicPanel()
   
   // scale the large down and the small one up
-  panel.graphic = Scale(0.1, 0.1, bigBlue) -& Scale(50, 50, tinyRed)
+  panel.graphic = (bigBlue -* 0.1) -& (tinyRed -* 50)
   
   // add panel to ScalesApp window
   addPanel(panel)

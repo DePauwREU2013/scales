@@ -10,8 +10,7 @@ object ImageTest extends ScalesApp(800, 600, RenderMode.SCALE_TO_FIT, "Image Tes
   val filename = System.getProperty("user.dir") + "/resources/warningsign.jpg"
   
   // image, rotated and scaled
-  val image: Graphic =
-    Rotate(0.3, 50, 50, Scale(1.5, 0.75, 50, 50, Image(filename, 50, 50, 25, 25)))
+  val image: Graphic = Image(filename, 50, 50) -* (1.5,0.75) -% 0.3 centerAt (50,50)
   
   // create a bitmap
   val bitmap: Graphic = Bitmap(fn, 100, 100)
