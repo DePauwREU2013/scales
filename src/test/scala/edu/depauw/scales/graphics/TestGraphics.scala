@@ -22,7 +22,7 @@ object TestGraphics extends ScalesApp(600, 600, RenderMode.SCALE_TO_FIT, "Graphi
   def fun(x: Double, y: Double): Color = RGBA(x*y, (1-x)*y, x*(1-y), (x+1)*(y+1)/4)
   
   // use the function to create a bitmap
-  val colorBitmap = Bitmap(fun, 10, 10, 80, 80)
+  val colorBitmap = Bitmap(fun, 80, 80, 10, 10)
   
   // create a panel to display graphics on
   val panel = GraphicPanel()

@@ -17,8 +17,8 @@ import java.awt.geom.{Rectangle2D => jRect}
  * @param w the width of the graphic
  * @param h the height of the graphic
  */
-case class Bitmap(fn : (Double, Double) => Color,
-                  x : Double, y : Double, w : Double, h : Double) extends Graphic {
+case class Bitmap(fn: (Double, Double) => Color,
+                  w: Double, h: Double, x: Double = 0, y: Double = 0) extends Graphic {
   val gc = GraphicsEnvironment.getLocalGraphicsEnvironment.getDefaultScreenDevice.getDefaultConfiguration
   
   val img : BufferedImage = gc.createCompatibleImage(100, 100, Transparency.TRANSLUCENT)

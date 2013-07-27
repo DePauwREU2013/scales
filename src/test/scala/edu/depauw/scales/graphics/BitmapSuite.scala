@@ -7,7 +7,7 @@ import java.awt.Color
 class BitmapSuite extends FunSuite {
   def fun(x: Double, y: Double): Color = RGBA(x*y, (1-x)*y, x*(1-y), (x+1)*(y+1)/4)
 
-  val b = Bitmap(fun, 10, 10, 80, 80)
+  val b = Bitmap(fun, 80, 80, 10, 10)
 
   test("A Bitmap can render an arbitrary function from [0,1)x[0,1) to Color") {
     // This is a stupid test...
