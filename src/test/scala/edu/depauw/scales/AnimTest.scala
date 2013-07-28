@@ -23,14 +23,14 @@ object AnimDemo extends App {
   
   def bounce(v : Double) : Graphic =
     Stroke(0.5,
-      Shear(0.5, 0, 50, 50,
-        Translate(10, 0,
-            Fill(HSV(2 * v, 1.0, 1.0),
-              Circle((5 --> 30)(v), (10 --> 70)(v), 50 + 30 * sin2pi(5 * v))))))
+      Shear(0.5, 0,
+        Fill(HSV(2 * v, 1.0, 1.0),
+          Circle((5 --> 30)(v), (10 --> 70)(v), 50 + 30 * sin2pi(5 * v))
+        ) -+ (-40,0)
+      )
+    )
   
-  def grow(v : Double) : Graphic =
-    Scale(v, v / 2, 50, 50,
-      Rotate(2 * Pi * v, 50, 50,
-        Fill(RGBA(0, 0, 1, 0.5),
-          Polygon((0, 0), (100, 100), (100, 0), (0, 100)))))
+  def grow(v : Double): Graphic = Fill(RGBA(0, 0, 1, 0.5), 
+    Polygon((0,0),(100,100),(100,0),(0,100)) -% 2*Pi*v -* v centerAt (50,50)
+  )
 }
