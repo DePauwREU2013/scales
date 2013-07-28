@@ -5,8 +5,25 @@ import java.awt.{Shape => jShape}
 
 
 /**
- * This class defines the general member functions of any Graphic
+ * This is the primary superclass of all primitive elements that can be displayed in Scales.
  * 
+ * Each subclass which implements `Graphic` must know how to render itself to a given 
+ * GraphicsContext.  It should provide a definition of a bounding box (`bounds`), as well as a 
+ * definition of its shape, in the cases that the shape is different from the bounds. Finally, it
+ * should also provide a means of being queried for names. Those are the only "abstract"
+ * definitions of this trait (although technically `bounds` and `shape` already have defaults).
+ * 
+ * The majority of the remaining methods defined within this trait consist of various means of 
+ * transforming a general `Graphic` to some subclass `Graphic` (e.g., `Transform` or `Composite`).  
+ * These methods fall into the following general categories: 
+ * 
+ *  - '''transformations''' (see [[edu.depauw.scales.graphics.Transform]])
+ *  - '''compositing''' (see [[edu.depauw.scales.graphics.Composite]])
+ *  - '''alignment'''
+ *  - '''bounds manipulation''' (see [[edu.depauw.scales.graphics.Smashed]])
+ *  - '''rasterizing'''  (see [[edu.depauw.scales.graphics.Freeze]])
+ * 
+ * There is also a set of utility methods to extract common information, particularly point info.
  */
 trait Graphic {
   
@@ -18,7 +35,7 @@ trait Graphic {
    * @return Unit
    * 
    */
-  def render(gc : GraphicsContext)
+  def render(gc: GraphicsContext)
 
   /**
    * All Graphics should specify a bounding box
@@ -448,9 +465,8 @@ trait Graphic {
   
   /** Function to freeze the graphic and get its pixel based graphic
    * 
-   * @param nil
    * @return Graphic which is pixel based.
    * 
    */
-  def freeze : Graphic = Freeze(this)
+  def freeze: Graphic = Freeze(this)
 }

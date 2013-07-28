@@ -17,10 +17,8 @@ case class Image(path: String, w: Double, h: Double, x: Double = 0, y: Double = 
     gc.drawImage(img, x, y, w, h)
   }
   
-  /** Used to get the bounds of the image graphic
-   * 
-   * @return java.awt.geom.Rectangle2D representing the bounds of the image graphic.
-   * 
+  /**
+   * identical to image dimensions
    */  
   override lazy val bounds = new jRect.Double(x, y, w, h)
   
