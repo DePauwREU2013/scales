@@ -14,7 +14,7 @@ case class Image(path: String, w: Double, h: Double, x: Double = 0, y: Double = 
    * Draws the image.
    */
   def render(gc : GraphicsContext) {
-    gc.drawImage(img, x, y, w, h)
+    gc.drawImage(img, w, h, x, y)
   }
   
   /**

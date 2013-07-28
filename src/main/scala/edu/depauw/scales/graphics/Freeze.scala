@@ -28,7 +28,7 @@ case class Freeze(g: Graphic) extends Graphic {
   /**
    * renders the rasterized version of the graphic
    */
-  def render(gc: GraphicsContext) = gc.drawImage(img, x, y, w, h)
+  def render(gc: GraphicsContext) = gc.drawImage(img, w, h, x, y)
   
   /**
    * bounds will be an integer representation of the original graphics bounds

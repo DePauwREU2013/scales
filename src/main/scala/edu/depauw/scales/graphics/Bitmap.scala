@@ -28,7 +28,7 @@ case class Bitmap(fn: (Double, Double) => Color,
   } img.setRGB(i, j, fn(i / w, j / h).getRGB)
   
   def render(gc : GraphicsContext) {
-    gc.drawImage(img, x, y, w, h)
+    gc.drawImage(img, w, h, x, y)
   }
   
   /** Used to get the bounds of the bitmap

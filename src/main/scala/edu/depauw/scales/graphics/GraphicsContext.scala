@@ -28,17 +28,9 @@ class GraphicsContext(val g2d: Graphics2D) {
   /**
    * renders an image
    */
-  def drawImage(img: BufferedImage, x: Double, y: Double, w: Double, h: Double) {
+  def drawImage(img: BufferedImage, w: Double, h: Double, x: Double = 0, y: Double = 0) {
     val transform = AffineTransform.getTranslateInstance(x, y)
     transform.scale(w / img.getWidth, h / img.getHeight)
     g2d.drawImage(img, transform, null)
-  }
-  
-  /**
-   * renders a string
-   */
-  def drawString(str: String, x: Double, y: Double) {
-    g2d.setPaint(outlinePaint)
-    g2d.drawString(str, x.toFloat, y.toFloat)
   }
 }
