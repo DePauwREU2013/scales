@@ -5,12 +5,12 @@ import java.awt.BasicStroke
 /**
  * Wrapper to specify stroke width for a given `Graphic`
  */
-case class Stroke(width : Double, g : Graphic) extends Graphic {
+case class Stroke(width: Double, g: Graphic) extends Graphic {
   
   /**
    * renders graphic is specified stroke width
    */
-  def render(gc : GraphicsContext) {
+  def render(gc: GraphicsContext) {
     // save old stroke ref
     val oldStroke = gc.g2d.getStroke
     

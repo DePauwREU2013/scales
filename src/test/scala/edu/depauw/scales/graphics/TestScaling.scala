@@ -8,8 +8,8 @@ import edu.depauw.scales.ScalesApp
 object TestScaling extends ScalesApp {
   
   // create a pair of distinct circles
-  val bigBlue = Fill(Colors.BLUE, Circle(300))
-  val tinyRed = Fill(Colors.RED , Circle(  4))
+  val bigBlue = Circle(300) -* Colors.BLUE
+  val tinyRed = Circle(  4) -* Colors.RED
   
   // create a panel to draw on
   val panel = GraphicPanel()

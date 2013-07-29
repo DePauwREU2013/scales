@@ -2,6 +2,7 @@ package edu.depauw.scales.graphics
 
 import java.awt.geom.{AffineTransform, Rectangle2D => jRect}
 import java.awt.{Shape => jShape}
+import java.awt.Paint
 
 
 /**
@@ -19,6 +20,7 @@ import java.awt.{Shape => jShape}
  * 
  *  - '''transformations''' (see [[edu.depauw.scales.graphics.Transform]])
  *  - '''compositing''' (see [[edu.depauw.scales.graphics.Composite]])
+ *  - '''fill and stroke''' (see [[edu.depauw.scales.graphics.Fill]])
  *  - '''alignment'''
  *  - '''bounds manipulation''' (see [[edu.depauw.scales.graphics.Smashed]])
  *  - '''rasterizing'''  (see [[edu.depauw.scales.graphics.Freeze]])
@@ -139,6 +141,72 @@ trait Graphic {
    * 
    */
   def centerAt(point: (Double,Double)): Graphic = point match { case (x,y) => centerAt(x,y) }
+  
+  /* ======= Fill, Stroke, Outline Methods ======= */
+  
+  /**
+   * @param paint color to fill graphic with 
+   * @return graphic using `paint` as the fill color
+   */
+  def fill(paint: Paint): Graphic = Fill(paint, this)
+  
+  /** `fill` alias
+   * @param paint color to fill graphic with 
+   * @return graphic using `paint` as the fill color
+   */
+  def -* (paint: Paint): Graphic = this fill paint
+  
+  /**
+   * @param width thickness of stroke
+   * @param paint color to use on the stroke
+   * @return graphic using updated stroke thickness and color
+   */
+  def stroke(width: Double, paint: Paint): Graphic =
+    Stroke(width, Outline(paint, this))
+  
+   /** `stroke(Double, Paint)` alias
+   * @param width thickness of stroke
+   * @param paint color to use on the stroke
+   * @return graphic using updated stroke thickness and color
+   */
+  def -~ (width: Double, paint: Paint): Graphic = this.stroke(width, paint)
+  
+   /**
+   * @param width thickness of stroke
+   * @return graphic using updated stroke thickness
+   */
+  def stroke(width: Double): Graphic = Stroke(width, this)
+  
+  /** `stroke(Double)` alias
+   * @param width thickness of stroke
+   * @return graphic using updated stroke thickness
+   */
+  def -~ (width: Double): Graphic = this stroke width
+  
+  /**
+   * @param paint color to use on the outline stroke
+   * @return graphic using updated outline color
+   */
+  def outline(paint: Paint): Graphic = Outline(paint, this)
+  
+  /** `outline` alias
+   * @param paint color to use on the outline stroke
+   * @return graphic using updated outline color
+   */
+  def -~ (paint: Paint): Graphic = this outline paint
+  
+  /**
+   * @param paint color to use for fill and outline
+   * @return graphic using updated fill and outline color
+   */
+  def fillAll(paint: Paint): Graphic =
+    Outline(paint, Fill(paint, this))
+    
+  /** `fillAll` alias
+   * @param paint color to use for fill and outline
+   * @return graphic using updated fill and outline color
+   */
+  def -~* (paint: Paint): Graphic = this fillAll paint
   
   /* ========= Compositing methods ========= */
   

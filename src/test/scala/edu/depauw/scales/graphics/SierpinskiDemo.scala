@@ -8,7 +8,7 @@ object SierpinskiDemo extends ScalesApp {
   val panel = GraphicPanel()
   
   // add a sierpinski triangle to the panel
-  panel.graphic = sierpinski(Fill(Colors.BLUE, Square(120)))(8)
+  panel.graphic = sierpinski(Square(400) -* Colors.BLUE)(8)
   
   // add panel to ScalesApp window
   addPanel(panel)
@@ -20,7 +20,7 @@ object SierpinskiDemo extends ScalesApp {
    * then composites the result. This is a single iteration of a Sierpinski transform.
    */
   def sierpinskify(g: Graphic): Graphic = {
-    val f = Freeze(g -* 0.58)
+    val f = Freeze(g) -* 0.5
     Translate(f.bounds.getCenterX, 0, f) -^ (f ||| f)
   }
   

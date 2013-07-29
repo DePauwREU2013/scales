@@ -21,10 +21,16 @@ object TickTockDemo extends ScalesApp(600,600,RenderMode.SCALE_TO_FIT, "Clock De
   addPanel(panel)
   
   // clock parts
-  lazy val clock = Fill(Colors.CYAN, Polygon(50, 12)).center
-  def hourHand(hour: Double = 0): Graphic = Line((0,0), (25*sin(hour*PI/6), -25*cos(hour*PI/6)))
-  def minuteHand(min: Double = 0): Graphic = Line((0,0), (35*sin(min*PI/30), -35*cos(min*PI/30)))
-  def secondHand(sec: Int = 0): Graphic = Line((0,0), (45*sin(sec*PI/30), -45*cos(sec*PI/30)))
+  lazy val clock = Polygon(50, 12).center -* Colors.CYAN
+  
+  def hourHand(hour: Double = 0): Graphic =
+    Line((0,0), (25*sin(hour*PI/6), -25*cos(hour*PI/6))) -~ 2
+    
+  def minuteHand(min: Double = 0): Graphic =
+    Line((0,0), (35*sin(min*PI/30), -35*cos(min*PI/30))) -~ 2
+    
+  def secondHand(sec: Int = 0): Graphic =
+    Line((0,0), (45*sin(sec*PI/30), -45*cos(sec*PI/30))) -~ (1, Colors.RED)
   
   /**
    * Method to convert a TimeState to a renderable clock graphic
@@ -35,7 +41,7 @@ object TickTockDemo extends ScalesApp(600,600,RenderMode.SCALE_TO_FIT, "Clock De
         clock -&
         hourHand(time._1) -&
         minuteHand(time._2) -&
-        Outline(Colors.RED, secondHand(time._3))
+        secondHand(time._3)
       ).topLeft
   }
   

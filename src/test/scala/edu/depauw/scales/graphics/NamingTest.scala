@@ -5,9 +5,9 @@ import edu.depauw.scales.ScalesApp
 object NamingTest extends ScalesApp(600, 600, RenderMode.SCALE_TO_FIT, "Naming Test") {
   
   // create some named primitives
-  val circle = Name("circle", Circle(20))
-  val redCircle = Name("red", Fill(Colors.RED, Circle(10)))
-  val blueSquare = Name("blue", Fill(Colors.BLUE, Square(10)))
+  val circle     = Name("circle", Circle(20))
+  val redCircle  = Name("red"   , Circle(10) -* Colors.RED)
+  val blueSquare = Name("blue"  , Square(10) -* Colors.BLUE)
   
   // composite them into a single graphic
   val unlabeled = circle.changeBounds(0, 0, 50, 50) -|| Translate(0, 20, redCircle -|| blueSquare) -&

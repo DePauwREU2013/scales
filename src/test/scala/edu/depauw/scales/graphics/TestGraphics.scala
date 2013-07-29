@@ -10,7 +10,7 @@ object TestGraphics extends ScalesApp(600, 600, RenderMode.SCALE_TO_FIT, "Graphi
   val diagLine = Line(25, 25, 75, 75)
   
   // create a red-filled polygon
-  val redPoly = Fill(Colors.RED, Polygon((10, 10), (22, 80), (25, 25), (22, 10)))
+  val redPoly = Polygon((10, 10), (22, 80), (25, 25), (22, 10)) -* Colors.RED
   
   // create a font
   val serifFont = new Font("Serif", FontStyleType.BOLD | FontStyleType.ITALIC)

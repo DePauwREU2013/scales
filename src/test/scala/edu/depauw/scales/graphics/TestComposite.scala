@@ -5,10 +5,10 @@ import edu.depauw.scales.ScalesApp
 object TestComposite extends ScalesApp {
   
   // create some shapes
-  val g1 = Fill(Colors.RED   , Circle(150))
-  val g2 = Fill(Colors.BLUE  , Rectangle(200, 100))
-  val g3 = Fill(Colors.GREEN , Polygon((0,0), (100,100), (200,0)))
-  val g4 = Fill(Colors.YELLOW, Ellipse(100, 150))
+  val g1 = Circle(150) -* Colors.RED
+  val g2 = Rectangle(200, 100) -* Colors.BLUE
+  val g3 = Polygon((0,0), (100,100), (200,0)) -* Colors.GREEN
+  val g4 = Ellipse(100, 150) -* Colors.YELLOW
   
   val panel = GraphicPanel()
   
