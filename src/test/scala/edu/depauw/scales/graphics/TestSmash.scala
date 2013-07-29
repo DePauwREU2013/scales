@@ -12,9 +12,11 @@ object TestSmash extends ScalesApp {
   val panel = GraphicPanel()
   
   // four examples, two with smash and two without
-  panel.graphic =
-    ( (redCircle.hSmash -^ blueRect) ||| (redCircle.vSmash ||| blueRect) ) -^
-    ( (redCircle -^ blueRect) ||| ( redCircle ||| blueRect) )
+  val g1 = redCircle.hSmash -^ blueRect
+  val g2 = redCircle.vSmash ||| blueRect
+  val g3 = redCircle -^ blueRect
+  val g4 = redCircle ||| blueRect
+  panel.graphic = ( g1 ||| g2 ) -^ ( g3 ||| g4 )
   
   // add the panel to the ScalesApp window
   addPanel(panel)

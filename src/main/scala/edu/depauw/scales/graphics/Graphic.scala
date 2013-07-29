@@ -226,14 +226,6 @@ trait Graphic {
    */
   def -&(g : Graphic) : Graphic = this over g
   
-  /**This function is an alias for backward compatibility
-   * 
-   * @param g Graphic to be placed Over
-   * @return Graphic with the new composite
-   * 
-   */
-  def |(g : Graphic) : Graphic = this over g
-  
   /** Function to put a Graphic beside another Graphic
    * 
    * @param g Graphic to be placed beside
@@ -241,11 +233,18 @@ trait Graphic {
    * 
    */
   def beside(g : Graphic) : Graphic = {
-    Composite(this,
-      Translate(this.bounds.getX + this.bounds.getWidth - g.bounds.getX, 0, g))
+    Composite(this, Translate(bounds.getX + bounds.getWidth - g.bounds.getX, 0, g))
   }
   
-  /** This function is an alias for backward compatibility
+  /** `beside` alias
+   * 
+   * @param g Graphic to be placed Over
+   * @return Graphic with the new composite
+   * 
+   */
+  def |(g : Graphic) : Graphic = this over g
+  
+  /** `beside` alias
    * 
    * @param g Graphic to be placed beside
    * @return Graphic with the new composite
@@ -253,7 +252,7 @@ trait Graphic {
    */
   def |||(g: Graphic): Graphic = this beside g
   
-   /** Shortcut function for beside
+   /** `beside` alias
    *   
    * @param g Graphic to be placed beside
    * @return Graphic with the new composite
@@ -453,7 +452,6 @@ trait Graphic {
   
   /** Function takes a shape and returns the same shape with a zero size bounding box
    * 
-   * @param nil
    * @return Graphic with zero sized bounding box
    * 
    */ 
@@ -461,7 +459,6 @@ trait Graphic {
   
   /** Function takes a shape and returns the same shape with a bounding box with width = 0
    * 
-   * @param nil
    * @return Graphic with bounding box of width = 0
    * 
    */
@@ -469,7 +466,6 @@ trait Graphic {
   
   /** Function takes a shape and returns the same shape with a bounding box with height = 0
    * 
-   * @param nil
    * @return Graphic with bounding box of height = 0
    * 
    */

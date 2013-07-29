@@ -26,7 +26,7 @@ case class Transform(transform: AffineTransform, g: Graphic) extends Graphic {
   }
   
   /** @return bounds of the transformed `shape` */
-  override lazy val bounds = shape.getBounds2D
+  override lazy val bounds = transform.createTransformedShape(g.bounds).getBounds2D
   
   /** @return transformed `shape` */
   override lazy val shape = transform.createTransformedShape(g.shape)
