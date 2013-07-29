@@ -5,6 +5,8 @@ import edu.depauw.scales.graphics.RenderMode._
 
 import javax.swing.{JFrame, WindowConstants}
 
+import scala.language.implicitConversions
+
 class ScalesApp(val width: Int = 640, val height: Int = 480,
     			val mode: RenderMode = RenderMode.DEFAULT,
     			val title: String = "Scales Application") extends App {
@@ -22,4 +24,6 @@ class ScalesApp(val width: Int = 640, val height: Int = 480,
     scalesPanel.add(panel)
     scalesPanel.repaint()
   }
+  
+  implicit def point2Segment(p: (Double, Double)): Segment = new PointSegment(p._1,p._2)
 }

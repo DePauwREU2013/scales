@@ -5,35 +5,17 @@ import edu.depauw.scales.ScalesApp
 object PathDemo extends ScalesApp {
   
   // a fibonacci spiral
-  val spiral = Scale(5, 4.5, Path(new PointSegment(30,60).curveTo(20,50).heading(math.Pi).
-      curveTo(30,40).heading(math.Pi/2).curveTo(40,60).heading(0).curveTo(20,80).heading(3*math.Pi/2).
-      curveTo(0,40).heading(math.Pi).curveTo(40,0).heading(math.Pi/2).curveTo(100,80).heading(0).
-      lineTo(100,80).heading(3*math.Pi/2)))
+  val spiral = Path((60.0,100.0).curveTo(50,90).heading(math.Pi).
+      curveTo(60,80).heading(math.Pi/2).curveTo(80,100).heading(0).curveTo(50,130).heading(3*math.Pi/2).
+      curveTo(0,80).heading(math.Pi).curveTo(80,0).heading(math.Pi/2).curveTo(210,130).heading(0).
+      lineTo(210,130).heading(3*math.Pi/2))
   
   // the corresponding fibonacci rectangle
-  val fibRect =
-    Scale(5, 4.5,
-      (Square(40) -^
-        (
-          Rectangle(20,40) -||
-          (
-            (
-              (
-                Square(10) -^
-                Square(10)
-              ) -||
-              Rectangle(10,20)
-            ) -^
-            Square(20)
-          )
-        )
-      ) -||
-      Rectangle(60,80)
-    )
+  val fibRect = (Square(80)-^(Square(50)|||(((Square(10)-^Square(10)|||Square(20)))-^Square(30))))||| Square(130)
   
   // composite them on a panel
   val panel = GraphicPanel()
-  panel.graphic = spiral -& fibRect
+  panel.graphic =  Scale(3,3,spiral-&fibRect)
   
   // add panel to window
   addPanel(panel)
