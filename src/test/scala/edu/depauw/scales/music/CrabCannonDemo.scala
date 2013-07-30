@@ -3,6 +3,7 @@ package edu.depauw.scales.music
 import edu.depauw.scales.Director
 import edu.depauw.scales.Instrument
 import edu.depauw.scales.Octave
+import edu.depauw.scales.Tempo
 
 /**
  * This demo shows how to use the reverse method to play Bach's Crab Canon.
@@ -23,7 +24,7 @@ object CrabCannonDemo extends App {
   			 C.>.en + D.>.en + E.ft.>.en + F.>.en + E.ft.>.en + D.>.en + C.>.en + B.en +
   			 C.> + G + E.ft + C
   			 
-  val part = bar1 + bar2 + bar3
+  val part = Tempo(100, bar1 + bar2 + bar3)
   val flute = Instrument((0,73), Octave(5, part))
   val bassoon = Instrument((0, 72), part.reverse)
   
