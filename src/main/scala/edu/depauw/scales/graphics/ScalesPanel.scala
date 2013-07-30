@@ -11,8 +11,15 @@ import edu.depauw.scales.reactive._
  */
 object RenderMode extends Enumeration {
   type RenderMode = Value
+  
+  /** Uses pixel-based rendering. If a graphic is 100 width, it will use 100 pixels to represent it. */
   val DEFAULT = Value("default")
+  /** Scale all graphics to fit, both window dimensions. Does not preserve aspect ratio! */
   val SCALE_TO_FIT = Value("scaleToFit")
+  /** Scales proportionally so that all graphics fit within the window.*/
+  val FIT_MAX = Value("fitMax")
+  /** Scales proportionally so that the graphic always fills at least the entire window. May result in clipping!*/
+  val FIT_MIN = Value("fitMin")
 }
 import RenderMode._
 
@@ -87,6 +94,16 @@ class ScalesPanel(mode: RenderMode = RenderMode.DEFAULT) extends JPanel {
   }
   
   /**
+   * @return yields the maximum combined dimensions of all `panels` attached
+   */
+  def getPanelDimensions: (Double, Double) = {
+    // start from (0,0), then find maximum components
+    panels.foldLeft((0.0,0.0))(
+      (dims,p) => (Math.max(dims._1, p.graphic.bounds.getWidth), Math.max(dims._2, p.graphic.bounds.getHeight))
+    )
+  }
+  
+  /**
    * Invokes a paint procedure using a Graphics instance.
    * The component will call the render method for each panel in panels.
    */
@@ -98,10 +115,22 @@ class ScalesPanel(mode: RenderMode = RenderMode.DEFAULT) extends JPanel {
     // Graphics2D object is mutable
     var g2d = graphics.asInstanceOf[Graphics2D]
     
+    // find current panels dimensions
+    val dims = getPanelDimensions
+    
     // set scaling for given RenderMode
-    mode match {
-      case RenderMode.SCALE_TO_FIT => g2d.scale(getWidth / 100.0, getHeight / 100.0)
-      case _ => Nil
+    if (mode != RenderMode.DEFAULT && dims._1 > 0 && dims._2 > 0) {
+      mode match {
+        case RenderMode.SCALE_TO_FIT => g2d.scale(getWidth / dims._1, getHeight / dims._2)
+        case RenderMode.FIT_MAX => {
+          val s = Math.min(getWidth / dims._1, getHeight / dims._2)
+          g2d.scale(s,s)
+        }
+        case RenderMode.FIT_MIN => {
+          val s = Math.max(getWidth / dims._1, getHeight / dims._2)
+          g2d.scale(s,s)
+        }
+      }
     }
     
     // default stroke, font, renderinghints...
