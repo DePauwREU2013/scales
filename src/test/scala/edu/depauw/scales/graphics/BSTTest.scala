@@ -17,7 +17,7 @@ case class Node(val l: Tree,val v: Int,val r: Tree) extends Tree {
 }
 
 object BSTTest extends ScalesApp{
-  val bst = makeBST(List(20,10,30,15,25,11,29,5,40,21,16,1,6,39,42))
+  val bst = makeBST(List(20,10,30,15,25,11,29,5,40,16,1,6,39,42))
   def makeBST(nums: List[Int],t: Tree = Empty):Tree = nums match{
     case head::tail => makeBST(tail,t.insert(head))
     case Nil => t
