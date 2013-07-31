@@ -6,7 +6,7 @@ import edu.depauw.scales.graphics._
 import java.awt.geom.AffineTransform
 import java.awt.event.MouseEvent
 
-object StickFollow extends ScalesApp(800,600,RenderMode.SCALE_TO_FIT, "Reactive Rudra") {
+object StickFollow extends ScalesApp(800,600,RenderMode.PERCENT, "Reactive Rudra") {
   
   // specify image url
   val imageURL =  System.getProperty("user.dir") + "/resources/rudra.jpg"

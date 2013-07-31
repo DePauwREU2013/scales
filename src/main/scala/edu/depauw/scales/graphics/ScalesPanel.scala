@@ -20,6 +20,8 @@ object RenderMode extends Enumeration {
   val FIT_MAX = Value("fitMax")
   /** Scales proportionally so that the graphic always fills at least the entire window. May result in clipping!*/
   val FIT_MIN = Value("fitMin")
+  /** Scales to fit using 100.0 in both horizontal and vertical directions. */
+  val PERCENT = Value("percent")
 }
 import RenderMode._
 
@@ -99,7 +101,8 @@ class ScalesPanel(mode: RenderMode = RenderMode.DEFAULT) extends JPanel {
   def getPanelDimensions: (Double, Double) = {
     // start from (0,0), then find maximum components
     panels.foldLeft((0.0,0.0))(
-      (dims,p) => (Math.max(dims._1, p.graphic.bounds.getWidth), Math.max(dims._2, p.graphic.bounds.getHeight))
+      (dims,p) => (Math.max(dims._1, p.graphic.bounds.getWidth + p.graphic.bounds.getX),
+    		  	   Math.max(dims._2, p.graphic.bounds.getHeight + p.graphic.bounds.getY))
     )
   }
   
@@ -129,6 +132,9 @@ class ScalesPanel(mode: RenderMode = RenderMode.DEFAULT) extends JPanel {
         case RenderMode.FIT_MIN => {
           val s = Math.max(getWidth / dims._1, getHeight / dims._2)
           g2d.scale(s,s)
+        }
+        case RenderMode.PERCENT => {
+          g2d.scale(getWidth / 100.0, getHeight / 100.0)
         }
       }
     }

@@ -4,7 +4,7 @@ import edu.depauw.scales.ScalesApp
 
 import java.awt.Color
 
-object TestGraphics extends ScalesApp(600, 600, RenderMode.SCALE_TO_FIT, "Graphics Test") {
+object TestGraphics extends ScalesApp(600, 600, RenderMode.PERCENT, "Graphics Test") {
   
   // create a diagonal line
   val diagLine = Line(25, 25, 75, 75)

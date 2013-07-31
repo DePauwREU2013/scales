@@ -3,7 +3,7 @@ package graphics
 
 import java.awt.Color
 
-object ClippedImageTest extends ScalesApp(800, 600, RenderMode.SCALE_TO_FIT, "Clipping Test") {
+object ClippedImageTest extends ScalesApp(800, 600, RenderMode.PERCENT, "Clipping Test") {
   import Util._
   
   // path to file

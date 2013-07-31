@@ -2,7 +2,7 @@ package edu.depauw.scales.graphics
 
 import edu.depauw.scales.ScalesApp
 
-object NamingTest extends ScalesApp(600, 600, RenderMode.SCALE_TO_FIT, "Naming Test") {
+object NamingTest extends ScalesApp(600, 600, RenderMode.PERCENT, "Naming Test") {
   
   // create some named primitives
   val circle     = Name("circle", Circle(20))

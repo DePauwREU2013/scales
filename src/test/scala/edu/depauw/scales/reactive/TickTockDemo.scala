@@ -7,7 +7,7 @@ import java.util.Calendar
 import java.lang.Math.{cos, sin, PI}
 import java.awt.geom.AffineTransform
 
-object TickTockDemo extends ScalesApp(600,600,RenderMode.SCALE_TO_FIT, "Clock Demo") {
+object TickTockDemo extends ScalesApp(600,600,RenderMode.FIT_MAX, "Clock Demo") {
   
   // the type of the state to be used in the ReactivePanel
   type TimeState = (Double, Double, Int)

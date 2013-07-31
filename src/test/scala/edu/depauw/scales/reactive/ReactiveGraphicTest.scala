@@ -6,7 +6,7 @@ import edu.depauw.scales.graphics._
 import java.awt.event.MouseEvent
 import java.awt.geom.AffineTransform
 
-object ReactiveGraphicTest extends ScalesApp(600,600,RenderMode.SCALE_TO_FIT, "Reactive Graphic Test") {
+object ReactiveGraphicTest extends ScalesApp(600,600,RenderMode.PERCENT, "Reactive Graphic Test") {
   
   // a map between MouseEvent ID's and strings
   val idToString = Map((MouseEvent.MOUSE_ENTERED , "enter"),

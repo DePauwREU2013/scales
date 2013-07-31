@@ -1,24 +1,17 @@
-package edu.depauw.scales.reactive
+package edu.depauw.scales
+package reactive
 
-import edu.depauw.scales.graphics._
+import graphics._
 
-import javax.swing.{JFrame, WindowConstants}
-import java.awt.event.KeyEvent
 import java.awt.geom.AffineTransform
+import java.awt.event.KeyEvent
 
-object TextInputTest extends App {
-  val frame = new JFrame("Text Input Test")
-  frame.setSize(600, 600)
+object TextInputTest extends ScalesApp(600,600,RenderMode.DEFAULT, "Text Input Test") {
   
-  val pane = new ScalesPanel
-  
-  val panel = ReactivePanel[String](0, new AffineTransform, 
-		  	    "start typing", onRenderHandler, onKeyEvent = Some(onKeyEventHandler))
-  
-  pane.add(panel)
-  frame.add(pane)
-  frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE)
-  frame.setVisible(true)
+  addPanel(
+    ReactivePanel[String](0, new AffineTransform, 
+    					  "start typing", onRenderHandler, onKeyEvent = Some(onKeyEventHandler))
+  )
   
   /**
    * This function renders the string into a series of Text graphics.
