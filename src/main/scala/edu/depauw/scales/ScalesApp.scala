@@ -15,6 +15,7 @@ class ScalesApp(val width: Int = 640, val height: Int = 480,
   frame.setSize(width, height)
   
   val scalesPanel = new ScalesPanel(mode)
+  scalesPanel.setFocusable(true)
   
   frame.add(scalesPanel)
   frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE)

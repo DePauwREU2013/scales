@@ -1,8 +1,7 @@
 package edu.depauw.scales.reactive
 
 import edu.depauw.scales.graphics._
-
-import javax.swing.{JFrame, WindowConstants}
+import edu.depauw.scales.ScalesApp
 import java.awt.event.KeyEvent
 import java.awt.geom.AffineTransform
 
@@ -20,30 +19,24 @@ case class Node(val l: Tree,val v: Int,val r: Tree) extends Tree {
       } else this
 }
 
-object ReactiveBST extends App {
-  val frame = new JFrame("Text Input Test")
-  frame.setSize(600, 600)
+object ReactiveBST extends ScalesApp(600, 600, RenderMode.DEFAULT, "Reactive BST") {
   
-  val pane = new ScalesPanel
-  type TreeMaker = (String,List[Int])
+  type TreeState = (String, List[Int])
   val initState = ("",Nil)
   
-  val panel = ReactivePanel[TreeMaker](0, new AffineTransform, 
-		  	    initState, onRenderHandler, onKeyEvent = Some(onKeyEventHandler))
+  addPanel(ReactivePanel[TreeState](0, new AffineTransform, 
+		  	    initState, onRenderHandler, onKeyEvent = Some(onKeyEventHandler)))
   
-  pane.add(panel)
-  frame.add(pane)
-  frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE)
-  frame.setVisible(true)
-  /*
+  /**
    * This function goes through a list of ints and builds a BST
    */
-  def makeBST(nums: List[Int],t: Tree = Empty):Tree = nums match{
+  def makeBST(nums: List[Int], t: Tree = Empty): Tree = nums match {
     case head::tail => makeBST(tail,t.insert(head))
     case Nil => t
     case _ => Empty
   }
-  /*
+  
+  /**
    * Takes a BST and returns a Graphic
    */
   def drawTree(t: Tree): Graphic = t match{
@@ -68,7 +61,7 @@ object ReactiveBST extends App {
   /**
    * This function renders the string into a series of Text graphics.
    */
-  def onRenderHandler: TreeMaker => Graphic = {
+  def onRenderHandler: TreeState => Graphic = {
     case (s,l) => (drawTree(makeBST(l)).center -+ (frame.getWidth/2,frame.getHeight/2)) -&
     (Text("Type a Integer and hit enter").padBottom(20).center-^
         Text(if(s.equals("")) " " else s,FontSize(20)).center -+ (frame.getWidth/2,35))
@@ -77,7 +70,7 @@ object ReactiveBST extends App {
   /**
    * This function specifies how the string and list are transformed for each keystroke 
    */
-  def onKeyEventHandler: (KeyEvent, TreeMaker) => TreeMaker = {
+  def onKeyEventHandler: (KeyEvent, TreeState) => TreeState = {
 	case (e, (s,l)) => 
 	  
 	  // check if a char has been typed
