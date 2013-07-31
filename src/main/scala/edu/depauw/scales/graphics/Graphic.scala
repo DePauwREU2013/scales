@@ -65,9 +65,20 @@ trait Graphic {
   def translate(dx: Double, dy: Double): Graphic = Translate(dx, dy, this)
   
   /**
+   * Method to translate a graphic on the panel
+   */
+  def translate(displacement: (Double, Double)): Graphic = 
+    Translate(displacement._1, displacement._2, this)
+  
+  /**
    * `translate` alias
    */
   def -+ (dx: Double, dy: Double): Graphic = translate(dx: Double, dy: Double)
+  
+  /**
+   * `translate` alias
+   */
+  def -+ (pos: (Double,Double)): Graphic = translate(pos)
   
   /**
   * @param s amount to scale graphic
