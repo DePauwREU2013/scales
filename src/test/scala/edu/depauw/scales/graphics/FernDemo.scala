@@ -1,15 +1,16 @@
-package edu.depauw.scales.graphics
+package edu.depauw.scales
+package graphics
 
-import edu.depauw.scales.ScalesApp
 import java.awt.geom.AffineTransform
 
 object FernDemo extends ScalesApp(600,600) {
+  import Util._
   
   // create panel to draw on
   val panel = GraphicPanel()
   
   // add a Barnsley Fern to the panel
-  panel.graphic = barnsley(Polygon(400, 3) -% Math.PI/2 -~* RGBA(0,1,0,0.2))(7) centerAt (width/2,height/2)
+  panel.graphic = barnsley(Polygon(400, 3) -% (180 deg) -~* RGBA(0,1,0,0.2))(7) centerAt (width/2,height/2)
   
   // add panel to ScalesApp window
   addPanel(panel)

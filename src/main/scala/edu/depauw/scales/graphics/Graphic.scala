@@ -1,14 +1,14 @@
-package edu.depauw.scales.graphics
+package edu.depauw.scales
+package graphics
 
 import java.awt.geom.{AffineTransform, Rectangle2D => jRect}
 import java.awt.{Shape => jShape}
 import java.awt.Paint
 
-
 /**
  * This is the primary superclass of all primitive elements that can be displayed in Scales.
  * 
- * Each subclass which implements `Graphic` must know how to render itself to a given 
+ * Each subclass that implements `Graphic` must know how to render itself to a given 
  * GraphicsContext.  It should provide a definition of a bounding box (`bounds`), as well as a 
  * definition of its shape, in the cases that the shape is different from the bounds. Finally, it
  * should also provide a means of being queried for names. Those are the only "abstract"
@@ -97,12 +97,15 @@ trait Graphic {
    */
   def -* (transform: AffineTransform): Graphic = Transform(transform, this)
   
-  def rotate(theta: Double): Graphic = Rotate(theta, this)
+  /**
+   * Rotate clockwise by angle theta.
+   */
+  def rotate(theta: Angle): Graphic = Rotate(theta, this)
   
   /**
    * `rotate` alias
    */
-  def -% (theta: Double): Graphic = rotate(theta)
+  def -% (theta: Angle): Graphic = rotate(theta)
   
    /** Method to move a graphic on the panel
    * 

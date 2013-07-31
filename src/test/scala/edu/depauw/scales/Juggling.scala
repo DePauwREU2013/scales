@@ -46,30 +46,30 @@ object Juggling extends App {
 
   def manA(v : Double) =
     Stroke(.5, Line(40, 28, (39 --> 41)(v), 48) |
-               Line((39 --> 41)(v), 48, 40 + 8*cos2pi(v/2), 48 - 5*sin2pi(v/2)) |
+               Line((39 --> 41)(v), 48, 40 + 8*Cos(v/2 rev), 48 - 5*Sin(v/2 rev)) |
                Line(60, 28, (59 --> 61)(v), 48) |
-               Line((59 --> 61)(v), 48, 60 + 8*cos2pi(v/2), 48 + 5*sin2pi(v/2))) |
+               Line((59 --> 61)(v), 48, 60 + 8*Cos(v/2 rev), 48 + 5*Sin(v/2 rev))) |
       headAndBody
   
   def manB(v : Double) =
     Stroke(.5, Line(40, 28, (41 --> 39)(v), 48) |
-               Line((41 --> 39)(v), 48, 40 - 8*cos2pi(v/2), 48 + 5*sin2pi(v/2)) |
+               Line((41 --> 39)(v), 48, 40 - 8*Cos(v/2 rev), 48 + 5*Sin(v/2 rev)) |
                Line(60, 28, (61 --> 59)(v), 48) |
-               Line((61 --> 59)(v), 48, 60 - 8*cos2pi(v/2), 48 - 5*sin2pi(v/2))) |
+               Line((61 --> 59)(v), 48, 60 - 8*Cos(v/2 rev), 48 - 5*Sin(v/2 rev))) |
       headAndBody
   
   def jugglerMan(v : Double) : Graphic = {
     if(v < .5) {
       Stroke(.5, Line(40, 28, 39+(v*4), 48) |                               //left arm
-             Line(39+(v*4), 48, 40+8*cos2pi(1-v), 48+5*sin2pi(1-v)) |       //left hand
+             Line(39+(v*4), 48, 40+8*Cos(1-v rev), 48+5*Sin(1-v rev)) |       //left hand
              Line(60, 28, 59+(v*4), 48) |                                   //right arm
-             Line(59+(v*4), 48, 60+8*cos2pi(v), 48+5*sin2pi(v))) |          //right hand
+             Line(59+(v*4), 48, 60+8*Cos(v rev), 48+5*Sin(v rev))) |          //right hand
         headAndBody
     } else {
       Stroke(.5, Line(40, 28, 41-((v-.5)*4), 48) |                          //left arm
-             Line(41-((v-.5)*4), 48, 40+8*cos2pi(1-v), 48+5*sin2pi(1-v)) |  //left hand
+             Line(41-((v-.5)*4), 48, 40+8*Cos(1-v rev), 48+5*Sin(1-v rev)) |  //left hand
              Line(60, 28, 61-((v-.5)*4), 48) |                              //right arm
-             Line(61-((v-.5)*4), 48, 60+8*cos2pi(v), 48+5*sin2pi(v))) |     //right hand
+             Line(61-((v-.5)*4), 48, 60+8*Cos(v rev), 48+5*Sin(v rev))) |     //right hand
         headAndBody
     }
   }

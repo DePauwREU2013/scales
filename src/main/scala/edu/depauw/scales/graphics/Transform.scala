@@ -1,7 +1,7 @@
-package edu.depauw.scales.graphics
+package edu.depauw.scales
+package graphics
 
 import java.awt.geom.AffineTransform
-import edu.depauw.scales.{Step, TransformSheet}
 
 /**
  * Wrapper to specify an arbitrary transformation of a given `Graphic` instance.
@@ -41,26 +41,26 @@ case class Transform(transform: AffineTransform, g: Graphic) extends Graphic {
 object Rotate {
   /**
    * Rotates graphic about (0,0)
-   * @param theta angle of rotation in radians
+   * @param theta angle of rotation
    * @param g graphic to rotate
    */
-  def apply(theta: Double, g: Graphic) =
-    Transform(AffineTransform.getRotateInstance(theta), g)
+  def apply(theta: Angle, g: Graphic) =
+    Transform(AffineTransform.getRotateInstance(theta.inRadians), g)
     
   /**
    * Rotates graphic about (x,y)
-   * @param theta angle of rotation in radians
+   * @param theta angle of rotation
    * @param x horizontal component of rotation anchor point
    * @param y vertical component of rotation anchor point
    * @param g graphic to rotate
    */
-  def apply(theta: Double, x: Double, y: Double, g: Graphic) =
-    Transform(AffineTransform.getRotateInstance(theta, x, y), g)
+  def apply(theta: Angle, x: Double, y: Double, g: Graphic) =
+    Transform(AffineTransform.getRotateInstance(theta.inRadians, x, y), g)
   
-  def apply(theta: Double, step: Step) =
-    TransformSheet(AffineTransform.getRotateInstance(theta), step)
-  def apply(theta: Double, x: Double, y: Double, step: Step) =
-    TransformSheet(AffineTransform.getRotateInstance(theta, x, y), step)
+  def apply(theta: Angle, step: Step) =
+    TransformSheet(AffineTransform.getRotateInstance(theta.inRadians), step)
+  def apply(theta: Angle, x: Double, y: Double, step: Step) =
+    TransformSheet(AffineTransform.getRotateInstance(theta.inRadians, x, y), step)
 }
 
 
