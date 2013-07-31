@@ -23,7 +23,7 @@ case class Freeze(g: Graphic) extends Graphic {
   
   // render the graphic into a buffered image
   val img: BufferedImage = gc.createCompatibleImage(w, h, Transparency.TRANSLUCENT)
-  g.render(new GraphicsContext(img.getGraphics.asInstanceOf[Graphics2D]))
+  Translate(-x,-y, g).render(new GraphicsContext(img.getGraphics.asInstanceOf[Graphics2D]))
   
   /**
    * renders the rasterized version of the graphic
