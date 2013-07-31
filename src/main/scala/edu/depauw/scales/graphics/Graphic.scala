@@ -42,12 +42,12 @@ trait Graphic {
   /**
    * All Graphics should specify a bounding box
    */
-  lazy val bounds: jRect = new jRect.Double()
+  def bounds: jRect
   
   /**
-   * All Graphics should specify a java.awt.Shape represention
+   * All Graphics should specify a java.awt.Shape represention. Default is the bounding box.
    */
-  lazy val shape: jShape = bounds
+  def shape: jShape = bounds
   
   /** Function to query the Graphic for all Graphics with a given name
    * 
@@ -55,7 +55,29 @@ trait Graphic {
    * @return List[Graphic] 
    * 
    */
-  def withName(name: String): List[Graphic]
+  def withName(name: String): List[Graphic] // TODO does this really need to be defined on each Graphic?
+  
+  /* ========== Query methods ========== */
+  
+  /**
+   * Get the width of this Graphic.
+   */
+  def width: Double = bounds.getWidth
+  
+  /**
+   * Get the height of this Graphic.
+   */
+  def height: Double = bounds.getHeight
+  
+  /**
+   * Get the left x-coordinate of this Graphic.
+   */
+  def tlX: Double = bounds.getX
+  
+  /**
+   * Get the top y-coordinate of this Graphic.
+   */
+  def tlY: Double = bounds.getY
   
   /* ========== Transform Methods ========== */
   
@@ -115,7 +137,7 @@ trait Graphic {
    * 
    */
   def moveTo(x: Double, y: Double): Graphic = {
-    Translate(x - this.bounds.getX, y - this.bounds.getY, this)
+    Translate(x - tlX, y - tlY, this)
   }
   
    /** `moveTo` alias
@@ -134,7 +156,7 @@ trait Graphic {
    * @return centered graphic
    * 
    */
-  def centerAt(x: Double, y: Double): Graphic = moveTo(x - bounds.getWidth/2, y - bounds.getHeight/2)
+  def centerAt(x: Double, y: Double): Graphic = moveTo(x - width/2, y - height/2)
   
   /** Method to center a graphic on a given point
    * 
@@ -172,7 +194,7 @@ trait Graphic {
    * @param paint color to use on the stroke
    * @return graphic using updated stroke thickness and color
    */
-  def -~ (width: Double, paint: Paint): Graphic = this.stroke(width, paint)
+  def -~ (width: Double, paint: Paint): Graphic = this stroke (width, paint)
   
    /**
    * @param width thickness of stroke
@@ -229,6 +251,14 @@ trait Graphic {
    */
   def -&(g : Graphic) : Graphic = this over g
   
+  /** `over` alias
+   * 
+   * @param g Graphic to be placed Over
+   * @return Graphic with the new composite
+   * 
+   */
+  def |(g : Graphic) : Graphic = this over g
+  
   /** Function to put a Graphic beside another Graphic
    * 
    * @param g Graphic to be placed beside
@@ -236,16 +266,8 @@ trait Graphic {
    * 
    */
   def beside(g : Graphic) : Graphic = {
-    Composite(this, Translate(bounds.getX + bounds.getWidth - g.bounds.getX, 0, g))
+    Composite(this, Translate(tlX + width - g.tlX, 0, g))
   }
-  
-  /** `beside` alias
-   * 
-   * @param g Graphic to be placed Over
-   * @return Graphic with the new composite
-   * 
-   */
-  def |(g : Graphic) : Graphic = this over g
   
   /** `beside` alias
    * 
@@ -271,7 +293,7 @@ trait Graphic {
    */
   def above(g: Graphic): Graphic = {
     Composite(this,
-      Translate(0, this.bounds.getY + this.bounds.getHeight - g.bounds.getY, g))
+      Translate(0, tlY + height - g.tlY, g))
   }
   
   /** Shortcut Function for above
@@ -298,7 +320,7 @@ trait Graphic {
    * @return Graphic at the midle left position
    * 
    */
-  def middleLeft: Graphic = moveTo(0, -this.bounds.getHeight/2)
+  def middleLeft: Graphic = moveTo(0, -height/2)
   
   /** Function to move a graphic to the bottom left position
    * 
@@ -306,7 +328,7 @@ trait Graphic {
    * @return Graphic at the top bottom left position
    * 
    */
-  def bottomLeft: Graphic = moveTo(0, -this.bounds.getHeight)
+  def bottomLeft: Graphic = moveTo(0, -height)
   
   /** Function to move a graphic to the top center position
    * 
@@ -314,7 +336,7 @@ trait Graphic {
    * @return Graphic at the top center position
    * 
    */
-  def topCenter: Graphic = moveTo(-this.bounds.getWidth/2, 0)
+  def topCenter: Graphic = moveTo(-width/2, 0)
   
   /** Function to move a graphic to the middle center position
    * 
@@ -323,7 +345,7 @@ trait Graphic {
    * 
    */
   def middleCenter: Graphic =
-    moveTo(-this.bounds.getWidth/2, -this.bounds.getHeight/2)
+    moveTo(-width/2, -height/2)
   
     /** Function to move a graphic to the center position
    * 
@@ -340,7 +362,7 @@ trait Graphic {
    * 
    */
   def bottomCenter: Graphic =
-    moveTo(-this.bounds.getWidth/2, -this.bounds.getHeight)
+    moveTo(-width/2, -height)
   
    /** Function to move a graphic to the top right position
    * 
@@ -348,7 +370,7 @@ trait Graphic {
    * @return Graphic at the top right position
    * 
    */
-  def topRight: Graphic = moveTo(-this.bounds.getWidth, 0)
+  def topRight: Graphic = moveTo(-width, 0)
  
   /** Function to move a graphic to the middle right position
    * 
@@ -357,7 +379,7 @@ trait Graphic {
    * 
    */  
   def middleRight: Graphic =
-    moveTo(-this.bounds.getWidth, -this.bounds.getHeight/2)
+    moveTo(-width, -height/2)
   
    /** Function to move a graphic to the bottom right position
    * 
@@ -366,7 +388,7 @@ trait Graphic {
    * 
    */
   def bottomRight: Graphic = 
-    moveTo(-this.bounds.getWidth, -this.bounds.getHeight)
+    moveTo(-width, -height)
     
     //======= Point returning methods ========
   
@@ -376,7 +398,7 @@ trait Graphic {
    * @return (Double, Double) the coordinates of the upper left part of the graphic
    * 
    */  
-  def tl: (Double,Double) = (this.bounds.getX(), this.bounds.getY())
+  def tl: (Double,Double) = (tlX, tlY)
   
   /** Function to return the middle left coordinates of the graphic
    * 
@@ -384,7 +406,7 @@ trait Graphic {
    * @return (Double, Double) the coordinates of the middle left part of the graphic
    * 
    */ 
-  def ml: (Double,Double) = (this.bounds.getX(),this.bounds.getY()+(this.bounds.getBounds().height/2))
+  def ml: (Double,Double) = (tlX, tlY + height/2)
   
   /** Function to return the bottom left coordinates of the graphic
    * 
@@ -392,7 +414,7 @@ trait Graphic {
    * @return (Double, Double) the coordinates of the bottom left part of the graphic
    * 
    */ 
-  def bl: (Double,Double) = (this.bounds.getX(), this.bounds.getY()+this.bounds.getBounds().height)
+  def bl: (Double,Double) = (tlX, tlY + height)
   
   /** Function to return the top center coordinates of the graphic
    * 
@@ -400,7 +422,7 @@ trait Graphic {
    * @return (Double, Double) the coordinates of the top center part of the graphic
    * 
    */ 
-  def tc: (Double,Double) = (this.bounds.getX()+(this.bounds.getBounds().width/2),this.bounds.getY())
+  def tc: (Double,Double) = (tlX + width/2, tlY)
   
   /** Function to return the middle center coordinates of the graphic
    * 
@@ -408,8 +430,7 @@ trait Graphic {
    * @return (Double, Double) the coordinates of the middle center part of the graphic
    * 
    */ 
-  def mc: (Double,Double) = (this.bounds.getX()+(this.bounds.getBounds().width/2),
-      this.bounds.getY()+(this.bounds.getBounds.height/2))
+  def mc: (Double,Double) = (tlX + width/2, tlY + height/2)
   
   /** Function to return the center coordinates of the graphic
    * 
@@ -425,7 +446,7 @@ trait Graphic {
    * @return (Double, Double) the coordinates of the bottom center part of the graphic
    * 
    */ 
-  def bc: (Double,Double) = (this.bounds.getX()+(this.bounds.getBounds.width/2),this.bounds.getY+this.bounds.getBounds.height)
+  def bc: (Double,Double) = (tlX + width/2, tlY + height)
   
   /** Function to return the top right coordinates of the graphic
    * 
@@ -433,7 +454,7 @@ trait Graphic {
    * @return (Double, Double) the coordinates of the top right part of the graphic
    * 
    */ 
-  def tr: (Double,Double) = (this.bounds.getX()+this.bounds.getBounds.width,this.bounds.getY())
+  def tr: (Double,Double) = (tlX + width, tlY)
   
   /** Function to return the middle right coordinates of the graphic
    * 
@@ -441,7 +462,7 @@ trait Graphic {
    * @return (Double, Double) the coordinates of the middle right part of the graphic
    * 
    */   
-  def mr: (Double,Double) = (this.bounds.getX()+this.bounds.getBounds.width,this.bounds.getY()+(this.bounds.getBounds.height/2))
+  def mr: (Double,Double) = (tlX + width, tlY + height/2)
   
   /** Function to return the bottom right coordinates of the graphic
    * 
@@ -449,7 +470,7 @@ trait Graphic {
    * @return (Double, Double) the coordinates of the bottom right part of the graphic
    * 
    */ 
-  def br: (Double,Double) = (this.bounds.getX()+this.bounds.getBounds.width,this.bounds.getY()+this.bounds.getBounds.height)
+  def br: (Double,Double) = (tlX + width, tlY + height)
     
   /* ========= Bounds methods ========= */
   
@@ -465,14 +486,14 @@ trait Graphic {
    * @return Graphic with bounding box of width = 0
    * 
    */
-  def vSmash: Graphic = BoundsChanger(this,0,this.bounds.getHeight)
+  def smashWidth: Graphic = BoundsChanger(this, 0, height)
   
   /** Function takes a shape and returns the same shape with a bounding box with height = 0
    * 
    * @return Graphic with bounding box of height = 0
    * 
    */
-  def hSmash: Graphic = BoundsChanger(this,this.bounds.getWidth,0)
+  def smashHeight: Graphic = BoundsChanger(this, width, 0)
   
   /** Function to changing the bounding box of the graphic
    *  
@@ -496,8 +517,7 @@ trait Graphic {
  * @return Graphic with a padded bounding box
  */
   def pad(top: Double, left: Double, bottom: Double, right: Double): Graphic = {
-    BoundsChanger(this, bounds.getWidth + left + right, bounds.getHeight + top + bottom,
-    			  -left, -top)
+    BoundsChanger(this, width + left + right, height + top + bottom, -left, -top)
   }
   
   /**

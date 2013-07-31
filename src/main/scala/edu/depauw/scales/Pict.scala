@@ -6,7 +6,7 @@ import edu.depauw.scales.graphics._
 case class Pict(g : Graphic, beats : Double) extends Step {
   def act(actor : StepActor) {
     val panel = new GraphicPanel(actor.layers._1, actor.context.transform)
-    panel.graphic = g
+    panel.setGraphic(g)
     
     actor.director ! AddPanel(panel)
     

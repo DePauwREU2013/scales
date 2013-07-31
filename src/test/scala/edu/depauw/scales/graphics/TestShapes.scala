@@ -36,11 +36,8 @@ object TestShapes extends ScalesApp {
       // combine these just like the others
       ).foldLeft(Phantom -@ (40, 40))(hSpace(60))
   
-  // panel to draw on
-  val panel = GraphicPanel()
-  
-  // add the graphics to panel; place the rows vertically with 40px padding
-  panel.graphic = row1 -^ row2.padTop(60)
+  // panel to draw on; place the rows vertically with 60px padding
+  val panel = GraphicPanel(row1 -^ row2.padTop(60))
   
   // add panel to ScalesApp window
   addPanel(panel)

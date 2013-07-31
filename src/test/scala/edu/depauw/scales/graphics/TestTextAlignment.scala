@@ -16,14 +16,11 @@ object TestTextAlignment extends ScalesApp(600, 600, RenderMode.SCALE_TO_FIT, "T
   val t5 = Circle(20).center -& t4.center
   
   // create a panel to draw to
-  val panel = GraphicPanel()
-  
-  // add the composite of the above graphics
-  panel.graphic = Translate(10, 10, t1 ||| t2) -&
+  val panel = GraphicPanel(Translate(10, 10, t1 ||| t2) -&
   				  Translate(10, 80, t1 -^ t2) -&
   				  Translate(10, 40, t3) -&
   				  Translate(10, 60, t4) -&
-  				  Translate(70, 60, t5)
+  				  Translate(70, 60, t5))
   
   // add the panel to the ScalesApp window
   addPanel(panel)

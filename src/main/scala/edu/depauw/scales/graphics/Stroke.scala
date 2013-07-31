@@ -5,7 +5,7 @@ import java.awt.BasicStroke
 /**
  * Wrapper to specify stroke width for a given `Graphic`
  */
-case class Stroke(width: Double, g: Graphic) extends Graphic {
+case class Stroke(strokeWidth: Double, g: Graphic) extends Graphic {
   
   /**
    * renders graphic is specified stroke width
@@ -15,7 +15,7 @@ case class Stroke(width: Double, g: Graphic) extends Graphic {
     val oldStroke = gc.g2d.getStroke
     
     // apply specified stroke
-    gc.g2d.setStroke(new BasicStroke(width.toFloat, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER))
+    gc.g2d.setStroke(new BasicStroke(strokeWidth.toFloat, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER))
     
     // render graphic using specified stroke
     g.render(gc)

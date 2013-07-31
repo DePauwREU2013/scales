@@ -10,11 +10,8 @@ object FreezeImageTest extends ScalesApp(600, 600, RenderMode.SCALE_TO_FIT, "Fre
   // rasterize it
   val raster = vector.freeze
   
-  // create panel to render to
-  val panel = GraphicPanel()
-  
-  // compare graphics side-by-side on panel
-  panel.graphic = vector -|| raster
+  // create panel to compare graphics side-by-side
+  val panel = GraphicPanel(vector -|| raster)
   
   // add panel to ScalesApp window
   addPanel(panel)

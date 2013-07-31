@@ -1,27 +1,28 @@
-package edu.depauw.scales.graphics
+package edu.depauw.scales
+package graphics
 
 import scala.language.implicitConversions
 
+import Util._
+
 trait Segment {
-	val x,y,heading: Double
-	def lineTo(x: Double,y:Double): Segment = new LineSegment(this,x,y)
-	def curveTo(x:Double,y:Double):Segment = new CurveSegment(this,x,y)
-	def heading(h:Double):Segment
+	val x, y: Double
+	val heading: Angle
+	
+	def lineTo(x: Double, y: Double): Segment = new LineSegment(this, x, y)
+	def curveTo(x: Double, y: Double): Segment = new CurveSegment(this, x, y)
+	def heading(h: Angle): Segment
 }
 
-object Segment {
-//  implicit def point2Segment(p: (Double, Double)): Segment = new PointSegment(p._1,p._2)
+case class LineSegment(s: Segment, x: Double, y: Double, heading: Angle = 0 rad) extends Segment {
+  def heading(h: Angle): Segment = LineSegment(s, x, y, h)
 }
 
-case class LineSegment(val s: Segment,val x: Double,val y: Double,val heading:Double = 0) extends Segment{
-  def heading(h:Double):Segment = new LineSegment(s,x,y,h)
+case class CurveSegment(s: Segment, x: Double, y: Double, heading: Angle = 0 rad) extends Segment{
+  def heading(h: Angle): Segment = CurveSegment(s, x, y, h)
 }
 
-case class CurveSegment(val s: Segment,val x: Double, val y: Double,val heading:Double = 0) extends Segment{
-  def heading(h: Double):Segment = new CurveSegment(s,x,y,h)
-}
-
-case class PointSegment(val x: Double, val y: Double,val heading:Double = 0) extends Segment {
-  def heading(h:Double):Segment = new PointSegment(x,y,h)
+case class PointSegment(x: Double, y: Double, heading: Angle = 0 rad) extends Segment {
+  def heading(h: Angle): Segment = PointSegment(x, y, h)
 }
 

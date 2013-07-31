@@ -58,7 +58,7 @@ object FiniteStateMachine extends ScalesApp(600,600) {
 		  		ShapeState.RED_CIRCLE, onRenderHandler, onMouseEventHandler)
   
   // set background
-  panel.graphic = background
+  panel.setGraphic(background) // TODO add this to the factory method?
   
   // add panel to ScalesApp window
   addPanel(panel)

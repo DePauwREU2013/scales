@@ -19,11 +19,7 @@ object ClippedImageTest extends ScalesApp(800, 600, RenderMode.PERCENT, "Clippin
   def fn(x: Double, y: Double): Color = RGBA(x, Math.min(x, y), y, 0.3)
   
   // panel to render on
-  val panel = GraphicPanel()
-  
-  // add graphics to panel
-  panel.graphic = (
-      
+  val panel = GraphicPanel(
       // clip image with Text
       (Clip(Circle(20).center, image.center) -+ (50,20)) -&
       

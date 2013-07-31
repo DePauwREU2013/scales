@@ -11,7 +11,7 @@ case class Anim(fn : Double => Graphic, beats : Double) extends Step {
     val numFrames = actor.duration / period
     
     val panel = new GraphicPanel(actor.layers._1, actor.context.transform)
-    panel.graphic = fn(0)
+    panel.setGraphic(fn(0))
     
     actor.director ! AddPanel(panel)
     
@@ -30,7 +30,7 @@ case class Anim(fn : Double => Graphic, beats : Double) extends Step {
   def more(actor : StepActor, panel : GraphicPanel, period : Int, numFrames : Int) {
     actor.react {
 	  case DrawFrame(n) => {
-        panel.graphic = fn(n.toDouble / numFrames)
+        panel.setGraphic(fn(n.toDouble / numFrames))
           
         if (n < numFrames) {
           scheduleFrame(n + 1, actor, period)
