@@ -79,7 +79,29 @@ object Polygon {
 }
 
 /*
- * Sort of works. curveTo still causes some issues
+ * Path takes a segment and returns a Graphic.
+ * 
+ * Creating the segment:
+ * To start creating a segment while using a ScalesApp, begin be defining a single point
+ * by giving a tuple of doubles, like (5.0,7.0). If you are not using a ScalesApp
+ * you will need to start be creating a new PointSegment using new PointSegment(x,y)
+ * 
+ * 
+ * Adding more to the segment:
+ * Once you have the initial point, you can use the .lineTo and .curveTo methods to
+ * have the path move to the next point. It should look something like
+ * new PointSegment(x1,y1).lineTo(x2,y2).curveTo(x3,y3)
+ * 
+ * Headings:
+ * Each segment stores a heading that is used in the curveTo segments. A heading defines
+ * which direction the path will be going at the point that segment STARTS at,
+ * not where it ends. In order to have curveTo work correctly, you will need to have
+ * a heading at the first curveTo segment AND at the next segment, or you'll get 
+ * unexpected curving behavior. To add a heading to a segment use the .heading(h) method
+ * like so, remembering that headings are always given in radians:  
+ * (x1,y1).lineTo(x2.y2).curveTo(x3,y3).heading(3*math.Pi/2).lineTo(x4,y4).heading(math.Pi)
+ * 
+ * to make a segment into a math, just pass the segment to Path in the apply method.
  */
 object Path {
 	def apply(segment: Segment): Graphic = {
@@ -92,7 +114,7 @@ object Path {
 	    case oneMore::Nil => aux(oneMore,new PointSegment(oneMore.x,oneMore.y).heading(oneMore.heading))
 	    case _ => Blank()
 	  }
-	  
+	  //Add something to path according to whether it's a point,line,or curve segment
 	  def aux(oneAhead:Segment,twoAhead:Segment) = oneAhead match{
 	    case s:PointSegment =>
 	      path.moveTo(s.x,s.y)
@@ -102,10 +124,12 @@ object Path {
 	      val here = path.getCurrentPoint()
 	      val there = new Point.Double(oneAhead.x,oneAhead.y)
 	      val dist: Double = here.distance(there.x, there.y)/3.0
+	      //First Bezier control point
 	      val c1: (Double,Double) = {
 	        val moveBy = (math.cos(s.heading)*dist,-math.sin(s.heading)*dist)
 	        (here.getX()+moveBy._1,here.getY()+moveBy._2)
 	      }
+	      //Second Bezier control point
 	      val c2: (Double,Double) = {
 	        val moveBy = (-math.cos((twoAhead.heading+math.Pi))*dist,
 	          math.sin((twoAhead.heading+math.Pi))*dist)
@@ -115,6 +139,8 @@ object Path {
 	  }
 	  Shape(path)
 	}
+	//Take a segment and return a list of segments
+	//Required to allow Path to look one segment ahead for headings
 	def makeSegList(seg: Segment): List[Segment] = seg match{
 	    case s: PointSegment => List(s)
 	    case s: LineSegment => makeSegList(s.s):::List(s)
