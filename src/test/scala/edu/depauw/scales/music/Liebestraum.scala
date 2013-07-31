@@ -79,6 +79,32 @@ object Liebestraum extends App {
   
   val leftm14 = (A.ft.<< | C.<) + Rest(2) + A.ft.<<< + Rest(2)
   
+  val rightm15 = Rest(0.5) + F.en + C.>.en + A.ft.en + F.en +
+  Rest(0.5) + C.en + F.en + C.>.en + A.ft.en + F.en + D.en
+  
+  val leftm15 = (A.ft.<<.hn | C.hn) + Rest(0.5) + B.<.en + (F.<< | A.ft.<) +
+  Rest(2)
+  
+  val rightm16 = E.en + G.en + C.>.en + E.>.en + C.>.en + G.en +
+  E.en + G.en + C.>.en + E.>.en + C.>.en + G.en
+  
+  val leftm16 = (C.<< | G.<) + Rest(5)
+  
+  val rightm17 = E.en + A.en + C.>.en + E.>.en + C.>.en + A.en +
+  E.en + A.en + C.>.en + E.>.en + C.>.en + A.en
+  
+  val leftm17 = (A.<< | E.< | C) + Rest(5)
+  
+  val rightm18 = E.en + G.sh.en + B.en + E.>.en + B.en + G.sh.en +
+  B.<.en + E.en + G.sh.en + B.en + G.sh.en + E.en
+  
+  val leftm18 = (E.<< | B.<< | G.sh.<) + Rest(5)
+  
+  val rightm19 = C.sh.en + E.en + G.sh.en + C.sh.>.en + G.sh.en + E.en +
+  Rest(0.5) + C.sh.en + E.en + G.sh.en + (G.sh.<.en | E.en) + C.en
+  
+  val leftm19 = (E.<< | G.sh.<) + Rest(5)
+  
   val m1 = rightm1 | leftm1
   val m2 = rightm2 | leftm2
   val m3 = rightm3 | leftm3
@@ -93,11 +119,16 @@ object Liebestraum extends App {
   val m12 = rightm12 | leftm12
   val m13 = rightm13 | leftm13
   val m14 = rightm14 | leftm14
+  val m15 = rightm15 | leftm15
+  val m16 = rightm16 | leftm16
+  val m17 = rightm17 | leftm17
+  val m18 = rightm18 | leftm18
+  val m19 = rightm19 |leftm19
   
-  val part1 = m1+m2+m3+m5+m6+m7+m8+m9+m10
-  val part2 = m11+m12+m13+m14
+  val part1 = m1+m2+m3+m4+m5+m6+m7+m8+m9+m10
+  val part2 = m11+m12+m13+m14+m15+m16+m17+m18+m19
   
-  val piece = Pedal(Tempo(100, part1+part2))
+  val piece = Pedal(Tempo(120, part1 + part2))
   val piano = Instrument((0,2), Octave(5, piece))
   
   (new Director(piano).start)
