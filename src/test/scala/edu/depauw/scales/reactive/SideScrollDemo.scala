@@ -110,7 +110,11 @@ object SideScrollDemo extends ScalesApp(600,470,RenderMode.DEFAULT, "Side Scroll
     case (s, (x,y), (dx,dy)) =>
       
       // position
-      val nextX = x + 16 * dx
+      val nextX = {
+        if(x > 710) x + 16 * dx - 1024
+        else if (x < - 300) x + 16 * dx + 1024
+        else x + 16 * dx
+      }
       val nextY = Math.min(0, y - dy * 4)
       
       // rate of rising or falling
