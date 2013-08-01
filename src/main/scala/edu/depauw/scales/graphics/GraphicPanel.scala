@@ -15,15 +15,21 @@ class GraphicPanel(val layer: Int, val transform: AffineTransform) extends Order
   // variable which stores Graphics; start with a blank one
   private[graphics] var graphic: Graphic = Phantom
   
-  // change the graphic, and also asynchronously notify parent (if any) to repaint
+  // change the graphic, and also notify parent (if any) to repaint
   def setGraphic(g: Graphic) {
     graphic = g
-    for (parentOption <- parentChangedStream; parent <- parentOption) parent.repaint()
-    // TODO what we really need here is a way of async setting a parent field when it changes
+    for (p <- parent) p.repaint()
   }
+  
+  private var parent: Option[ScalesPanel] = None
   
   // this provides an interface through which the parent can be determined asynchronously
   lazy val parentChangedStream: EventSource[Option[ScalesPanel]] = new EventSource[Option[ScalesPanel]]
+  
+  // set up an observer to update the parent
+  for (p <- parentChangedStream) {
+    parent = p
+  }
 }
 
 /**

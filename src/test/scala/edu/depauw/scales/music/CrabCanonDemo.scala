@@ -8,7 +8,7 @@ import edu.depauw.scales.Tempo
 /**
  * This demo shows how to use the reverse method to play Bach's Crab Canon.
  */
-object CrabCannonDemo extends App {
+object CrabCanonDemo extends App {
   
   val bar1 = C.hn + E.ft.hn + G.hn + A.ft.hn +
 		  	 B.<.hn + Rest(1) + G.hn + F.sh.hn + F.hn +

@@ -110,14 +110,12 @@ class ScalesPanel(mode: RenderMode = RenderMode.DEFAULT) extends JPanel {
    * Invokes a paint procedure using a Graphics instance.
    * The component will call the render method for each panel in panels.
    */
-  override def paintComponent(graphics : Graphics) = synchronized {
-    
+  override def paintComponent(graphics: Graphics) = synchronized {
     // call super's implementation first
     super.paintComponent(graphics)
     
-    // Graphics2D object is mutable
-    var g2d = graphics.asInstanceOf[Graphics2D]
-    
+    val g2d = graphics.asInstanceOf[Graphics2D]
+      
     // find current panels dimensions
     val dims = getPanelDimensions
     
@@ -145,7 +143,6 @@ class ScalesPanel(mode: RenderMode = RenderMode.DEFAULT) extends JPanel {
     g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION,
                          RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY)
     
-    // TODO is this where we double-buffer?
     // for each panel
     for (panel <- panels) {
       

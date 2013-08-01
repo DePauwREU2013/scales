@@ -19,7 +19,7 @@ case class Bitmap(fn: (Double, Double) => Color,
     GraphicsEnvironment.getLocalGraphicsEnvironment.getDefaultScreenDevice.getDefaultConfiguration
   
   // create an image of the given dimensions
-  var img: BufferedImage = gc.createCompatibleImage(w.toInt, h.toInt, Transparency.TRANSLUCENT)
+  val img: BufferedImage = gc.createCompatibleImage(w.toInt, h.toInt, Transparency.TRANSLUCENT)
   
   // use `fn` to fill in the color values for each pixel
   for {
