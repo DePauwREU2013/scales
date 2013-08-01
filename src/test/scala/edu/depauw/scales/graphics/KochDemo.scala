@@ -21,7 +21,7 @@ object KochDemo extends App {
 
   def kochFlake(p1:Point2D.Double,p2:Point2D.Double):Graphic = kochify(3,p1,p2)
     
-  val panel = new GraphicPanel(0, new java.awt.geom.AffineTransform())
+  val panel = new GraphicPanel(0, new java.awt.geom.AffineTransform()) // TODO actually put a Graphic in here...
   
   val pane = new ScalesPanel()
   pane.add(panel)

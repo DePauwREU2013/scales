@@ -10,8 +10,7 @@ case class Anim(fn : Double => Graphic, beats : Double) extends Step {
     val period = (1000 / fps).toInt  // msec per frame
     val numFrames = actor.duration / period
     
-    val panel = new GraphicPanel(actor.layers._1, actor.context.transform)
-    panel.setGraphic(fn(0))
+    val panel = new GraphicPanel(actor.layers._1, actor.context.transform, fn(0))
     
     actor.director ! AddPanel(panel)
     

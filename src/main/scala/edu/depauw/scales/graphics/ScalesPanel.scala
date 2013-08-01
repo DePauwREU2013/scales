@@ -100,9 +100,11 @@ class ScalesPanel(mode: RenderMode = RenderMode.DEFAULT) extends JPanel {
    */
   def getPanelDimensions: (Double, Double) = {
     // start from (0,0), then find maximum components
-    panels.foldLeft((0.0,0.0))(
-      (dims,p) => (Math.max(dims._1, p.graphic.bounds.getWidth + p.graphic.bounds.getX),
-    		  	   Math.max(dims._2, p.graphic.bounds.getHeight + p.graphic.bounds.getY))
+    panels.foldLeft((0.0, 0.0))(
+      (dims, panel) => {
+        val bounds = panel.getGraphic.bounds
+        (dims._1 max bounds.getMaxX, dims._2 max bounds.getMaxY)
+      }
     )
   }
   
@@ -116,19 +118,19 @@ class ScalesPanel(mode: RenderMode = RenderMode.DEFAULT) extends JPanel {
     
     val g2d = graphics.asInstanceOf[Graphics2D]
       
-    // find current panels dimensions
-    val dims = getPanelDimensions
+    // find current panels' dimensions
+    val (dimX, dimY) = getPanelDimensions
     
     // set scaling for given RenderMode
-    if (mode != RenderMode.DEFAULT && dims._1 > 0 && dims._2 > 0) {
+    if (mode != RenderMode.DEFAULT && dimX > 0 && dimY > 0) {
       mode match {
-        case RenderMode.SCALE_TO_FIT => g2d.scale(getWidth / dims._1, getHeight / dims._2)
+        case RenderMode.SCALE_TO_FIT => g2d.scale(getWidth / dimX, getHeight / dimY)
         case RenderMode.FIT_MAX => {
-          val s = Math.min(getWidth / dims._1, getHeight / dims._2)
+          val s = Math.min(getWidth / dimX, getHeight / dimY)
           g2d.scale(s,s)
         }
         case RenderMode.FIT_MIN => {
-          val s = Math.max(getWidth / dims._1, getHeight / dims._2)
+          val s = Math.max(getWidth / dimX, getHeight / dimY)
           g2d.scale(s,s)
         }
         case RenderMode.PERCENT => {
@@ -156,7 +158,7 @@ class ScalesPanel(mode: RenderMode = RenderMode.DEFAULT) extends JPanel {
       val gc = new GraphicsContext(g2d)
       
       // render the graphic on the GraphicPanel
-      panel.graphic.render(gc)
+      panel.render(gc)
       
       // restore the old transform
       g2d.setTransform(oldTransform)
