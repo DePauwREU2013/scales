@@ -8,14 +8,14 @@ import javax.sound.midi.Patch
 object GoldbergDemo extends App {
   
   /*
- * Auflösung No.1
+ * Aufl\"osung No.1
  */
   val bar1 = G.<< + D.< + C.< + B.<< + D.< + E.< + F.sh.< + G.<
   val A1 = bar1 | bar1.reverse
   
   
   /*
- * Auflösung No.2
+ * Aufl\"osung No.2
  */
   
   val bar2 = D + G.< + A.< + B.< + G.< + F.sh.< + E.< + D.<

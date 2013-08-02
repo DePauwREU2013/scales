@@ -24,32 +24,32 @@ object FibSpiral extends ScalesApp(640,480,RenderMode.FIT_MAX, "Fibonacci Spiral
     case 1 => 
       val rect = Square(1)
       rect -& Path(new PointSegment(rect.tl._1,rect.tl._2).curveTo(
-          rect.br._1,rect.br._2).heading(3*math.Pi/2).lineTo(rect.br._1,rect.br._2))
+          rect.br._1,rect.br._2).heading(270 deg).lineTo(rect.br._1,rect.br._2))
     case _ => (num % 4) match 
     		   {
     		   		case 2 =>
     		   		  val rect = Square(fib(num))
     		   		  (rect -& 
-    		   		  Path(new PointSegment(rect.tr._1,rect.tr._2).heading(math.Pi).
-    		   		      curveTo(rect.bl._1,rect.bl._2).heading(math.Pi).lineTo(
-    		   		          rect.bl._1,rect.bl._2).heading(3*math.Pi/2))) -^
+    		   		  Path(new PointSegment(rect.tr._1,rect.tr._2).heading(180 deg).
+    		   		      curveTo(rect.bl._1,rect.bl._2).heading(180 deg).lineTo(
+    		   		          rect.bl._1,rect.bl._2).heading(270 deg))) -^
     		   		          fibRect(num-1)
     		        case 1 => 
     		        val rect = Square(fib(num))
     		        rect -& Path(new PointSegment(rect.br._1,rect.br._2).curveTo(
-    		            rect.tl._1,rect.tl._2).heading(math.Pi).
-    		            lineTo(rect.tl._1,rect.tl._2).heading(math.Pi/2)) |||
+    		            rect.tl._1,rect.tl._2).heading(180 deg).
+    		            lineTo(rect.tl._1,rect.tl._2).heading(90 deg)) |||
     		            fibRect(num-1)
     		        case 0 =>  fibRect(num-1) -^ {
     		        val rect = Square(fib(num))
     		        rect -& Path(new PointSegment(rect.tr._1,rect.tr._2).curveTo(
-    		            rect.bl._1,rect.bl._2).heading(3*math.Pi/2).lineTo(
-    		                rect.bl._1,rect.bl._2).heading(math.Pi))
+    		            rect.bl._1,rect.bl._2).heading(270 deg).lineTo(
+    		                rect.bl._1,rect.bl._2).heading(180 deg))
     		        }
     		        case 3 =>  fibRect(num-1) ||| {
     		          val rect = Square(fib(num))
     		          rect -& Path(new PointSegment(rect.tl._1,rect.tl._2).curveTo(
-    		              rect.br._1,rect.br._2).lineTo(rect.br._1,rect.br._2).heading(3*math.Pi/2))
+    		              rect.br._1,rect.br._2).lineTo(rect.br._1,rect.br._2).heading(270 deg))
     		        }
     		   }
   }
