@@ -14,14 +14,11 @@ object NamingTest extends ScalesApp(600, 600, RenderMode.PERCENT, "Naming Test")
   				  (blueSquare -^ blueSquare -^ blueSquare)
   
   // create panel to render to
-  val panel = GraphicPanel()
-  
-  // add unlabeled graphic, plus labels
-  panel.graphic = unlabeled -&
+  val panel = GraphicPanel(unlabeled -&
                   labelWithName(unlabeled, "red") -&
                   labelWithName(unlabeled, "blue") -&
                   labelWithName(unlabeled, "fakeOut") -&
-                  labelWithName(unlabeled, "circle")
+                  labelWithName(unlabeled, "circle"))
   
   // add panel to ScalesApp window
   addPanel(panel)

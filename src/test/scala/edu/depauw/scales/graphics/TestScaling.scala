@@ -11,11 +11,8 @@ object TestScaling extends ScalesApp {
   val bigBlue = Circle(300) -* Colors.BLUE
   val tinyRed = Circle(  4) -* Colors.RED
   
-  // create a panel to draw on
-  val panel = GraphicPanel()
-  
-  // scale the large down and the small one up
-  panel.graphic = (bigBlue -* 0.1) -& (tinyRed -* 50)
+  // create a panel to draw on, with the large scaled down and the small scaled up
+  val panel = GraphicPanel((bigBlue -* 0.1) -& (tinyRed -* 50))
   
   // add panel to ScalesApp window
   addPanel(panel)

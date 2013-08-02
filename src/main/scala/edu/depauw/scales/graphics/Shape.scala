@@ -105,43 +105,44 @@ object Polygon {
  */
 object Path {
 	def apply(segment: Segment): Graphic = {
-	  val path:Path2D = new Path2D.Double()
+	  val path: Path2D = new Path2D.Double
+	  
 	  walkPath(makeSegList(segment))
-	  def walkPath(segList: List[Segment]):Unit = segList match {
-	    case oneAhead::twoAhead::rest => 
-	      aux(oneAhead,twoAhead)
-	      walkPath(twoAhead::rest)
-	    case oneMore::Nil => aux(oneMore,new PointSegment(oneMore.x,oneMore.y).heading(oneMore.heading))
-	    case _ => Blank()
+	  
+	  def walkPath(segList: List[Segment]): Unit = segList match {
+	    case oneAhead :: twoAhead :: rest => 
+	      aux(oneAhead, twoAhead)
+	      walkPath(twoAhead :: rest)
+	    case oneMore :: Nil => aux(oneMore, PointSegment(oneMore.x, oneMore.y, oneMore.heading))
+	    case _ => {}
 	  }
-	  //Add something to path according to whether it's a point,line,or curve segment
-	  def aux(oneAhead:Segment,twoAhead:Segment) = oneAhead match{
-	    case s:PointSegment =>
-	      path.moveTo(s.x,s.y)
-	    case s:LineSegment =>
-	      path.lineTo(s.x,s.y)
-	    case s:CurveSegment =>
+	  
+	  // TODO are the headings off by one here?
+	  def aux(oneAhead: Segment, twoAhead: Segment): Unit = oneAhead match {
+	    case PointSegment(x, y, _) =>
+	      path.moveTo(x, y)
+	    case LineSegment(_, x, y, _) =>
+	      path.lineTo(x, y)
+	    case CurveSegment(_, x, y, heading) =>
 	      val here = path.getCurrentPoint()
-	      val there = new Point.Double(oneAhead.x,oneAhead.y)
-	      val dist: Double = here.distance(there.x, there.y)/3.0
-	      //First Bezier control point
-	      val c1: (Double,Double) = {
-	        val moveBy = (math.cos(s.heading)*dist,-math.sin(s.heading)*dist)
-	        (here.getX()+moveBy._1,here.getY()+moveBy._2)
+	      val there = new Point.Double(x, y)
+	      val dist = here.distance(there) / 3
+	      val (c1x, c1y) = {
+	        val (dx, dy) = (math.cos(heading.inRadians)*dist, -math.sin(heading.inRadians)*dist)
+	        (here.getX + dx, here.getY + dy)
 	      }
-	      //Second Bezier control point
-	      val c2: (Double,Double) = {
-	        val moveBy = (-math.cos((twoAhead.heading+math.Pi))*dist,
-	          math.sin((twoAhead.heading+math.Pi))*dist)
-	          (there.getX()-moveBy._1,there.getY()-moveBy._2)
+	      val (c2x, c2y) = {
+	        val (dx, dy) = (-math.cos(twoAhead.heading.inRadians + math.Pi)*dist,
+	          math.sin(twoAhead.heading.inRadians + math.Pi)*dist)
+	        (there.getX - dx, there.getY - dy)
 	      }
-	      path.curveTo(c1._1,c1._2,c2._1,c2._2,s.x,s.y)
+	      path.curveTo(c1x, c1y, c2x, c2y, x, y)
 	  }
 	  Shape(path)
 	}
-	//Take a segment and return a list of segments
-	//Required to allow Path to look one segment ahead for headings
-	def makeSegList(seg: Segment): List[Segment] = seg match{
+	
+	// TODO blech
+	private def makeSegList(seg: Segment): List[Segment] = seg match {
 	    case s: PointSegment => List(s)
 	    case s: LineSegment => makeSegList(s.s):::List(s)
 	    case s: CurveSegment => makeSegList(s.s):::List(s)
@@ -184,5 +185,5 @@ object RoundRectangle {
   def apply(w: Double, h: Double, arcw: Double, arch: Double, x: Double = 0, y: Double = 0) =
     Shape(new RoundRectangle2D.Double(x, y, w, h, arcw, arch))
 }
-//TODO: , arcs, other curves, areas?
+//TODO arcs, other curves, areas?
 

@@ -54,11 +54,8 @@ object FiniteStateMachine extends ScalesApp(600,600) {
   val background = buttons -^ machine.pad(50)
   
   // create reactive panel
-  val panel = ReactivePanel[ShapeState](0, new AffineTransform,
+  val panel = ReactivePanel(0, new AffineTransform,
 		  		ShapeState.RED_CIRCLE, onRenderHandler, onMouseEventHandler)
-  
-  // set background
-  panel.graphic = background
   
   // add panel to ScalesApp window
   addPanel(panel)

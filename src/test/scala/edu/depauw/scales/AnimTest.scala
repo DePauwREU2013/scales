@@ -28,17 +28,17 @@ object AnimDemo extends App {
     // why not add a frame?!
     Pict(Square(90) -+ (5,5) -~* Colors.YELLOW, 17)
   
-  val director = new Director(test, new ScalesPanel(RenderMode.SCALE_TO_FIT))
+  val director = new Director(test, new ScalesPanel(RenderMode.PERCENT))
   director.start()
   
   /* a magical colorful jellybean riding a sin wave */
   def bounce(v: Double): Graphic =
 	Shear(0.5, 0,
-	  Circle((5 --> 30)(v), (10 --> 70)(v), 50 + 30 * sin2pi(5 * v)) -+ (-40,0)
+	  Circle((5 --> 30)(v), (10 --> 70)(v), 50 + 30 * Sin(5 * v rev)) -+ (-40,0)
 	) -* HSV(2 * v, 1.0, 1.0) -~ 0.5
   
-  /* A growing, rotating blue bowtie polgon thingy */
+  /* A growing, rotating blue bowtie polygon thingy */
   def grow(v: Double): Graphic = Fill(RGBA(0, 0, 1, 0.5), 
-    Polygon((0,0),(100,100),(100,0),(0,100)) -% 2*Pi*v -* v centerAt (50,50)
+    Polygon((0,0),(100,100),(100,0),(0,100)) -% (v rev) -* v centerAt (50,50)
   )
 }

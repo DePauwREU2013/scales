@@ -1,14 +1,16 @@
-package edu.depauw.scales.graphics
+package edu.depauw.scales
+package graphics
 
 import edu.depauw.scales.ScalesApp
 
 object FibSpiral extends ScalesApp(640,480,RenderMode.FIT_MAX, "Fibonacci Spiral") {
+  import Util._
   
   // a fibonacci spiral
-  val spiral = Path((60.0,100.0).curveTo(50,90).heading(math.Pi).
-      curveTo(60,80).heading(math.Pi/2).curveTo(80,100).heading(0).curveTo(50,130).heading(3*math.Pi/2).
-      curveTo(0,80).heading(math.Pi).curveTo(80,0).heading(math.Pi/2).curveTo(210,130).heading(0).
-      lineTo(210,130).heading(3*math.Pi/2))
+  val spiral = Path((60.0,100.0).curveTo(50,90).heading(180 deg).
+      curveTo(60,80).heading(90 deg).curveTo(80,100).heading(0 deg).curveTo(50,130).heading(270 deg).
+      curveTo(0,80).heading(180 deg).curveTo(80,0).heading(90 deg).curveTo(210,130).heading(0 deg).
+      lineTo(210,130).heading(270 deg))
   def fib(num: Int) : Int = num match
   {
     case 1 => 1
@@ -52,9 +54,7 @@ object FibSpiral extends ScalesApp(640,480,RenderMode.FIT_MAX, "Fibonacci Spiral
     		   }
   }
   
-  
-  val panel = GraphicPanel()
-  panel.graphic = fibRect(35)
+  val panel = GraphicPanel(fibRect(35))
   
   // add panel to window
   addPanel(panel)

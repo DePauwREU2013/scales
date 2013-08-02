@@ -7,23 +7,39 @@ import reactive.{EventSource, Observing, Timer}
 /**
  * The object on which Graphics get placed.
  */
-class GraphicPanel(val layer: Int, val transform: AffineTransform) extends Ordered[GraphicPanel] {
+class GraphicPanel(val layer: Int, val transform: AffineTransform, private var graphic: Graphic = Phantom) extends Ordered[GraphicPanel] with Observing {
   
   // method to determine the order of a panel (lower number yields higher priority)
   def compare(that : GraphicPanel) : Int = that.layer - this.layer
   
-  // variable which stores Graphics; start with a blank one
-  var graphic: Graphic = Phantom
+  // change the graphic, and also notify parent (if any) to repaint
+  private[scales] def setGraphic(g: Graphic) {
+    graphic = g
+    for (p <- parent) p.repaint()
+  }
+  
+  def getGraphic: Graphic = graphic
+  
+  def render(gc: GraphicsContext) {
+    graphic.render(gc)
+  }
+  
+  private var parent: Option[ScalesPanel] = None
   
   // this provides an interface through which the parent can be determined asynchronously
   lazy val parentChangedStream: EventSource[Option[ScalesPanel]] = new EventSource[Option[ScalesPanel]]
+  
+  // set up an observer to update the parent
+  for (p <- parentChangedStream) {
+    parent = p
+  }
 }
 
 /**
  * Basic instance of a GraphicPanel, where layer = 0 and transform is the identity
  */
 object GraphicPanel {
-  def apply(): GraphicPanel = new GraphicPanel(0, new AffineTransform)
+  def apply(g: Graphic = Phantom): GraphicPanel = new GraphicPanel(0, new AffineTransform, g)
 }
 
 /**
@@ -58,20 +74,19 @@ object GraphicPanel {
  */
 object ReactivePanel extends Observing {
   
-  
   /** Principal constructor for the ReactivePanel
- * @param layer the layer number
- * @param transform the transform of the GraphicPanel
- * @param state the essential information required to render a graphic and evolve the machine state
- * @param onRender specifies how the current `state` translates into a `Graphic`
- * @param onTickEvent specifies how the machine evolves from one state to the next on each tick
- * @param fps the number of frames (ticks) per second
- * @param onMouseEvent specifies how the machine evolve from one state to the next on a MouseEvent
- * @param onMouseMotionEvent specifies how the machine evolve from one state to the next on a MouseMotionEvent
- * @param onMouseInputEvent specifies how the machine evolve from one state to the next on a MouseInputEvent
- * @param onKeyEvent specifies how the machine evolve from one state to the next on a KeyEvent
- * @return a GraphicPanel which implements a functional I/O
- */
+   * @param layer the layer number
+   * @param transform the transform of the GraphicPanel
+   * @param state the essential information required to render a graphic and evolve the machine state
+   * @param onRender specifies how the current `state` translates into a `Graphic`
+   * @param onTickEvent specifies how the machine evolves from one state to the next on each tick
+   * @param fps the number of frames (ticks) per second
+   * @param onMouseEvent specifies how the machine evolve from one state to the next on a MouseEvent
+   * @param onMouseMotionEvent specifies how the machine evolve from one state to the next on a MouseMotionEvent
+   * @param onMouseInputEvent specifies how the machine evolve from one state to the next on a MouseInputEvent
+   * @param onKeyEvent specifies how the machine evolve from one state to the next on a KeyEvent
+   * @return a GraphicPanel which implements a functional I/O
+   */
   def apply[T](layer: Int, transform: AffineTransform, state: T, onRender: T => Graphic,
 		  	   onTickEvent: Option[T => T] = None, fps: Int = 30,
 		       onMouseEvent: Option[(MouseEvent, T) => T] = None,
@@ -161,7 +176,7 @@ object ReactivePanel extends Observing {
             if (invalid) {
               
               // if so, update the graphic
-              panel.graphic = onRender(lastState)
+              panel.setGraphic(onRender(lastState))
               sp.repaint()
               
               // and feel validated in doing so
@@ -175,7 +190,7 @@ object ReactivePanel extends Observing {
         /*
          * NOTE: Hmmm...we should probably disabling the reactivity in some way here
          */
-        case None => panel.graphic = onRender(lastState)
+        case None => panel.setGraphic(onRender(lastState))
         
       } // close parent match
       

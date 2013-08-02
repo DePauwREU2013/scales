@@ -17,10 +17,7 @@ object Scenery extends ScalesApp(600, 600, RenderMode.SCALE_TO_FIT, "Scenery") {
   val water = Rectangle(100,20) -* Colors.BLUE
   
   // panel to draw to
-  val panel = GraphicPanel()
-  
-  // add elements to the panel
-  panel.graphic = sun -^ range -^ water
+  val panel = GraphicPanel(sun -^ range -^ water)
   
   // add panel to the ScalesApp window
   addPanel(panel)

@@ -1,16 +1,16 @@
-package edu.depauw.scales.graphics
-
-import edu.depauw.scales.ScalesApp
+package edu.depauw.scales
+package graphics
 
 import java.awt.Color
 
 object ClippedImageTest extends ScalesApp(800, 600, RenderMode.PERCENT, "Clipping Test") {
+  import Util._
   
   // path to file
   val filename = System.getProperty("user.dir") + "/resources/warningsign.jpg"
   
   // image, rotated and scaled
-  val image: Graphic = Image(filename, 50, 50) -* (1.5,0.75) -% 0.3
+  val image: Graphic = Image(filename, 50, 50) -* (1.5,0.75) -% (0.3 rad)
   
   // create a bitmap
   val bitmap: Graphic = Bitmap(fn, 100, 100)
@@ -19,11 +19,7 @@ object ClippedImageTest extends ScalesApp(800, 600, RenderMode.PERCENT, "Clippin
   def fn(x: Double, y: Double): Color = RGBA(x, Math.min(x, y), y, 0.3)
   
   // panel to render on
-  val panel = GraphicPanel()
-  
-  // add graphics to panel
-  panel.graphic = (
-      
+  val panel = GraphicPanel(
       // clip image with Text
       (Clip(Circle(20).center, image.center) -+ (50,20)) -&
       

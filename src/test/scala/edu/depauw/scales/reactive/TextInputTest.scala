@@ -1,7 +1,8 @@
-package edu.depauw.scales.reactive
+package edu.depauw.scales
+package reactive
 
-import edu.depauw.scales.graphics._
-import edu.depauw.scales.ScalesApp
+import graphics._
+
 import java.awt.geom.AffineTransform
 import java.awt.event.KeyEvent
 

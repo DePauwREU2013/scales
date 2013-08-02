@@ -24,11 +24,8 @@ object TestGraphics extends ScalesApp(600, 600, RenderMode.PERCENT, "Graphics Te
   // use the function to create a bitmap
   val colorBitmap = Bitmap(fun, 80, 80, 10, 10)
   
-  // create a panel to display graphics on
-  val panel = GraphicPanel()
-  
-  // add a composite of all the graphics to the panel
-  panel.graphic = diagLine -& redPoly -& helloText -& colorBitmap
+  // create a panel to display graphics on, with a composite of all the graphics
+  val panel = GraphicPanel(diagLine -& redPoly -& helloText -& colorBitmap)
   
   // add the panel to the ScalesApp window
   addPanel(panel)

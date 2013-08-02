@@ -45,8 +45,7 @@ object BSTTest extends ScalesApp{
   
   
   // composite them on a panel
-  val panel = GraphicPanel()
-  panel.graphic = Translate(this.width/2,this.height/2,drawTree(bst).center)
+  val panel = GraphicPanel(Translate(this.width/2,this.height/2,drawTree(bst).center))
   
   // add panel to window
   addPanel(panel)
