@@ -147,7 +147,7 @@ class ScalesPanel(mode: RenderMode = RenderMode.DEFAULT) extends JPanel {
     
     // for each panel
     for (panel <- panels) {
-      
+println(panel.getGraphic) // TODO just to debug the juggler      
       // remember old transform
       val oldTransform = g2d.getTransform
       
