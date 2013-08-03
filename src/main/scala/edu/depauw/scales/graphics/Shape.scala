@@ -2,14 +2,12 @@ package edu.depauw.scales.graphics
 
 import java.awt.geom.{Ellipse2D,Rectangle2D,Path2D,Line2D,RoundRectangle2D,Point2D => Point}
 
-case class Shape(jShape : java.awt.Shape) extends Graphic {
-  def render(gc : GraphicsContext) {
-    gc.drawShape(jShape)
+case class Shape(override val shape: java.awt.Shape) extends Graphic {
+  def render(gc: GraphicsContext) {
+    gc.drawShape(shape)
   }
   
-  override lazy val bounds = jShape.getBounds2D
-  
-  override lazy val shape = jShape
+  override lazy val bounds = shape.getBounds2D
   
   def withName(name: String) = Nil
 }
@@ -41,13 +39,13 @@ object Square {
 /*
  * A sequence of points connected by straight lines
  */
-object StraightPath {
+object Polyline {
   def apply(points: (Double,Double)*) = {
     Shape(toPath2D(points: _*))
   }
   
   def toPath2D(points: (Double, Double)*): Path2D = {
-    var path: Path2D = new Path2D.Double()
+    val path: Path2D = new Path2D.Double()
     
     points match {
       // handle the empty case
@@ -66,19 +64,19 @@ object StraightPath {
  */
 object Polygon {
   def apply(points: (Double, Double)*): Graphic = {
-    var poly = StraightPath.toPath2D(points: _*)
+    val poly = Polyline.toPath2D(points: _*)
     poly.closePath()
     Shape(poly)
   }
   
   def apply(radius: Double, sides: Int): Graphic = {
     apply((1 to sides).map({
-      i => (radius*Math.cos(2*Math.PI*i/sides), radius*Math.sin(2*Math.PI*i/sides))
+      i => (radius*math.cos(2*math.Pi*i/sides), radius*math.sin(2*math.Pi*i/sides))
     }): _*)
   }
 }
 
-/*
+/**
  * Path takes a segment and returns a Graphic.
  * 
  * Creating the segment:
@@ -101,7 +99,7 @@ object Polygon {
  * like so, remembering that headings are always given in radians:  
  * (x1,y1).lineTo(x2.y2).curveTo(x3,y3).heading(3*math.Pi/2).lineTo(x4,y4).heading(math.Pi)
  * 
- * to make a segment into a math, just pass the segment to Path in the apply method.
+ * to make a segment into a path, just pass the segment to Path in the apply method.
  */
 object Path {
 	def apply(segment: Segment): Graphic = {

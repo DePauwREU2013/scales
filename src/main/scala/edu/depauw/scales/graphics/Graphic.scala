@@ -45,7 +45,7 @@ trait Graphic {
   def bounds: jRect
   
   /**
-   * All Graphics should specify a java.awt.Shape represention. Default is the bounding box.
+   * All Graphics should specify a java.awt.Shape representation. Default is the bounding box.
    */
   def shape: jShape = bounds
   

@@ -13,6 +13,14 @@ class Angle(val inRadians: Double) extends AnyVal {
   def inRevolutions: Double = inRadians / Util.Tau
   
   override def toString: String = inRadians + " rad"
+  
+  def +(a: Angle): Angle = new Angle(inRadians + a.inRadians)
+  
+  def -(a: Angle): Angle = new Angle(inRadians - a.inRadians)
+  
+  def *(d: Double): Angle = new Angle(inRadians * d)
+  
+  def /(d: Double): Angle = new Angle(inRadians / d)
 }
   
 object Util {
@@ -51,6 +59,8 @@ object Util {
     def deg = new Angle(math.toRadians(d))
     def rad = new Angle(d)
     def rev = new Angle(d * Tau)
+    
+    def *(a: Angle): Angle = new Angle(d * a.inRadians)
   }
   
   def Sin(ang: Angle) = math.sin(ang.inRadians)

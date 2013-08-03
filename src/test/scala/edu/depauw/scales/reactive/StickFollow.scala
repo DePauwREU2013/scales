@@ -18,7 +18,7 @@ object StickFollow extends ScalesApp(800,600,RenderMode.PERCENT, "Reactive Rudra
   val face = Clip(Ellipse(24, 35) -+ (6.5,6), me)
   
   // draw a stick figure body
-  val body = StraightPath((0,0),(10,10),(10,0),(10,10),(20,0),(10,10),(10,30),(0,40),(10,30),(20,40))
+  val body = Polyline((0,0),(10,10),(10,0),(10,10),(20,0),(10,10),(10,30),(0,40),(10,30),(20,40))
   
   // place the face above the body
   val figure = face.center -^ body.center
