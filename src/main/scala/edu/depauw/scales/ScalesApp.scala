@@ -28,4 +28,5 @@ class ScalesApp(val width: Int = 640, val height: Int = 480,
   
   // TODO move this, and update Path comment in Shape
   implicit def point2Segment(p: (Double, Double)): Segment = new PointSegment(p._1,p._2)
+  implicit def intpoint2Segment(p: (Int, Int)): Segment = new PointSegment(p._1,p._2)
 }

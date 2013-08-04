@@ -1,4 +1,5 @@
-package edu.depauw.scales.graphics
+package edu.depauw.scales
+package graphics
 
 import java.awt.geom.{Ellipse2D,Rectangle2D,Path2D,Line2D,RoundRectangle2D,Point2D => Point}
 
@@ -105,45 +106,36 @@ object Path {
 	def apply(segment: Segment): Graphic = {
 	  val path: Path2D = new Path2D.Double
 	  
-	  walkPath(makeSegList(segment))
-	  
-	  def walkPath(segList: List[Segment]): Unit = segList match {
-	    case oneAhead :: twoAhead :: rest => 
-	      aux(oneAhead, twoAhead)
-	      walkPath(twoAhead :: rest)
-	    case oneMore :: Nil => aux(oneMore, PointSegment(oneMore.x, oneMore.y, oneMore.heading))
-	    case _ => {}
-	  }
-	  
-	  // TODO are the headings off by one here?
-	  def aux(oneAhead: Segment, twoAhead: Segment): Unit = oneAhead match {
-	    case PointSegment(x, y, _) =>
+	  // Modify path by tracing segment.
+	  // Heading is hint for ending direction; returns actual ending direction
+	  def tracePath(seg: Segment, heading: Double = 0): Double = seg match {
+	    case PointSegment(x, y) =>
 	      path.moveTo(x, y)
-	    case LineSegment(_, x, y, _) =>
+	      0
+	    case LineSegment(s, x, y) =>
+	      val h = math.atan2(y - s.y, x - s.x) // actual heading is in direction of line
+	      tracePath(s, h)
 	      path.lineTo(x, y)
-	    case CurveSegment(_, x, y, heading) =>
-	      val here = path.getCurrentPoint()
+	      h
+	    case CurveSegment(s, x, y) =>
+	      val h = tracePath(s, 0)
+	      val here = path.getCurrentPoint
 	      val there = new Point.Double(x, y)
-	      val dist = here.distance(there) / 3
-	      val (c1x, c1y) = {
-	        val (dx, dy) = (math.cos(heading.inRadians)*dist, -math.sin(heading.inRadians)*dist)
-	        (here.getX + dx, here.getY + dy)
-	      }
-	      val (c2x, c2y) = {
-	        val (dx, dy) = (-math.cos(twoAhead.heading.inRadians + math.Pi)*dist,
-	          math.sin(twoAhead.heading.inRadians + math.Pi)*dist)
-	        (there.getX - dx, there.getY - dy)
-	      }
+	      val dist = here.distance(there) / 3 // control points go one-third the distance
+	      val c1x = here.getX + math.cos(h) * dist
+	      val c1y = here.getY - math.sin(h) * dist
+	      val c2x = there.getX - math.cos(heading) * dist
+	      val c2y = there.getY + math.sin(heading) * dist
 	      path.curveTo(c1x, c1y, c2x, c2y, x, y)
+	      heading
+	    case HeadingSegment(s, h) =>
+	      tracePath(s, h.inRadians)
+	      h.inRadians
 	  }
+
+	  tracePath(segment)
+	  
 	  Shape(path)
-	}
-	
-	// TODO blech
-	private def makeSegList(seg: Segment): List[Segment] = seg match {
-	    case s: PointSegment => List(s)
-	    case s: LineSegment => makeSegList(s.s):::List(s)
-	    case s: CurveSegment => makeSegList(s.s):::List(s)
 	}
 }
 
@@ -154,7 +146,6 @@ object Path {
  * and control points, starting and ending with drawn points.
  * (draw,control,control,draw,control,control,draw)
  */
-
 object ControlledBezierPath {
   def apply(points: (Double,Double)*) = {
     val path: Path2D = new Path2D.Double()
