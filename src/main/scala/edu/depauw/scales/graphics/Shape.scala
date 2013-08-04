@@ -112,6 +112,11 @@ object Path {
 	    case PointSegment(x, y) =>
 	      path.moveTo(x, y)
 	      0
+	    case MoveSegment(s, x, y) =>
+	      val h = math.atan2(y - s.y, x - s.x) // actual heading is in direction of line
+	      tracePath(s, h)
+	      path.moveTo(x, y)
+	      h
 	    case LineSegment(s, x, y) =>
 	      val h = math.atan2(y - s.y, x - s.x) // actual heading is in direction of line
 	      tracePath(s, h)
@@ -131,6 +136,8 @@ object Path {
 	    case HeadingSegment(s, h) =>
 	      tracePath(s, h.inRadians)
 	      h.inRadians
+	    case TurningSegment(s, dh) =>
+	      tracePath(s, 0) + dh.inRadians
 	  }
 
 	  tracePath(segment)
