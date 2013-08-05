@@ -8,13 +8,13 @@ object PathDemo extends ScalesApp {
   
   // a fibonacci spiral
   val spiral = Path((60, 100) -% (180 deg)
-                    -? (50,90) -% (90 deg)
+                    -? (50,90) -% (270 deg)
                     -? (60,80) -% (0 deg)
-                    -? (80,100) -% (270 deg)
+                    -? (80,100) -% (90 deg)
                     -? (50,130) -% (180 deg)
-                    -? (0,80) -% (90 deg)
+                    -? (0,80) -% (270 deg)
                     -? (80,0) -% (0 deg)
-                    -? (210,130) -% (270 deg)
+                    -? (210,130) -% (90 deg)
                     -- (210,130))
   
   // the corresponding fibonacci rectangle

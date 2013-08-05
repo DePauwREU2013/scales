@@ -128,9 +128,9 @@ object Path {
 	      val there = new Point.Double(x, y)
 	      val dist = here.distance(there) / 3 // control points go one-third the distance
 	      val c1x = here.getX + math.cos(h) * dist
-	      val c1y = here.getY - math.sin(h) * dist
+	      val c1y = here.getY + math.sin(h) * dist
 	      val c2x = there.getX - math.cos(heading) * dist
-	      val c2y = there.getY + math.sin(heading) * dist
+	      val c2y = there.getY - math.sin(heading) * dist
 	      path.curveTo(c1x, c1y, c2x, c2y, x, y)
 	      heading
 	    case HeadingSegment(s, h) =>
