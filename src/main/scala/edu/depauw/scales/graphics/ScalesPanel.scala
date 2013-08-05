@@ -140,7 +140,7 @@ class ScalesPanel(mode: RenderMode = RenderMode.DEFAULT) extends JPanel {
     }
     
     // default stroke, font, rendering hints...
-    g2d.setStroke(new BasicStroke(0.1f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER))
+    g2d.setStroke(new BasicStroke(2.0f / g2d.getTransform.getScaleX.toFloat, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER))
     g2d.setFont(new JFont("SansSerif", JFont.PLAIN, 5))
     g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION,
                          RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY)
