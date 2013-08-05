@@ -10,10 +10,10 @@ import java.awt.image.BufferedImage
 class GraphicsContext(val g2d: Graphics2D) {
   
   // default paint for stroke
-  var outlinePaint: Paint = Colors.BLACK
+  var outlinePaint: Paint = Colors.Black
   
   // default paint for fill
-  var fillPaint: Paint = Colors.CLEAR
+  var fillPaint: Paint = Colors.Clear
   
   /**
    * renders a shape

@@ -69,7 +69,7 @@ class ScalesPanel(mode: RenderMode = RenderMode.DEFAULT) extends JPanel {
     kes
   }
     
-  setBackground(Colors.CLEAR)
+  setBackground(Colors.Clear)
   setOpaque(false)
   
   

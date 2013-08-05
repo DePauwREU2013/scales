@@ -5,8 +5,8 @@ import edu.depauw.scales.ScalesApp
 object TestSmash extends ScalesApp {
   
   // two simple primitives
-  val redCircle = Circle(80) -* Colors.RED
-  val blueRect = Rectangle(100,50) -* Colors.BLUE
+  val redCircle = Circle(80) -* Colors.Red
+  val blueRect = Rectangle(100,50) -* Colors.Blue
     
   // four examples, two with smash and two without
   val g1 = redCircle.smashHeight -^ blueRect

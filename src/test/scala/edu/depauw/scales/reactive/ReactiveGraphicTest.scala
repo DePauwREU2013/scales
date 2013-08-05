@@ -57,7 +57,7 @@ object ReactiveGraphicTest extends ScalesApp(600,600,RenderMode.PERCENT, "Reacti
    * @return a version of `g` with all matching sub-graphics filled with RED
    */
   def fillWithName(g: Graphic, name: String): Graphic = {
-    g.withName(name).map(Fill(Colors.RED,_)).foldLeft(g)(_ -& _)
+    g.withName(name).map(Fill(Colors.Red, _)).foldLeft(g)(_ -& _)
   }
   
   /**

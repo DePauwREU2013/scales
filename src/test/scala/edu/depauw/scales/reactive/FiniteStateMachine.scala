@@ -8,10 +8,10 @@ import java.awt.geom.AffineTransform
 
 object ShapeState extends Enumeration {
   type ShapeState = (Shape, Color)
-  val RED_CIRCLE = (Circle(100), Colors.RED)
-  val BLUE_CIRCLE = (Circle(100), Colors.BLUE)
-  val RED_SQUARE = (Square(200), Colors.RED)
-  val BLUE_SQUARE = (Square(200), Colors.BLUE)
+  val RED_CIRCLE = (Circle(100), Colors.Red)
+  val BLUE_CIRCLE = (Circle(100), Colors.Blue)
+  val RED_SQUARE = (Square(200), Colors.Red)
+  val BLUE_SQUARE = (Square(200), Colors.Blue)
 }
 import ShapeState._
 
@@ -112,8 +112,8 @@ object FiniteStateMachine extends ScalesApp(600,600) {
 		  
 		  // if it did, update the state accordingly
 		  case Some(name) => name match {
-		    case "red" => (shape, Colors.RED)
-		    case "blue" => (shape, Colors.BLUE)
+		    case "red" => (shape, Colors.Red)
+		    case "blue" => (shape, Colors.Blue)
 		    case "circle" => (Circle(100), color)
 		    case "square" => (Square(200), color)
 		  }

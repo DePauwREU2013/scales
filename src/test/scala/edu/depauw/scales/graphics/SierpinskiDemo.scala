@@ -5,7 +5,7 @@ import edu.depauw.scales.ScalesApp
 object SierpinskiDemo extends ScalesApp {
   
   // create panel to draw a Sierpinski Triangle on
-  val panel = GraphicPanel(sierpinski(Square(400) -* Colors.BLUE)(8))
+  val panel = GraphicPanel(sierpinski(Square(400) -* Colors.Blue)(8))
   
   // add panel to ScalesApp window
   addPanel(panel)

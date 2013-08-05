@@ -27,7 +27,7 @@ object Juggling extends App {
   
   director.start()
   
-  def ball(x : Double, y : Double) : Graphic = Fill(Colors.RED, Circle(2) centerAt (x,y))
+  def ball(x : Double, y : Double) : Graphic = Fill(Colors.Red, Circle(2) centerAt (x,y))
   
   def ballAirA(v : Double) = ball((48 --> 58)(v), (48 quadIn_--> 20)(v))
   def ballAirB(v : Double) = ball((58 --> 68)(v), (20 quadOut_--> 48)(v))
@@ -41,7 +41,7 @@ object Juggling extends App {
   def ballHandLeftA(v : Double) = ball((32 circOut_--> 40)(v), (48 circIn_--> 53)(v))
   def ballHandLeftB(v : Double) = ball((40 circIn_--> 48)(v), (53 circOut_--> 48)(v))
   
-  val headAndBody = Stroke(1, Fill(Colors.YELLOW, Ellipse(10, 15, 45, 10) |
+  val headAndBody = Stroke(1, Fill(Colors.Yellow, Ellipse(10, 15, 45, 10) |
                                      Polygon((40,28), (60,28), (55,50), (45,50))))
 
   def manA(v : Double) =

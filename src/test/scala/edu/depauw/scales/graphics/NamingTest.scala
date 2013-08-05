@@ -6,8 +6,8 @@ object NamingTest extends ScalesApp(600, 600, RenderMode.PERCENT, "Naming Test")
   
   // create some named primitives
   val circle     = Name("circle", Circle(20))
-  val redCircle  = Name("red"   , Circle(10) -* Colors.RED)
-  val blueSquare = Name("blue"  , Square(10) -* Colors.BLUE)
+  val redCircle  = Name("red"   , Circle(10) -* Colors.Red)
+  val blueSquare = Name("blue"  , Square(10) -* Colors.Blue)
   
   // composite them into a single graphic
   val unlabeled = circle.changeBounds(0, 0, 50, 50) -|| Translate(0, 20, redCircle -|| blueSquare) -&

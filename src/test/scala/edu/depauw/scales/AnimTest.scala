@@ -26,7 +26,7 @@ object AnimDemo extends App {
     // pretty sure this inspired Jony Ive's iOS 7 design
     Pict(Bitmap({(x, y) => RGBA(x, Math.min(x, y), y, 0.5)}, 100, 100), 17) |
     // why not add a frame?!
-    Pict(Square(90) -+ (5,5) -~* Colors.YELLOW, 17)
+    Pict(Square(90) -+ (5,5) -~* Colors.Yellow, 17)
   
   val director = new Director(test, new ScalesPanel(RenderMode.PERCENT))
   director.start()
