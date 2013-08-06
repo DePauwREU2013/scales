@@ -19,7 +19,7 @@ object ImageTest extends ScalesApp(800, 600, RenderMode.SCALE_TO_FIT, "Image Tes
   def fn(x: Double, y: Double): Color = RGBA(x, Math.min(x, y), y, 0.3)
   
   // panel to render on
-  val panel = GraphicPanel(bitmap -& image)
+  val panel = GraphicPanel(image -& bitmap)
   
   // add panel to ScalesApp window
   addPanel(panel)

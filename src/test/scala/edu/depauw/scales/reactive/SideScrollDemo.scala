@@ -65,7 +65,7 @@ object SideScrollDemo extends ScalesApp(600,470,RenderMode.DEFAULT, "Side Scroll
   def onRenderHandler: MarioState => Graphic = {
     case (s, (x,y), d) =>
       val sprite = Clip(Rectangle(16,32) -+ SpriteState.spriteMap(s),spriteSheet).topLeft
-      level -& (sprite -+ (x+width/2, y+ 357))
+      (sprite -+ (x+width/2, y+ 357)) -& level
   }
   
   /**

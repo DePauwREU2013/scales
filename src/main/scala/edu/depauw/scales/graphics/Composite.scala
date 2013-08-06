@@ -8,8 +8,8 @@ case class Composite(g: Graphic, h: Graphic) extends Graphic {
    * renders each component graphic
    */
   def render(gc : GraphicsContext) {
-    g.render(gc) // TODO should g be drawn on top of h?
     h.render(gc)
+    g.render(gc)
   }
   
   /** 
