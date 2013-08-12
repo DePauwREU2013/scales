@@ -70,14 +70,14 @@ trait Graphic {
   def height: Double = bounds.getHeight
   
   /**
-   * Get the left x-coordinate of this Graphic.
+   * Get the origin x-coordinate of this Graphic.
    */
-  def tlX: Double = bounds.getX
+  def originX: Double = bounds.getX
   
   /**
-   * Get the top y-coordinate of this Graphic.
+   * Get the origin y-coordinate of this Graphic.
    */
-  def tlY: Double = bounds.getY
+  def originY: Double = bounds.getY
   
   /* ========== Transform Methods ========== */
   
@@ -148,7 +148,7 @@ trait Graphic {
    * 
    */
   def moveTo(x: Double, y: Double): Graphic = {
-    Translate(x - tlX, y - tlY, this)
+    Translate(x - originX, y - originY, this)
   }
   
    /** `moveTo` alias
@@ -277,7 +277,7 @@ trait Graphic {
    * 
    */
   def beside(g : Graphic) : Graphic = {
-    Composite(this, Translate(tlX + width - g.tlX, 0, g))
+    Composite(this, Translate(originX + width - g.originX, 0, g))
   }
   
   /** `beside` alias
@@ -304,7 +304,7 @@ trait Graphic {
    */
   def above(g: Graphic): Graphic = {
     Composite(this,
-      Translate(0, tlY + height - g.tlY, g))
+      Translate(0, originY + height - g.originY, g))
   }
   
   /** Shortcut Function for above
@@ -409,7 +409,7 @@ trait Graphic {
    * @return (Double, Double) the coordinates of the upper left part of the graphic
    * 
    */  
-  def tl: (Double,Double) = (tlX, tlY)
+  def tl: (Double,Double) = (originX, originY)
   
   /** Function to return the middle left coordinates of the graphic
    * 
@@ -417,7 +417,7 @@ trait Graphic {
    * @return (Double, Double) the coordinates of the middle left part of the graphic
    * 
    */ 
-  def ml: (Double,Double) = (tlX, tlY + height/2)
+  def ml: (Double,Double) = (originX, originY + height/2)
   
   /** Function to return the bottom left coordinates of the graphic
    * 
@@ -425,7 +425,7 @@ trait Graphic {
    * @return (Double, Double) the coordinates of the bottom left part of the graphic
    * 
    */ 
-  def bl: (Double,Double) = (tlX, tlY + height)
+  def bl: (Double,Double) = (originX, originY + height)
   
   /** Function to return the top center coordinates of the graphic
    * 
@@ -433,7 +433,7 @@ trait Graphic {
    * @return (Double, Double) the coordinates of the top center part of the graphic
    * 
    */ 
-  def tc: (Double,Double) = (tlX + width/2, tlY)
+  def tc: (Double,Double) = (originX + width/2, originY)
   
   /** Function to return the middle center coordinates of the graphic
    * 
@@ -441,7 +441,7 @@ trait Graphic {
    * @return (Double, Double) the coordinates of the middle center part of the graphic
    * 
    */ 
-  def mc: (Double,Double) = (tlX + width/2, tlY + height/2)
+  def mc: (Double,Double) = (originX + width/2, originY + height/2)
   
   /** Function to return the center coordinates of the graphic
    * 
@@ -457,7 +457,7 @@ trait Graphic {
    * @return (Double, Double) the coordinates of the bottom center part of the graphic
    * 
    */ 
-  def bc: (Double,Double) = (tlX + width/2, tlY + height)
+  def bc: (Double,Double) = (originX + width/2, originY + height)
   
   /** Function to return the top right coordinates of the graphic
    * 
@@ -465,7 +465,7 @@ trait Graphic {
    * @return (Double, Double) the coordinates of the top right part of the graphic
    * 
    */ 
-  def tr: (Double,Double) = (tlX + width, tlY)
+  def tr: (Double,Double) = (originX + width, originY)
   
   /** Function to return the middle right coordinates of the graphic
    * 
@@ -473,7 +473,7 @@ trait Graphic {
    * @return (Double, Double) the coordinates of the middle right part of the graphic
    * 
    */   
-  def mr: (Double,Double) = (tlX + width, tlY + height/2)
+  def mr: (Double,Double) = (originX + width, originY + height/2)
   
   /** Function to return the bottom right coordinates of the graphic
    * 
@@ -481,7 +481,7 @@ trait Graphic {
    * @return (Double, Double) the coordinates of the bottom right part of the graphic
    * 
    */ 
-  def br: (Double,Double) = (tlX + width, tlY + height)
+  def br: (Double,Double) = (originX + width, originY + height)
     
   /* ========= Bounds methods ========= */
   
@@ -490,21 +490,21 @@ trait Graphic {
    * @return Graphic with zero sized bounding box
    * 
    */ 
-  def smash: Graphic = BoundsChanger(this)
+  def smash: Graphic = Smashed(this)
   
   /** Function takes a shape and returns the same shape with a bounding box with width = 0
    * 
    * @return Graphic with bounding box of width = 0
    * 
    */
-  def smashWidth: Graphic = BoundsChanger(this, 0, height)
+  def smashWidth: Graphic = Smashed(this, 0, height)
   
   /** Function takes a shape and returns the same shape with a bounding box with height = 0
    * 
    * @return Graphic with bounding box of height = 0
    * 
    */
-  def smashHeight: Graphic = BoundsChanger(this, width, 0)
+  def smashHeight: Graphic = Smashed(this, width, 0)
   
   /** Function to changing the bounding box of the graphic
    *  
@@ -513,8 +513,6 @@ trait Graphic {
    * @param moveX  Int optional parameter to move the graphic to this x coordinate
    * @param moveY  Int optional parameter to move the graphic to this y coordinate
    * @return Graphic with a modified bounding box.
-   *
-   * 
   */
   def changeBounds(newWidth: Double, newHeight: Double, moveX: Double = 0, moveY: Double = 0): Graphic = {
     BoundsChanger(this, newWidth, newHeight, moveX, moveY)
