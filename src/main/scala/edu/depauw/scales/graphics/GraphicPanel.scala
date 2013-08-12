@@ -7,7 +7,8 @@ import reactive.{EventSource, Observing, Timer}
 /**
  * The object on which Graphics get placed.
  */
-class GraphicPanel(val layer: Int, val transform: AffineTransform, private var graphic: Graphic = Phantom) extends Ordered[GraphicPanel] with Observing {
+class GraphicPanel(val layer: Int, val transform: AffineTransform,
+    private var graphic: Graphic = Blank()) extends Ordered[GraphicPanel] with Observing {
   
   // method to determine the order of a panel (lower number yields higher priority)
   def compare(that : GraphicPanel) : Int = that.layer - this.layer
@@ -39,7 +40,7 @@ class GraphicPanel(val layer: Int, val transform: AffineTransform, private var g
  * Basic instance of a GraphicPanel, where layer = 0 and transform is the identity
  */
 object GraphicPanel {
-  def apply(g: Graphic = Phantom): GraphicPanel = new GraphicPanel(0, new AffineTransform, g)
+  def apply(g: Graphic = Blank()): GraphicPanel = new GraphicPanel(0, new AffineTransform, g)
 }
 
 /**

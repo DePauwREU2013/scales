@@ -47,5 +47,5 @@ object NamingTest extends ScalesApp(600, 600, RenderMode.PERCENT, "Naming Test")
    * @return Graphic a single graphic of labels for graphics which matched `name`
    */
   def labelWithName(g: Graphic, name: String): Graphic = 
-    g.withName(name).map(label(_, name)).foldLeft(Phantom: Graphic)(_ -& _)
+    g.withName(name).map(label(_, name)).foldLeft(Blank(): Graphic)(_ -& _)
 }

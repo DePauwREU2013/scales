@@ -19,7 +19,7 @@ object TestShapes extends ScalesApp {
       Rectangle(50, 100).center -^ Text("Rectangle", serifFont).padTop(10).center
       
       // composite them with a horizontal space of 50 (see `hSpace` method below)
-      ).foldLeft(Phantom -@ (40, 40))(hSpace(60))
+      ).foldLeft(Blank() -@ (40, 40))(hSpace(60))
   
   // create another row
   val row2: Graphic = List(
@@ -34,7 +34,7 @@ object TestShapes extends ScalesApp {
       Square(100).center -^ Text("Square", serifFont).padTop(10).center
       
       // combine these just like the others
-      ).foldLeft(Phantom -@ (40, 40))(hSpace(60))
+      ).foldLeft(Blank() -@ (40, 40))(hSpace(60))
   
   // panel to draw on; place the rows vertically with 60px padding
   val panel = GraphicPanel(row1 -^ row2.padTop(60))

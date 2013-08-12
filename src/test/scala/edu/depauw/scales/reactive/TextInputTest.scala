@@ -21,7 +21,7 @@ object TextInputTest extends ScalesApp(600,600,RenderMode.DEFAULT, "Text Input T
       val newlineChars = Array[Char](10,13)
       
       // split the string by new lines
-      str.split(newlineChars).foldLeft(Phantom: Graphic)({
+      str.split(newlineChars).foldLeft(Blank(): Graphic)({
         
         // for multiple new lines, add padding
         case (g, "") => g.padBottom(14)

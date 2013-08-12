@@ -17,7 +17,7 @@ object ReactiveGraphicTest extends ScalesApp(600,600,RenderMode.PERCENT, "Reacti
 
   // create a background of checkboxes with labels; separate them vertically
   val background = 
-    idToString.values.map(stringToCheckboxGraphic).foldLeft(Phantom -@ (10, 10))(vSpace(5))
+    idToString.values.map(stringToCheckboxGraphic).foldLeft(Blank() -@ (10, 10))(vSpace(5))
   
   // type of state to be used in ReactivePanel
   type MouseInfo = Tuple2[String,Tuple2[Int,Int]]
