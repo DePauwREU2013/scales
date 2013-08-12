@@ -127,9 +127,15 @@ trait Graphic {
   def -*(sx: Double, sy: Double): Graphic = scale(sx, sy)
 
   /**
+   * Applies a general transformation. Subclasses should override this if needed,
+   * since all other transformation methods flow through it.
+   */
+  def transform(transform: AffineTransform): Graphic = Transform(transform, this)
+  
+  /**
    * Applies a general transformation.
    */
-  def -*(transform: AffineTransform): Graphic = Transform(transform, this)
+  def -*(transform: AffineTransform): Graphic = this.transform(transform)
 
   /**
    * Rotate clockwise by angle theta.

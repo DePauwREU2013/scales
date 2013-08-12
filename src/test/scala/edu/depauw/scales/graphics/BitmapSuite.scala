@@ -11,11 +11,11 @@ class BitmapSuite extends FunSuite {
 
   test("A Bitmap can render an arbitrary function from [0,1)x[0,1) to Color") {
     // This is a stupid test...
-    val img = b.asInstanceOf[Image].img
-    assert(new Color(img.getRGB(0, 0), true) === RGBA(0, 0, 0, 64))
-    assert(new Color(img.getRGB(0, 79), true) === RGBA(0, 253, 0, 127))
-    assert(new Color(img.getRGB(79, 0), true) === RGBA(0, 0, 253, 127))
-    assert(new Color(img.getRGB(79, 79), true) === RGBA(249, 3, 3, 252))
+    val img = b.asInstanceOf[Image]
+    assert(img.color(0, 0) === RGBA(0, 0, 0, 64))
+    assert(img.color(0, 1) === RGBA(0, 253, 0, 127))
+    assert(img.color(1, 0) === RGBA(0, 0, 253, 127))
+    assert(img.color(1, 1) === RGBA(249, 3, 3, 252))
   }
   
   test("A Bitmap has the specified bounds") {

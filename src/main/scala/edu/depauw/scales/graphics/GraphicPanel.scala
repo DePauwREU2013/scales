@@ -9,6 +9,7 @@ import reactive.{EventSource, Observing, Timer}
  */
 class GraphicPanel(val layer: Int, val transform: AffineTransform,
     private var graphic: Graphic = Blank()) extends Ordered[GraphicPanel] with Observing {
+  // TODO the transform doesn't seem to be used...
   
   // method to determine the order of a panel (lower number yields higher priority)
   def compare(that : GraphicPanel) : Int = that.layer - this.layer

@@ -35,6 +35,13 @@ case class Transform(transform: AffineTransform, g: Graphic) extends Graphic {
    *  @return transformed instances of all name-matched graphics in the original graphic
    */
   def withName(n: String) = g.withName(n).map(Transform(transform, _))
+  
+  // Special case optimization to merge two transforms into one
+  override def transform(t2: AffineTransform): Graphic = {
+    val t = new AffineTransform(transform)
+    t.preConcatenate(t2)
+    Transform(t, g)
+  }
 }
 
 
@@ -44,8 +51,8 @@ object Rotate {
    * @param theta angle of rotation
    * @param g graphic to rotate
    */
-  def apply(theta: Angle, g: Graphic) =
-    Transform(AffineTransform.getRotateInstance(theta.inRadians), g)
+  def apply(theta: Angle, g: Graphic): Graphic =
+    g.transform(AffineTransform.getRotateInstance(theta.inRadians))
     
   /**
    * Rotates graphic about (x,y)
@@ -54,12 +61,12 @@ object Rotate {
    * @param y vertical component of rotation anchor point
    * @param g graphic to rotate
    */
-  def apply(theta: Angle, x: Double, y: Double, g: Graphic) =
-    Transform(AffineTransform.getRotateInstance(theta.inRadians, x, y), g)
+  def apply(theta: Angle, x: Double, y: Double, g: Graphic): Graphic =
+    g.transform(AffineTransform.getRotateInstance(theta.inRadians, x, y))
   
-  def apply(theta: Angle, step: Step) =
+  def apply(theta: Angle, step: Step): Step =
     TransformSheet(AffineTransform.getRotateInstance(theta.inRadians), step)
-  def apply(theta: Angle, x: Double, y: Double, step: Step) =
+  def apply(theta: Angle, x: Double, y: Double, step: Step): Step =
     TransformSheet(AffineTransform.getRotateInstance(theta.inRadians, x, y), step)
 }
 
@@ -71,17 +78,17 @@ object Scale {
    * @param sy vertical component of scaling
    * @param g graphic to scale
    */
-  def apply(sx: Double, sy: Double, g: Graphic): Transform =
-    Transform(AffineTransform.getScaleInstance(sx, sy), g)
+  def apply(sx: Double, sy: Double, g: Graphic): Graphic =
+    g.transform(AffineTransform.getScaleInstance(sx, sy))
     
   /**
    * Scales graphic proportionally
    * @param s amount to scale
    * @param g graphic to scale
    */
-  def apply(s: Double, g: Graphic): Transform = apply(s, s, g)
+  def apply(s: Double, g: Graphic): Graphic = apply(s, s, g)
   
-  def apply(sx: Double, sy: Double, step: Step) =
+  def apply(sx: Double, sy: Double, step: Step): Step =
     TransformSheet(AffineTransform.getScaleInstance(sx, sy), step)
 }
 
@@ -92,10 +99,10 @@ object Shear {
    * @param sy vertical component of shear
    * @param g graphic to shear
    */
-  def apply(sx: Double, sy: Double, g: Graphic) =
-    Transform(AffineTransform.getShearInstance(sx, sy), g)
+  def apply(sx: Double, sy: Double, g: Graphic): Graphic =
+    g.transform(AffineTransform.getShearInstance(sx, sy))
   
-  def apply(sx: Double, sy: Double, step: Step) =
+  def apply(sx: Double, sy: Double, step: Step): Step =
     TransformSheet(AffineTransform.getShearInstance(sx, sy), step)
 }
 
@@ -107,9 +114,9 @@ object Translate {
    * @param y vertical component of translation
    * @param g graphic to translate
    */
-  def apply(x: Double, y: Double, g: Graphic) =
-    Transform(AffineTransform.getTranslateInstance(x, y), g)
+  def apply(x: Double, y: Double, g: Graphic): Graphic =
+    g.transform(AffineTransform.getTranslateInstance(x, y))
     
-  def apply(x: Double, y: Double, step: Step) =
+  def apply(x: Double, y: Double, step: Step): Step =
     TransformSheet(AffineTransform.getTranslateInstance(x, y), step)
 }
