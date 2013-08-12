@@ -24,12 +24,7 @@ case class Fill(paint: Paint, g: Graphic) extends Graphic {
   /** 
    * bounds is unchanged
    */  
-  override lazy val bounds = g.bounds
-  
-  /**
-   * shape is unchanged
-   */
-  override lazy val shape = g.shape
+  def bounds = g.bounds
   
   /**
    * matched-by-name graphics from original graphic are returned
