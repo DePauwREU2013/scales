@@ -30,4 +30,5 @@ case class Smashed(g: Graphic, w: Double = 0, h: Double = 0, x: Double = 0, y: D
 object BoundsChanger {
   def apply(g: Graphic, newWidth: Double = 0, newHeight: Double = 0, shiftX: Double = 0, shiftY: Double = 0) =
     Smashed(g.translate(-shiftX, -shiftY), newWidth, newHeight, g.bounds.getX + shiftX, g.bounds.getY + shiftY)
+    // TODO check this
 }

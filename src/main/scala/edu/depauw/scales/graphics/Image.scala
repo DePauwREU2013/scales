@@ -1,7 +1,7 @@
 package edu.depauw.scales.graphics
 
 import javax.imageio.ImageIO
-import java.io.File
+import java.io.{ File, IOException }
 import java.awt.{ Color, Graphics2D, GraphicsEnvironment, GraphicsConfiguration, Transparency }
 import java.awt.image.BufferedImage
 import java.awt.geom.{ Rectangle2D => jRect }
@@ -26,20 +26,21 @@ case class Image(img: BufferedImage, w: Double, h: Double, x: Double, y: Double)
 
   def withName(name: String) = Nil
 
-  /**
-   * Query the image for the color at position (p, q), where the parameters
-   * p and q range from 0.0 (inclusive) to 1.0 (exclusive). Inverse of
-   * Image.fromFunction
-   *
-   * @param p
-   * @param q
-   * @return The Color of the desired pixel
-   */
-  def color(p: Double, q: Double): Color = {
+  override def color(p: Double, q: Double): Color = {
     val pp = (img.getWidth * p).toInt max 0 min (img.getWidth - 1)
     val qq = (img.getHeight * q).toInt max 0 min (img.getHeight - 1)
     new Color(img.getRGB(pp, qq), true)
   }
+  
+  override def writePNG(path: String): Boolean = {
+    try {
+      ImageIO.write(img, "png", new File(path))
+    } catch {
+      case ioe: IOException => false
+    }
+  }
+  
+  override def freeze: Graphic = this
 }
 
 /**
@@ -60,8 +61,17 @@ object Image {
    * @return The constructed Image
    */
   def apply(path: String, width: Double = 0, height: Double = 0, x: Double = 0, y: Double = 0): Graphic = {
-    val img = ImageIO.read(new File(path))
+    val img = try {
+      ImageIO.read(new File(path))
+    } catch {
+      case ioe: IOException => null
+    }
 
+    if (img == null) {
+      // something went wrong; return a Blank graphic
+      return Blank(new jRect.Double(x, y, width, height))
+    }
+    
     if (width * height == 0) {
       Image(img, img.getWidth, img.getHeight, x, y)
     } else {

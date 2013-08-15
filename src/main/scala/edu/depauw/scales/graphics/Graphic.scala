@@ -2,8 +2,7 @@ package edu.depauw.scales
 package graphics
 
 import java.awt.geom.{ AffineTransform, Rectangle2D => jRect }
-import java.awt.{ Shape => jShape }
-import java.awt.Paint
+import java.awt.{ Shape => jShape, Paint, Color }
 
 /**
  * This is the primary superclass of all primitive elements that can be displayed in Scales.
@@ -80,6 +79,32 @@ trait Graphic {
    */
   def originY: Double = bounds.getY
 
+  /**
+   * Query the image for the color at position (p, q), where the parameters
+   * p and q range from 0.0 (inclusive) to 1.0 (exclusive). Inverse of
+   * Image.fromFunction
+   *
+   * @param p
+   * @param q
+   * @return The Color of the desired pixel
+   */
+  def color(p: Double, q: Double): Color = {
+    image.color(p, q)
+  }
+
+  /**
+   * Write an image file rendering of this Graphic in PNG format.
+   * 
+   * @param path The path to the image file to be written
+   * @return true if successful
+   */
+  def writePNG(path: String): Boolean = {
+    image.writePNG(path)
+  }
+
+  // This should only get created if raster information is requested
+  private lazy val image: Image = this.freeze.asInstanceOf[Image]
+
   /* ========== Transform Methods ========== */
 
   /**
@@ -131,7 +156,7 @@ trait Graphic {
    * since all other transformation methods flow through it.
    */
   def transform(transform: AffineTransform): Graphic = Transform(transform, this)
-  
+
   /**
    * Applies a general transformation.
    */
