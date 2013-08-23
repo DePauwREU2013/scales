@@ -587,7 +587,7 @@ trait Graphic {
    * @return Graphic with a modified bounding box.
    */
   def changeBounds(newWidth: Double, newHeight: Double, moveX: Double = 0, moveY: Double = 0): Graphic = {
-    BoundsChanger(this, newWidth, newHeight, moveX, moveY)
+    Smashed(this.translate(moveX, moveY), newWidth, newHeight)
   }
 
   /**
@@ -599,7 +599,7 @@ trait Graphic {
    * @return Graphic with a padded bounding box
    */
   def pad(top: Double, left: Double, bottom: Double, right: Double): Graphic = {
-    BoundsChanger(this, width + left + right, height + top + bottom, -left, -top)
+    Smashed(this.topLeft.translate(left, top), width + left + right, height + top + bottom)
   }
 
   /**
@@ -639,4 +639,9 @@ trait Graphic {
    *
    */
   def freeze: Graphic = Freeze(this)
+  
+  /**
+   * Trace the outline of the graphic
+   */
+  def trace: Graphic = Rectangle(width, height, originX, originY) -& this 
 }
