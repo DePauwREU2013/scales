@@ -80,6 +80,11 @@ trait Graphic {
   def originY: Double = bounds.getY
 
   /**
+   * Get the set of names defined in this Graphic.
+   */
+  def names: Set[String]
+  
+  /**
    * Query the image for the color at position (p, q), where the parameters
    * p and q range from 0.0 (inclusive) to 1.0 (exclusive). Inverse of
    * Image.fromFunction

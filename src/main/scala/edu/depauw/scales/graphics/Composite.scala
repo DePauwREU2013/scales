@@ -33,4 +33,6 @@ case class Composite(g: Graphic, h: Graphic) extends Graphic {
    * matched-by-name graphics from each component graphic are returned
    */
   def withName(n: String) = g.withName(n) ++ h.withName(n)
+  
+  def names: Set[String] = g.names ++ h.names
 }

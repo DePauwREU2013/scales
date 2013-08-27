@@ -26,6 +26,8 @@ case class Blank(box: jRect = new jRect.Double()) extends Graphic {
   override lazy val bounds = box
 
   def withName(name: String) = Nil
+  
+  def names: Set[String] = Set()
 }
 
 object Phantom {

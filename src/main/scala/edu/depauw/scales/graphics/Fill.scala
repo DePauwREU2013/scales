@@ -35,4 +35,6 @@ case class Fill(paint: Paint, g: Graphic) extends Graphic {
    * matched-by-name graphics from original graphic are returned
    */
   def withName(name: String) = g.withName(name)
+  
+  def names: Set[String] = g.names
 }

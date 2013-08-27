@@ -47,4 +47,6 @@ case class Clip(clip: Graphic, g: Graphic) extends Graphic {
    * name information is not included.
    */
   def withName(name: String) = g.withName(name)
+  
+  def names: Set[String] = g.names
 }

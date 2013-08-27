@@ -29,6 +29,8 @@ case class Text(str: String,
   /** No name info */
   def withName(name: String) = Nil
   
+  def names: Set[String] = Set()
+  
   /**
    * @return Text with specified Font
    */

@@ -31,6 +31,8 @@ case class Stroke(strokeWidth: Double, g: Graphic) extends Graphic {
   
   /** Unchanged */
   def withName(name: String) = g.withName(name)
+  
+  def names: Set[String] = g.names
 }
 
 /**

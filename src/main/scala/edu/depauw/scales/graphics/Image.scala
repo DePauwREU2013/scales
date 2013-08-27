@@ -25,6 +25,8 @@ case class Image(img: BufferedImage, w: Double, h: Double, x: Double, y: Double)
   override lazy val bounds = new jRect.Double(x, y, w, h)
 
   def withName(name: String) = Nil
+  
+  def names: Set[String] = Set()
 
   override def color(p: Double, q: Double): Color = {
     val pp = (img.getWidth * p).toInt max 0 min (img.getWidth - 1)

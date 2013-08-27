@@ -36,6 +36,8 @@ case class Transform(transform: AffineTransform, g: Graphic) extends Graphic {
    */
   def withName(n: String) = g.withName(n).map(Transform(transform, _))
   
+  def names: Set[String] = g.names
+  
   // Special case optimization to merge two transforms into one
   override def transform(t2: AffineTransform): Graphic = {
     val t = new AffineTransform(transform)

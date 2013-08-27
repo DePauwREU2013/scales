@@ -21,4 +21,6 @@ case class Smashed(g: Graphic, w: Double = 0, h: Double = 0, x: Double = 0, y: D
    * same as original graphic
    */
   def withName(name: String) = g.withName(name)
+  
+  def names: Set[String] = g.names
 }

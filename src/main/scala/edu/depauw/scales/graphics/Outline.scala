@@ -38,4 +38,6 @@ case class Outline(paint: Paint, g: Graphic) extends Graphic {
    * same as graphic
    */
   def withName(name: String) = g.withName(name)
+  
+  def names: Set[String] = g.names
 }

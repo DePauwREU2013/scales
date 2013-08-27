@@ -11,6 +11,8 @@ case class Shape(override val shape: java.awt.Shape) extends Graphic {
   override lazy val bounds = shape.getBounds2D
   
   def withName(name: String) = Nil
+  
+  def names: Set[String] = Set()
 }
 
 object Circle {

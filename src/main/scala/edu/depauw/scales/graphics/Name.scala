@@ -23,4 +23,6 @@ case class Name(name: String, g: Graphic) extends Graphic {
     if (n == name) List(g)
     else Nil
   } ++ g.withName(n)
+  
+  def names: Set[String] = g.names + name
 }
